@@ -5,7 +5,7 @@ const Menu = () => {
   return (
     <div className='w-full h-full'>
       {/* Multiple Account */}
-      <div className='flex items-center justify-center py-4 border-b'>
+      <div dir="ltr" className='flex items-center justify-center py-4 border-b'>
         <MultipleAccount />
       </div>
       {/* menu item */}

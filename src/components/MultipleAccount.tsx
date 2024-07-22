@@ -1,38 +1,21 @@
-import { Check, ChevronsUpDown } from "lucide-react";
-import { cn } from "../lib/utils";
+import { useState } from "react";
 import { Button } from "./ui/button";
+import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import {
   Command,
   CommandEmpty,
   CommandGroup,
   CommandInput,
   CommandItem,
+  CommandList,
 } from "./ui/command";
-import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
-import { useState } from "react";
+import { Check, ChevronsUpDown } from "lucide-react";
+import { cn } from "../lib/utils";
 import truncateText from "../utils/truncateText";
 
 const accounts = [
-  {
-    value: "next.js",
-    label: "Next.js",
-  },
-  {
-    value: "sveltekit",
-    label: "SvelteKit",
-  },
-  {
-    value: "nuxt.js",
-    label: "Nuxt.js",
-  },
-  {
-    value: "remix",
-    label: "Remix",
-  },
-  {
-    value: "astro",
-    label: "Astro",
-  },
+  { value: "account1", label: "Account 1" },
+  { value: "account2", label: "Account 2" },
 ];
 
 const MultipleAccount = () => {
@@ -57,19 +40,18 @@ const MultipleAccount = () => {
       </PopoverTrigger>
       <PopoverContent className='w-[200px] p-0'>
         <Command>
-          <CommandInput placeholder='جستجو حساب...' />
+          <CommandInput placeholder='Search accounts...' />
           <CommandEmpty>هیچ حسابی پیدا نشد.</CommandEmpty>
-          <CommandGroup>
-            {accounts.length > 0 ? (
-              accounts.map((account) => (
+          <CommandList>
+            <CommandGroup>
+              {accounts.length >0 ? accounts.map((account) => (
                 <CommandItem
                   key={account.value}
                   value={account.value}
                   onSelect={(currentValue) => {
                     setValue(currentValue === value ? "" : currentValue);
                     setOpen(false);
-                  }}
-                  >
+                  }}>
                   <Check
                     className={cn(
                       "mr-2 h-4 w-4",
@@ -78,11 +60,9 @@ const MultipleAccount = () => {
                   />
                   {account.label}
                 </CommandItem>
-              ))
-            ) : (
-              <div>حساب مورد نظر پیدا نشد.</div>
-            )}
-          </CommandGroup>
+              )):<div></div>}
+            </CommandGroup>
+          </CommandList>
         </Command>
       </PopoverContent>
     </Popover>
