@@ -31,36 +31,40 @@ const MultipleAccount = () => {
           variant='outline'
           role='combobox'
           aria-expanded={open}
-          className='w-[200px] justify-between'>
+          className='w-full justify-between pr-2  mx-2'>
           {value
             ? accounts.find((account) => account.value === value)?.label
             : truncateText("orgamiryazdani@gmail.com", 16)}
           <ChevronsUpDown className='ml-2 h-4 w-4 shrink-0 opacity-50' />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className='w-[200px] p-0'>
+      <PopoverContent className='w-[230px] p-0'>
         <Command>
-          <CommandInput placeholder='Search accounts...' />
-          <CommandEmpty>هیچ حسابی پیدا نشد.</CommandEmpty>
+          <CommandInput placeholder='جستجو ...' />
+          <CommandEmpty>هیچ حسابی پیدا نشد</CommandEmpty>
           <CommandList>
             <CommandGroup>
-              {accounts.length >0 ? accounts.map((account) => (
-                <CommandItem
-                  key={account.value}
-                  value={account.value}
-                  onSelect={(currentValue) => {
-                    setValue(currentValue === value ? "" : currentValue);
-                    setOpen(false);
-                  }}>
-                  <Check
-                    className={cn(
-                      "mr-2 h-4 w-4",
-                      value === account.value ? "opacity-100" : "opacity-0",
-                    )}
-                  />
-                  {account.label}
-                </CommandItem>
-              )):<div></div>}
+              {accounts.length > 0 ? (
+                accounts.map((account) => (
+                  <CommandItem
+                    key={account.value}
+                    value={account.value}
+                    onSelect={(currentValue) => {
+                      setValue(currentValue === value ? "" : currentValue);
+                      setOpen(false);
+                    }}>
+                    <Check
+                      className={cn(
+                        "mr-2 h-4 w-4",
+                        value === account.value ? "opacity-100" : "opacity-0",
+                      )}
+                    />
+                    {account.label}
+                  </CommandItem>
+                ))
+              ) : (
+                <div></div>
+              )}
             </CommandGroup>
           </CommandList>
         </Command>
