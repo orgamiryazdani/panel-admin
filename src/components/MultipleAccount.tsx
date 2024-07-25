@@ -9,7 +9,7 @@ import {
   CommandItem,
   CommandList,
 } from "./ui/command";
-import { Check, ChevronsUpDown } from "lucide-react";
+import { Check, ChevronsUpDown, Mail } from "lucide-react";
 import { cn } from "../lib/utils";
 import truncateText from "../utils/truncateText";
 
@@ -31,11 +31,14 @@ const MultipleAccount = () => {
           variant='outline'
           role='combobox'
           aria-expanded={open}
-          className='w-full justify-between pr-2  mx-2'>
-          {value
-            ? accounts.find((account) => account.value === value)?.label
-            : truncateText("orgamiryazdani@gmail.com", 16)}
-          <ChevronsUpDown className='ml-2 h-4 w-4 shrink-0 opacity-50' />
+          className='w-full justify-between pr-2 mx-2'>
+          <span className="flex items-center">
+            <Mail className='w-5 h-5 mr-2 mb-1' />
+            {value
+              ? accounts.find((account) => account.value === value)?.label
+              : truncateText("orgamiryazdani@gmail.com", 16)}
+          </span>
+          <ChevronsUpDown className='h-4 w-4 shrink-0 opacity-50' />
         </Button>
       </PopoverTrigger>
       <PopoverContent className='w-[230px] p-0'>
@@ -55,7 +58,7 @@ const MultipleAccount = () => {
                     }}>
                     <Check
                       className={cn(
-                        "mr-2 h-4 w-4",
+                        "ml-2 h-4 w-4",
                         value === account.value ? "opacity-100" : "opacity-0",
                       )}
                     />

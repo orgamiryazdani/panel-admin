@@ -5,7 +5,6 @@ import {
 } from "../components/ui/resizable";
 import { ReactNode } from "react";
 import Menu from "./Menu";
-import { ThemeProvider } from "../components/theme-provider";
 
 type props = {
   children: ReactNode;
@@ -13,9 +12,6 @@ type props = {
 
 const AppLayout = ({ children }: props) => {
   return (
-    <ThemeProvider
-      defaultTheme='dark'
-      storageKey='vite-ui-theme'>
       <div className='w-[100svw] h-[100svh] flex items-center justify-center'>
         <ResizablePanelGroup
           direction='horizontal'
@@ -47,7 +43,6 @@ const AppLayout = ({ children }: props) => {
           </ResizablePanel>
         </ResizablePanelGroup>
       </div>
-    </ThemeProvider>
   );
 };
 
