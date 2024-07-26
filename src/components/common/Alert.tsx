@@ -8,7 +8,7 @@ type props = {
 
 const AlertDemo = ({ title, description }: props) => {
   return (
-    <Alert>
+    <Alert className="bg-red-600 w-96 h-20">
       <Terminal className='h-4 w-4' />
       <AlertTitle>{title}</AlertTitle>
       <AlertDescription>{description}</AlertDescription>

@@ -11,6 +11,7 @@ import Profile from "./pages/Profile";
 import SignUp from "./pages/SignUp";
 import SignIn from "./pages/SignIn";
 import { ThemeProvider } from "./context/theme-provider";
+import AuthGuard from "./components/auth/AuthGuard";
 
 export const queryClient = new QueryClient();
 
@@ -21,41 +22,44 @@ function App() {
         defaultTheme='dark'
         storageKey='vite-ui-theme'>
         <Routes>
-          {/* products page*/}
-          <Route
-            path='/'
-            element={<Products />}
-          />
-          {/* add products page*/}
-          <Route
-            path='/create-product'
-            element={<CreateProduct />}
-          />
-          {/* category page*/}
-          <Route
-            path='/category'
-            element={<Category />}
-          />
-          {/* add category page*/}
-          <Route
-            path='/create-category'
-            element={<CreateCategory />}
-          />
-          {/* users page*/}
-          <Route
-            path='/users'
-            element={<Users />}
-          />
-          {/* add user page*/}
-          <Route
-            path='/create-user'
-            element={<CreateUser />}
-          />
-          {/* profile page*/}
-          <Route
-            path='/profile'
-            element={<Profile />}
-          />
+          {/* auth guard */}
+          <Route element={<AuthGuard />}>
+            {/* products page*/}
+            <Route
+              path='/'
+              element={<Products />}
+            />
+            {/* add products page*/}
+            <Route
+              path='/create-product'
+              element={<CreateProduct />}
+            />
+            {/* category page*/}
+            <Route
+              path='/category'
+              element={<Category />}
+            />
+            {/* add category page*/}
+            <Route
+              path='/create-category'
+              element={<CreateCategory />}
+            />
+            {/* users page*/}
+            <Route
+              path='/users'
+              element={<Users />}
+            />
+            {/* add user page*/}
+            <Route
+              path='/create-user'
+              element={<CreateUser />}
+            />
+            {/* profile page*/}
+            <Route
+              path='/profile'
+              element={<Profile />}
+            />
+          </Route>
           {/* sign up page*/}
           <Route
             path='/signup'
