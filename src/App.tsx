@@ -12,12 +12,14 @@ import SignUp from "./pages/SignUp";
 import SignIn from "./pages/SignIn";
 import { ThemeProvider } from "./context/theme-provider";
 import AuthGuard from "./components/auth/AuthGuard";
+import { Toaster } from "react-hot-toast";
 
 export const queryClient = new QueryClient();
 
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
+       <Toaster />
       <ThemeProvider
         defaultTheme='dark'
         storageKey='vite-ui-theme'>

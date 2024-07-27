@@ -6,9 +6,9 @@ type props = {
   description: string;
 };
 
-const AlertDemo = ({ title, description }: props) => {
+const AlertMessage = ({ title, description }: props) => {
   return (
-    <Alert className="bg-red-600 w-96 h-20">
+    <Alert className="">
       <Terminal className='h-4 w-4' />
       <AlertTitle>{title}</AlertTitle>
       <AlertDescription>{description}</AlertDescription>
@@ -16,4 +16,4 @@ const AlertDemo = ({ title, description }: props) => {
   );
 };
 
-export default AlertDemo;
+export default AlertMessage;

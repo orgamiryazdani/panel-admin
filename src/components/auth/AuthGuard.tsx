@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
 import { Navigate, Outlet } from "react-router-dom";
 import Cookies from "universal-cookie";
-import http from "../../services/httpService";
+import { getAccessToken } from "../../services/authService";
+import Loading from "../common/Loading";
+import AlertMessage from "../common/Alert";
 
 const cookies = new Cookies();
 
@@ -18,13 +20,14 @@ const AuthGuard = () => {
 
     const refreshAccessToken = async () => {
       try {
-        const response = await http.post("/auth/refresh-token", { refreshToken });
-        const { access_token } = response.data;
-        
-        cookies.set("accessToken", access_token, { path: "/" });
+        await getAccessToken(refreshToken);
         setIsAuthenticated(true);
       } catch (error) {
         console.error("Failed to refresh access token", error);
+        <AlertMessage
+          title='test'
+          description='test'
+        />;
       } finally {
         setIsLoading(false);
       }
@@ -34,10 +37,17 @@ const AuthGuard = () => {
   }, []);
 
   if (isLoading) {
-    return <div>Loading...</div>; // یا هر محتوای دیگر برای نشان دادن وضعیت بارگذاری
+    return (
+      <div className='w-svw h-svh flex items-center justify-center'>
+        <Loading
+          width='120'
+          height='90'
+        />
+      </div>
+    );
   }
 
-  return isAuthenticated ? <Outlet /> : <Navigate to="/signin" />;
+  return isAuthenticated ? <Outlet /> : <Navigate to='/signin' />;
 };
 
 export default AuthGuard;

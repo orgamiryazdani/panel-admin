@@ -7,12 +7,12 @@ import {
   FormControl,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from "../../ui/form";
 import { Input } from "../../ui/input";
-import { signInApi } from "../../../services/authService";
-import { useNavigate } from "react-router-dom";
+import { useSignIn } from "../../../hooks/useUsers";
+import { dataLoginType } from "../../../types/Auth";
+import Loading from "../../common/Loading";
 
 const formSchema = z.object({
   email: z
@@ -34,7 +34,7 @@ const formSchema = z.object({
 });
 
 const SignInForm = () => {
-  const navigate = useNavigate();
+  const { mutateAsync, isPending } = useSignIn();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -44,26 +44,20 @@ const SignInForm = () => {
     },
   });
 
-  async function onSubmit(values: z.infer<typeof formSchema>) {
-    try {
-      await signInApi(values);
-      navigate("/");
-    } catch (err) {
-      console.log(err);
-    }
+  function onSubmit(data: dataLoginType) {
+    mutateAsync(data);
   }
 
   return (
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className='space-y-8'>
+        className='space-y-8 mt-10 w-4/6'>
         <FormField
           control={form.control}
           name='email'
           render={({ field }) => (
             <FormItem>
-              <FormLabel>ایمیل</FormLabel>
               <FormControl>
                 <Input
                   placeholder='john@mail.com'
@@ -79,7 +73,6 @@ const SignInForm = () => {
           name='password'
           render={({ field }) => (
             <FormItem>
-              <FormLabel>کلمه عبور</FormLabel>
               <FormControl>
                 <Input
                   placeholder='changeme'
@@ -90,7 +83,16 @@ const SignInForm = () => {
             </FormItem>
           )}
         />
-        <Button type='submit'>Submit</Button>
+        <Button type='submit' className="w-full text-lg">
+          {isPending ? (
+            <Loading
+              width='55'
+              height='21'
+            />
+          ) : (
+            "ورود"
+          )}
+        </Button>
       </form>
     </Form>
   );
