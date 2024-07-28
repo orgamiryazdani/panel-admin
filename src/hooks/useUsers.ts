@@ -14,7 +14,7 @@ export const useSignIn = (): UseMutationResult<void, ApiError, dataLoginType, un
             navigate("/");
         },
         onError: (error) => {
-            toast.error(error.response?.data?.message || "خطای ناشناخته‌ای رخ داد.");
+            toast.error(error.response?.data?.message || "خطای ناشناخته‌ای رخ داد");
         },
     });
 };
@@ -24,11 +24,11 @@ export const useSignUp = (): UseMutationResult<void, ApiError, dataSignUpType, u
     return useMutation<void, ApiError, dataSignUpType>({
         mutationFn: (data) => signUpApi(data),
         onSuccess: () => {
-            toast.success("خوش آمدید");
+            toast.success("خوش آمدید لطفا وارد شوبد");
             navigate("/");
         },
         onError: (error) => {
-            toast.error(error.response?.data?.message || "خطای ناشناخته‌ای رخ داد.");
+            toast.error(error.response?.data?.message || "خطای ناشناخته‌ای رخ داد");
         },
     });
 };

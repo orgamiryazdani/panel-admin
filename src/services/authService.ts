@@ -10,6 +10,6 @@ export function getAccessToken(refreshToken: string) {
 }
 
 export function signUpApi(data: dataSignUpType) {
-    const dataUser = {...data , avatar:"https"}
-    return http.post('/users', dataUser).then(({ data }) => data);
+    const dataUser = {...data , avatar:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwRjkqpwHZ52ZpaHWqVgMbjYd3mBtOuMSmLw&s"}
+    return http.post('/users/', dataUser).then(({ data }) => data);
 }
