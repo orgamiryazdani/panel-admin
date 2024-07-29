@@ -13,6 +13,8 @@ import { Input } from "../../ui/input";
 import { useSignUp } from "../../../hooks/useUsers";
 import { dataSignUpType } from "../../../types/Auth";
 import Loading from "../../common/Loading";
+import { useState } from "react";
+import { Eye, EyeOff } from "lucide-react";
 
 const formSchema = z.object({
   email: z
@@ -43,6 +45,7 @@ const formSchema = z.object({
 
 const SignUpForm = () => {
   const { mutateAsync, isPending } = useSignUp();
+  const [showPassword, setShowPassword] = useState(true);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -61,7 +64,7 @@ const SignUpForm = () => {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className='space-y-8 mt-10 w-4/6'>
+        className='space-y-8 mt-5 w-4/6'>
         <FormField
           control={form.control}
           name='name'
@@ -96,13 +99,20 @@ const SignUpForm = () => {
           control={form.control}
           name='password'
           render={({ field }) => (
-            <FormItem>
-              <FormControl>
+            <FormItem className='flex items-center justify-center relative'>
+              <FormControl className='mt-2'>
                 <Input
-                  placeholder='رمز عبور'
+                  className=''
+                  type={showPassword ? "password" : "text"}
+                  placeholder='changeme'
                   {...field}
                 />
               </FormControl>
+              <div
+                onClick={() => setShowPassword(!showPassword)}
+                className='h-9 w-10 [&>*]:w-5 absolute left-1 bg-background flex items-center justify-center cursor-pointer'>
+                {showPassword ? <EyeOff /> : <Eye />}
+              </div>
               <FormMessage />
             </FormItem>
           )}

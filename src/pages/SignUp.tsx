@@ -6,7 +6,7 @@ const SignUp = () => {
     <div className='w-svw h-svh flex md:flex-row flex-col'>
       <div className='md:w-1/2 w-full h-3/4 md:h-full flex flex-col items-center justify-center'>
         <span className='text-2xl font-bold'>یک حساب کاربری ایجاد کنید</span>
-        <span className='text-lg text-gray-500 mt-3'>
+        <span className='lg:text-lg text-xs text-gray-500 mt-3 '>
         برای ایجاد حساب کاربری مشخصات خواسته شده را وارد کنید
         </span>
         <SignUpForm />
