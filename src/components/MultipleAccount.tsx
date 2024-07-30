@@ -12,15 +12,18 @@ import {
 import { Check, ChevronsUpDown, Mail } from "lucide-react";
 import { cn } from "../lib/utils";
 import truncateText from "../utils/truncateText";
-
-const accounts = [
-  { value: "account1", label: "Account 1" },
-  { value: "account2", label: "Account 2" },
-];
+import { UserAccount } from "../types/Auth";
 
 const MultipleAccount = () => {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState("");
+  const allUserAccount: UserAccount[] = JSON.parse(
+    localStorage.getItem("AllEmailAccount") || "[]",
+  );
+
+  const selectedAccount = allUserAccount.find(
+    (account) => account.selected === true,
+  );
 
   return (
     <Popover
@@ -32,11 +35,9 @@ const MultipleAccount = () => {
           role='combobox'
           aria-expanded={open}
           className='w-full justify-between pr-2 mx-2'>
-          <span className="flex items-center">
+          <span className='flex items-center'>
             <Mail className='w-5 h-5 mr-2 mb-1' />
-            {value
-              ? accounts.find((account) => account.value === value)?.label
-              : truncateText("orgamiryazdani@gmail.com", 16)}
+            {selectedAccount ? truncateText(selectedAccount.email, 16) : "لطقا یک اکانت اضافه کنید"}
           </span>
           <ChevronsUpDown className='h-4 w-4 shrink-0 opacity-50' />
         </Button>
@@ -47,11 +48,11 @@ const MultipleAccount = () => {
           <CommandEmpty>هیچ حسابی پیدا نشد</CommandEmpty>
           <CommandList>
             <CommandGroup>
-              {accounts.length > 0 ? (
-                accounts.map((account) => (
+              {allUserAccount.length > 0 ? (
+                allUserAccount.map((account) => (
                   <CommandItem
-                    key={account.value}
-                    value={account.value}
+                    key={account.email}
+                    value={account.email}
                     onSelect={(currentValue) => {
                       setValue(currentValue === value ? "" : currentValue);
                       setOpen(false);
@@ -59,10 +60,10 @@ const MultipleAccount = () => {
                     <Check
                       className={cn(
                         "ml-2 h-4 w-4",
-                        value === account.value ? "opacity-100" : "opacity-0",
+                        account.selected === true ? "opacity-100" : "opacity-0",
                       )}
                     />
-                    {account.label}
+                    {account.email}
                   </CommandItem>
                 ))
               ) : (

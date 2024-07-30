@@ -8,3 +8,8 @@ export type dataSignUpType = {
     email: string;
     password: string;
 }
+
+export type UserAccount = {
+    email: string;
+    selected: boolean;
+};

@@ -11,7 +11,7 @@ import {
 } from "../../ui/form";
 import { Input } from "../../ui/input";
 import { useSignIn } from "../../../hooks/useUsers";
-import { dataLoginType } from "../../../types/Auth";
+import { dataLoginType, UserAccount } from "../../../types/Auth";
 import Loading from "../../common/Loading";
 import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
@@ -47,8 +47,21 @@ const SignInForm = () => {
     },
   });
 
-  function onSubmit(data: dataLoginType) {
-    mutateAsync(data);
+  async function onSubmit(data: dataLoginType) {
+    await mutateAsync(data);
+    // خواندن مقدار AllEmailAccount از localStorage
+    const allUserAccount: UserAccount[] = JSON.parse(
+      localStorage.getItem("AllEmailAccount") || "[]",
+    );
+    // تعیین مقدار selected بر اساس وجود مقدار در آرایه
+    const newAccount: UserAccount = {
+      email: data.email,
+      selected: allUserAccount.length === 0, // اگر آرایه خالی باشد، selected برابر true است
+    };
+    // افزودن آبجکت جدید به آرایه
+    allUserAccount.push(newAccount);
+    // ذخیره آرایه به‌روزرسانی شده در localStorage
+    localStorage.setItem("AllEmailAccount", JSON.stringify(allUserAccount));
   }
 
   return (
@@ -76,23 +89,21 @@ const SignInForm = () => {
             control={form.control}
             name='password'
             render={({ field }) => (
-              <FormItem className='flex items-center justify-center relative'>
-                <FormControl className='mt-2'>
-                  <Input
-                    className=''
-                    type={showPassword ? "password" : "text"}
-                    placeholder='changeme'
-                    {...field}
-                  />
-                </FormControl>
-                <div
-                  onClick={() => setShowPassword(!showPassword)}
-                  className='h-9 w-10 [&>*]:w-5 absolute left-1 bg-background flex items-center justify-center cursor-pointer'>
-                  {showPassword ? (
-                    <EyeOff />
-                  ) : (
-                    <Eye />
-                  )}
+              <FormItem>
+                <div className='flex items-center justify-center relative'>
+                  <FormControl className='mt-2'>
+                    <Input
+                      className=''
+                      type={showPassword ? "password" : "text"}
+                      placeholder='changeme'
+                      {...field}
+                    />
+                  </FormControl>
+                  <div
+                    onClick={() => setShowPassword(!showPassword)}
+                    className='h-8 top-3 w-10 [&>*]:w-5 absolute left-1 bg-background flex items-center justify-center cursor-pointer'>
+                    {showPassword ? <EyeOff /> : <Eye />}
+                  </div>
                 </div>
                 <FormMessage />
               </FormItem>
