@@ -1,9 +1,20 @@
-import { useMutation, UseMutationResult } from "@tanstack/react-query";
+import { useMutation, UseMutationResult, useQuery, UseQueryResult } from "@tanstack/react-query";
 import { ApiError } from "../types/GlobalTypes";
-import { signInApi, signUpApi } from "../services/authService";
+import { getAccessTokenApi, getProfileApi, signInApi, signUpApi } from "../services/authService";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-import { dataLoginType, dataSignUpType } from "../types/Auth";
+import { dataLoginType, dataSignUpType, UserType } from "../types/Auth";
+
+const useProfile = () => {
+    const queryResult: UseQueryResult<UserType> = useQuery({
+        queryKey: ["profile"],
+        queryFn: getProfileApi,
+    });
+    const { data, isLoading, error } = queryResult;
+    return { data, isLoading, error };
+};
+
+export default useProfile;
 
 export const useSignIn = (): UseMutationResult<void, ApiError, dataLoginType, unknown> => {
     const navigate = useNavigate();
@@ -30,5 +41,11 @@ export const useSignUp = (): UseMutationResult<void, ApiError, dataSignUpType, u
         onError: (error) => {
             toast.error(error.response?.data?.message || "خطای ناشناخته‌ای رخ داد");
         },
+    });
+};
+
+export const useGetAccessToken = (): UseMutationResult<void, ApiError, string, unknown> => {
+    return useMutation<void, ApiError, string>({
+        mutationFn: (token) => getAccessTokenApi(token)
     });
 };

@@ -1,5 +1,6 @@
 import axios, { AxiosInstance } from 'axios';
 import Cookies from 'universal-cookie';
+import { UserAccount } from '../types/Auth';
 
 const cookies = new Cookies();
 
@@ -9,9 +10,12 @@ const app: AxiosInstance = axios.create({
 
 app.interceptors.request.use(
     (config) => {
-        const accessToken = cookies.get('accessToken');
+        const accounts = JSON.parse(localStorage.getItem("AllEmailAccount") || "[]");
+        const emailSelected = accounts.find((account: UserAccount) => account.selected == true)
+        const accessToken = cookies.get(`access-token-${emailSelected?.email}`);
         if (accessToken) {
             config.headers['Authorization'] = `Bearer ${accessToken}`;
+            
         }
         return config;
     },
@@ -20,20 +24,24 @@ app.interceptors.request.use(
 
 app.interceptors.response.use(
     (res) => {
+        const accounts = JSON.parse(localStorage.getItem("AllEmailAccount") || "[]");
+        const email = accounts[accounts.length - 1]?.email;
         // اگر توکن‌ها در پاسخ وجود داشته باشند، آن‌ها را در کوکی‌ها ذخیره کنید
         const { access_token, refresh_token } = res.data;
         if (access_token) {
-            cookies.set('accessToken', access_token, { path: '/' });
+            cookies.set(`access-token-${email}`, access_token, { path: '/' });
         }
         if (refresh_token) {
-            cookies.set('refreshToken', refresh_token, { path: '/' });
+            cookies.set(`refresh-token-${email}`, refresh_token, { path: '/' });
         }
         return res;
     },
     async (err) => {
+        const accounts = JSON.parse(localStorage.getItem("AllEmailAccount") || "[]");
+        const emailSelected = accounts.find((account: UserAccount) => account.selected == true)?.email
         const originalConfig = err.config;
         if (err.response && err.response.status === 401 && !originalConfig._retry) {
-            const refreshToken = cookies.get('refreshToken');
+            const refreshToken = cookies.get(`refresh-token-${emailSelected}`);
             if (refreshToken) {
                 originalConfig._retry = true;
                 try {
@@ -42,7 +50,7 @@ app.interceptors.response.use(
                         { refreshToken }
                     );
                     if (data) {
-                        cookies.set('accessToken', data.access_token, { path: '/' });
+                        cookies.set(`access-token-${emailSelected}`, data.access_token, { path: '/' });
                         originalConfig.headers['Authorization'] = `Bearer ${data.access_token}`;
                         return app(originalConfig);
                     }

@@ -5,7 +5,7 @@ export function signInApi(data: dataLoginType) {
     return http.post('/auth/login', data).then(({ data }) => data);
 }
 
-export function getAccessToken(refreshToken: string) {
+export function getAccessTokenApi(refreshToken: string) {
     return http.post('/auth/refresh-token', { refreshToken }).then(({ data }) => data);
 }
 
@@ -14,7 +14,11 @@ export function signUpApi(data: dataSignUpType) {
     return http.post('/users/', dataUser).then(({ data }) => data);
 }
 
-export function uploadImageApi(data: dataSignUpType) {
-    const dataUser = {...data , avatar:"https://avatars.githubusercontent.com/u/124599?v=4"}
-    return http.post('/users/', dataUser).then(({ data }) => data);
+// export function uploadImageApi(data: dataSignUpType) {
+//     const dataUser = {...data , avatar:"https://avatars.githubusercontent.com/u/124599?v=4"}
+//     return http.post('/users/', dataUser).then(({ data }) => data);
+// }
+
+export function getProfileApi() {
+    return http.get('/auth/profile').then(({ data }) => data);
 }

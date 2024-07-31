@@ -1,42 +1,30 @@
-import { useState, useEffect } from "react";
 import { Navigate, Outlet } from "react-router-dom";
 import Cookies from "universal-cookie";
-import { getAccessToken } from "../../services/authService";
 import Loading from "../common/Loading";
-import AlertMessage from "../common/Alert";
+import { UserAccount } from "../../types/Auth";
+import useProfile, { useGetAccessToken } from "../../hooks/useUsers";
 
 const cookies = new Cookies();
 
 const AuthGuard = () => {
-  const [isLoading, setIsLoading] = useState(true);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const { data, isLoading, error } = useProfile();
+  const { mutateAsync, isPending, isSuccess } = useGetAccessToken();
 
-  useEffect(() => {
-    const refreshToken = cookies.get("refreshToken");
-    if (!refreshToken) {
-      setIsLoading(false);
-      return;
+  if (error) {
+    const accounts = JSON.parse(
+      localStorage.getItem("AllEmailAccount") || "[]",
+    );
+    const emailSelected = accounts.find(
+      (account: UserAccount) => account.selected === true,
+    )?.email;
+
+    const refreshToken = cookies.get(`refresh-token-${emailSelected}`);
+    if (refreshToken) {
+      mutateAsync(refreshToken);
     }
+  }
 
-    const refreshAccessToken = async () => {
-      try {
-        await getAccessToken(refreshToken);
-        setIsAuthenticated(true);
-      } catch (error) {
-        console.error("Failed to refresh access token", error);
-        <AlertMessage
-          title='test'
-          description='test'
-        />;
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    refreshAccessToken();
-  }, []);
-
-  if (isLoading) {
+  if (isLoading || isPending)
     return (
       <div className='w-svw h-svh flex items-center justify-center'>
         <Loading
@@ -45,9 +33,8 @@ const AuthGuard = () => {
         />
       </div>
     );
-  }
 
-  return isAuthenticated ? <Outlet /> : <Navigate to='/signin' />;
+  return data || isSuccess ? <Outlet /> : <Navigate to='/signin' />;
 };
 
 export default AuthGuard;

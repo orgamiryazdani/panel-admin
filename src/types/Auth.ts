@@ -12,4 +12,13 @@ export type dataSignUpType = {
 export type UserAccount = {
     email: string;
     selected: boolean;
-};
+}
+
+export type UserType = {
+    id: number;
+    email: string;
+    password: string;
+    name: string;
+    role: string;
+    avatar: string;
+}

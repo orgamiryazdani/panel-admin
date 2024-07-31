@@ -47,22 +47,46 @@ const SignInForm = () => {
     },
   });
 
-  async function onSubmit(data: dataLoginType) {
-    await mutateAsync(data);
-    // خواندن مقدار AllEmailAccount از localStorage
+  const onSubmit = (data: dataLoginType) => {
     const allUserAccount: UserAccount[] = JSON.parse(
       localStorage.getItem("AllEmailAccount") || "[]",
     );
-    // تعیین مقدار selected بر اساس وجود مقدار در آرایه
+
     const newAccount: UserAccount = {
       email: data.email,
-      selected: allUserAccount.length === 0, // اگر آرایه خالی باشد، selected برابر true است
+      selected: false, // مقدار اولیه selected برابر false است
     };
+
     // افزودن آبجکت جدید به آرایه
     allUserAccount.push(newAccount);
     // ذخیره آرایه به‌روزرسانی شده در localStorage
     localStorage.setItem("AllEmailAccount", JSON.stringify(allUserAccount));
-  }
+
+    mutateAsync(data, {
+      onSuccess: () => {
+        // بروزرسانی selected برای تمام ایمیل‌ها
+        const updatedAccounts = allUserAccount.map((account) => ({
+          ...account,
+          selected: account.email === data.email,
+        }));
+
+        localStorage.setItem(
+          "AllEmailAccount",
+          JSON.stringify(updatedAccounts),
+        );
+      },
+      onError: () => {
+        // حذف ایمیلی که اضافه شده است در صورت خطا
+        const updatedAccounts = allUserAccount.filter(
+          (account) => account.email !== data.email,
+        );
+        localStorage.setItem(
+          "AllEmailAccount",
+          JSON.stringify(updatedAccounts),
+        );
+      },
+    });
+  };
 
   return (
     <>
