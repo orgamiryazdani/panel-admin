@@ -14,7 +14,8 @@ type props = {
 
 const AppLayout = ({ children }: props) => {
   const { data, isLoading } = useProfile();
-   if (isLoading) return <Loading />;1
+  if (isLoading) return <Loading />;
+  1;
 
   return (
     <div className='w-[100svw] h-[100svh] flex items-center justify-center'>
@@ -37,7 +38,7 @@ const AppLayout = ({ children }: props) => {
             <span>{data?.id}</span>
             <span>{data?.name}</span>
             <span>{data?.email}</span>
-            {/* {children} */}
+            {children}
           </div>
         </ResizablePanel>
         <ResizableHandle withHandle />

@@ -37,7 +37,7 @@ export const useSignUp = (): UseMutationResult<void, ApiError, dataSignUpType, u
         mutationFn: (data) => signUpApi(data),
         onSuccess: () => {
             toast.success("خوش آمدید لطفا وارد شوبد");
-            navigate("/");
+            navigate("/signin");
         },
         onError: (error) => {
             toast.error(error.response?.data?.message || "خطای ناشناخته‌ای رخ داد");
