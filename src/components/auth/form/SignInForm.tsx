@@ -110,7 +110,7 @@ const SignInForm = () => {
                 </FormControl>
                 <div
                   onClick={() => setShowPassword(!showPassword)}
-                  className='h-8 top-3 w-10 [&>*]:w-5 absolute left-1 bg-transparent flex items-center justify-center cursor-pointer'>
+                  className='h-8 top-3 w-10 [&>*]:w-5 absolute left-1 bg-background flex items-center justify-center cursor-pointer'>
                   {showPassword ? <EyeOff /> : <Eye />}
                 </div>
               </div>
