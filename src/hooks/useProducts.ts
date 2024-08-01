@@ -3,6 +3,7 @@ import { deleteProduct, getProducts, updateProduct } from "../services/productsS
 import { queryClient } from "../App";
 import { product } from "../types/Product";
 import { ApiError } from "../types/GlobalTypes";
+import toast from "react-hot-toast";
 
 // get all products
 const useProducts = () => {
@@ -28,7 +29,7 @@ export const useDeleteProduct = (id: number): UseMutationResult<void, ApiError, 
         },
         onError: (error) => {
             const errorMessage = error.response?.data?.message || "خطای ناشناخته‌ای رخ داده است.";
-            // toast.error(errorMessage);
+            toast.error(errorMessage);
         },
     });
 };
@@ -43,7 +44,7 @@ export const useUpdateProduct = (id: number, title: string, price: number): UseM
         },
         onError: (error) => {
             const errorMessage = error.response?.data?.message || "خطای ناشناخته‌ای رخ داده است.";
-            // toast.error(errorMessage);
+            toast.error(errorMessage);
         },
     });
 };
