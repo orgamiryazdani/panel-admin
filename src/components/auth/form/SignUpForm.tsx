@@ -28,10 +28,10 @@ const formSchema = z.object({
   password: z
     .string()
     .refine((val) => val.length > 0, {
-      message: "وارد کردن کلمه عبور اجباری است",
+      message: "وارد کردن رمز عبور اجباری است",
     })
     .refine((val) => val.length >= 4 || val.length === 0, {
-      message: "کلمه عبور باید حداقل ۴ کاراکتر باشد",
+      message: "رمز عبور باید حداقل ۴ حرف یا عدد باشد",
     }),
   name: z
     .string()
@@ -99,19 +99,20 @@ const SignUpForm = () => {
           control={form.control}
           name='password'
           render={({ field }) => (
-            <FormItem className='flex items-center justify-center relative'>
-              <FormControl className='mt-2'>
-                <Input
-                  className=''
-                  type={showPassword ? "password" : "text"}
-                  placeholder='changeme'
-                  {...field}
-                />
-              </FormControl>
-              <div
-                onClick={() => setShowPassword(!showPassword)}
-                className='h-9 w-10 [&>*]:w-5 absolute left-1 bg-background flex items-center justify-center cursor-pointer'>
-                {showPassword ? <EyeOff /> : <Eye />}
+            <FormItem>
+              <div className='flex items-center justify-center relative'>
+                <FormControl className='mt-2'>
+                  <Input
+                    type={showPassword ? "password" : "text"}
+                    placeholder='رمز عبور'
+                    {...field}
+                  />
+                </FormControl>
+                <div
+                  onClick={() => setShowPassword(!showPassword)}
+                  className='h-8 top-3 w-10 [&>*]:w-5 absolute left-1 bg-background flex items-center justify-center cursor-pointer'>
+                  {showPassword ? <EyeOff /> : <Eye />}
+                </div>
               </div>
               <FormMessage />
             </FormItem>

@@ -9,10 +9,12 @@ export type dataSignUpType = {
     password: string;
 }
 
-export type UserAccount = {
+export interface UserAccount {
     email: string;
     selected: boolean;
+    addedTime: number;
 }
+
 
 export type UserType = {
     id: number;

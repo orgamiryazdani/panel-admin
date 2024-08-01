@@ -9,6 +9,7 @@ const useProfile = () => {
     const queryResult: UseQueryResult<UserType> = useQuery({
         queryKey: ["profile"],
         queryFn: getProfileApi,
+        retry: false
     });
     const { data, isLoading, error } = queryResult;
     return { data, isLoading, error };
