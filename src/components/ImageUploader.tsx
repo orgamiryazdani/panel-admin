@@ -5,9 +5,8 @@ interface ImageUploaderProps {
   onUpload: (url: string) => void;
 }
 
-const ImageUploader: React.FC<ImageUploaderProps> = ({ onUpload }) => {
+const ImageUploader: React.FC<ImageUploaderProps> = () => {
   const [image, setImage] = useState<File | null>(null);
-console.log(image);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
