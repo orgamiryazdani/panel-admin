@@ -79,7 +79,7 @@ const SignInForm = () => {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className='space-y-8 mt-10 w-4/6'>
+        className='space-y-8 mt-10 md:w-4/6 w-11/12'>
         <FormField
           control={form.control}
           name='email'
