@@ -12,7 +12,7 @@ import SignUp from "./pages/SignUp";
 import SignIn from "./pages/SignIn";
 import { ThemeProvider } from "./context/theme-provider";
 import AuthGuard from "./components/auth/AuthGuard";
-import { Toaster } from "react-hot-toast";
+import { Toaster } from "./components/ui/toaster";
 
 export const queryClient = new QueryClient();
 
