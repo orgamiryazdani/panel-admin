@@ -28,6 +28,7 @@ export const useSignIn = (): UseMutationResult<void, ApiError, dataLoginType, un
         onError: (error) => {
             toast.error(error.response?.data?.message || "خطای ناشناخته‌ای رخ داد");
         },
+        retry: false
     });
 };
 

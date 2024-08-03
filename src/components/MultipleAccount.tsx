@@ -56,9 +56,9 @@ const MultipleAccount = () => {
           variant='outline'
           role='combobox'
           aria-expanded={open}
-          className='w-full justify-between pr-2 mx-2'>
+          className='lg:w-full justify-between pr-2 mx-2 md:w-40 w-full md:text-xs text-sm lg:text-sm'>
           <span className='flex items-center'>
-            <Mail className='w-5 h-5 mr-2 mb-1' />
+            <Mail className='w-5 h-5 md:mr-2 md:mb-1 mx-2 md:mx-0' />
             {selectedEmail
               ? truncateText(selectedEmail, 16)
               : "لطفا یک اکانت اضافه کنید"}
@@ -66,7 +66,7 @@ const MultipleAccount = () => {
           <ChevronsUpDown className='h-4 w-4 shrink-0 opacity-50' />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className='w-[210px] p-0'>
+      <PopoverContent className='md:w-52 w-full p-0'>
         <Command>
           <CommandInput placeholder='جستجو ...' />
           <CommandEmpty>هیچ حسابی پیدا نشد</CommandEmpty>
