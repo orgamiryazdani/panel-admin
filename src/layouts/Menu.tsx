@@ -25,6 +25,11 @@ import {
   SheetTrigger,
 } from "../components/ui/sheet";
 import { sizeType } from "../types/GlobalTypes";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "../components/ui/tooltip";
 
 const menuItem = [
   {
@@ -73,18 +78,27 @@ type menuItem = {
 };
 
 const renderMenuItem = (item: menuItem, size: number, location: string) => (
-  <Link
-    key={item.id}
-    to={item.path}>
-    <CommandItem
-      className={`mx-1 my-3 ${
-        size < 15.1 ? "pr-[7px] mx-2 hover:bg-accent" : "pr-2"
-      } ${location == item.path && "bg-accent"} text-xs lg:text-sm `}>
-      <span>{item.icon}</span>
-      {size < 15.1 ? null : item.name}
-    </CommandItem>
-    {item.id === 3 && <CommandSeparator />}
-  </Link>
+  <Tooltip>
+    <TooltipTrigger asChild>
+      <Link
+        key={item.id}
+        to={item.path}>
+        <CommandItem
+          className={`mx-1 my-3 ${
+            size < 15.1 ? "pr-[7px] mx-2 hover:bg-accent" : "pr-2"
+          } ${location == item.path && "bg-accent"} text-xs lg:text-sm `}>
+          <span>{item.icon}</span>
+          {size < 15.1 ? null : item.name}
+        </CommandItem>
+        {item.id === 3 && <CommandSeparator />}
+      </Link>
+    </TooltipTrigger>
+    {size > 15.1 ? null : (
+      <TooltipContent>
+        <p>{item.name}</p>
+      </TooltipContent>
+    )}
+  </Tooltip>
 );
 
 const Menu = ({ size }: sizeType) => {
@@ -110,7 +124,7 @@ const Menu = ({ size }: sizeType) => {
           </Command>
         </div>
         {/* switch */}
-        <ModeToggle size={size}/>
+        <ModeToggle size={size} />
       </div>
     </div>
   );
@@ -139,7 +153,7 @@ export const MenuMobile = () => {
             </CommandList>
           </Command>
           <SheetFooter>
-            <ModeToggle size={16}/>
+            <ModeToggle size={16} />
           </SheetFooter>
         </SheetContent>
       </Sheet>

@@ -13,67 +13,70 @@ import SignIn from "./pages/SignIn";
 import { ThemeProvider } from "./context/theme-provider";
 import AuthGuard from "./components/auth/AuthGuard";
 import { Toaster } from "./components/ui/toaster";
+import { TooltipProvider } from "./components/ui/tooltip";
 
 export const queryClient = new QueryClient();
 
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-       <Toaster />
-      <ThemeProvider
-        defaultTheme='dark'
-        storageKey='vite-ui-theme'>
-        <Routes>
-          {/* auth guard */}
-          <Route element={<AuthGuard />}>
-            {/* products page*/}
+      <Toaster />
+      <TooltipProvider>
+        <ThemeProvider
+          defaultTheme='dark'
+          storageKey='vite-ui-theme'>
+          <Routes>
+            {/* auth guard */}
+            <Route element={<AuthGuard />}>
+              {/* products page*/}
+              <Route
+                path='/'
+                element={<Products />}
+              />
+              {/* add products page*/}
+              <Route
+                path='/create-product'
+                element={<CreateProduct />}
+              />
+              {/* category page*/}
+              <Route
+                path='/category'
+                element={<Category />}
+              />
+              {/* add category page*/}
+              <Route
+                path='/create-category'
+                element={<CreateCategory />}
+              />
+              {/* users page*/}
+              <Route
+                path='/users'
+                element={<Users />}
+              />
+              {/* add user page*/}
+              <Route
+                path='/create-user'
+                element={<CreateUser />}
+              />
+              {/* profile page*/}
+              <Route
+                path='/profile'
+                element={<Profile />}
+              />
+            </Route>
+            {/* sign up page*/}
             <Route
-              path='/'
-              element={<Products />}
+              path='/signup'
+              element={<SignUp />}
             />
-            {/* add products page*/}
+            {/* sign in page*/}
             <Route
-              path='/create-product'
-              element={<CreateProduct />}
+              path='/signin'
+              element={<SignIn />}
             />
-            {/* category page*/}
-            <Route
-              path='/category'
-              element={<Category />}
-            />
-            {/* add category page*/}
-            <Route
-              path='/create-category'
-              element={<CreateCategory />}
-            />
-            {/* users page*/}
-            <Route
-              path='/users'
-              element={<Users />}
-            />
-            {/* add user page*/}
-            <Route
-              path='/create-user'
-              element={<CreateUser />}
-            />
-            {/* profile page*/}
-            <Route
-              path='/profile'
-              element={<Profile />}
-            />
-          </Route>
-          {/* sign up page*/}
-          <Route
-            path='/signup'
-            element={<SignUp />}
-          />
-          {/* sign in page*/}
-          <Route
-            path='/signin'
-            element={<SignIn />}
-          />
-        </Routes>
-      </ThemeProvider>
+          </Routes>
+        </ThemeProvider>
+      </TooltipProvider>
     </QueryClientProvider>
   );
 }
