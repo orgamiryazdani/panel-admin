@@ -30,3 +30,7 @@ export interface CreateProduct {
     description: string;
     categoryId: number;
 }
+
+export type sizeType = {
+    size: number;
+  };

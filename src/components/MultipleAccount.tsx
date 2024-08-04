@@ -14,8 +14,9 @@ import { cn } from "../lib/utils";
 import truncateText from "../utils/truncateText";
 import { UserAccount } from "../types/Auth";
 import { cleanupOldAccounts } from "../utils/cleanupOldAccounts";
+import { sizeType } from "../types/GlobalTypes";
 
-const MultipleAccount = () => {
+const MultipleAccount = ({ size }: sizeType) => {
   const [open, setOpen] = useState(false);
   const [allUserAccount, setAllUserAccount] = useState<UserAccount[]>([]);
   const [selectedEmail, setSelectedEmail] = useState("");
@@ -56,14 +57,18 @@ const MultipleAccount = () => {
           variant='outline'
           role='combobox'
           aria-expanded={open}
-          className='lg:w-full justify-between pr-2 mx-2 md:w-40 w-full md:text-xs text-sm lg:text-sm'>
+          className={`${size < 15.1 ? "!w-10 justify-center" : "lg:w-full justify-between"} pr-2 mx-2 md:w-40 w-full md:text-xs text-sm lg:text-sm`}>
           <span className='flex items-center'>
             <Mail className='w-5 h-5 md:mr-2 md:mb-1 mx-2 md:mx-0' />
-            {selectedEmail
+            {size < 15.1
+              ? null
+              : selectedEmail
               ? truncateText(selectedEmail, 16)
               : "لطفا یک اکانت اضافه کنید"}
           </span>
-          <ChevronsUpDown className='h-4 w-4 shrink-0 opacity-50' />
+          {size < 15.1 ? null : (
+            <ChevronsUpDown className='h-4 w-4 shrink-0 opacity-50' />
+          )}
         </Button>
       </PopoverTrigger>
       <PopoverContent className='md:w-52 w-full p-0'>

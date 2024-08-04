@@ -3,19 +3,19 @@ import {
   ResizablePanel,
   ResizablePanelGroup,
 } from "../components/ui/resizable";
-import { ReactNode } from "react";
-import Menu, { MenuMobile } from "./Menu";
+import { ReactNode, useState } from "react";
 import useProfile from "../hooks/useUsers";
 import Loading from "../components/common/Loading";
+import Menu, { MenuMobile } from "./Menu";
 
 type props = {
   children: ReactNode;
 };
 
 const AppLayout = ({ children }: props) => {
+  const [size, setSize] = useState(0);
   const { data, isLoading } = useProfile();
   if (isLoading) return <Loading />;
-  1;
 
   return (
     <div className='w-[100svw] h-[100svh] flex items-center justify-center'>
@@ -24,13 +24,13 @@ const AppLayout = ({ children }: props) => {
         className='h-full w-full flex flex-col'>
         {/* menu */}
         <ResizablePanel
-          className='md:flex flex-col hidden min-w-44'
+          className={`md:flex flex-col hidden  ${size < 15.1 ? "transition-all duration-300 ease-in-out min-w-14" : "min-w-44"}`}
           defaultSize={30}
-          minSize={16}
-          maxSize={18}>
-          <div className='flex h-full items-center justify-center'>
-            <Menu />
-          </div>
+          minSize={15.1}
+          maxSize={18}
+          collapsible
+          onResize={(size) => setSize(size)}>
+          <Menu size={size} />
         </ResizablePanel>
         <ResizableHandle
           withHandle

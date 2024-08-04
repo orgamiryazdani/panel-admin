@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import MultipleAccount from "../components/MultipleAccount";
 import {
   Layers3,
@@ -24,6 +24,7 @@ import {
   SheetHeader,
   SheetTrigger,
 } from "../components/ui/sheet";
+import { sizeType } from "../types/GlobalTypes";
 
 const menuItem = [
   {
@@ -71,37 +72,46 @@ type menuItem = {
   icon: JSX.Element;
 };
 
-const renderMenuItem = (item: menuItem) => (
+const renderMenuItem = (item: menuItem, size: number, location: string) => (
   <Link
     key={item.id}
     to={item.path}>
-    <CommandItem className='mx-1 my-3 text-xs lg:text-sm'>
-      {item.icon}
-      {item.name}
+    <CommandItem
+      className={`mx-1 my-3 ${
+        size < 15.1 ? "pr-[7px] mx-2 hover:bg-accent" : "pr-2"
+      } ${location == item.path && "bg-accent"} text-xs lg:text-sm `}>
+      <span>{item.icon}</span>
+      {size < 15.1 ? null : item.name}
     </CommandItem>
     {item.id === 3 && <CommandSeparator />}
   </Link>
 );
 
-const Menu = () => {
+const Menu = ({ size }: sizeType) => {
+  const { pathname } = useLocation();
+
   return (
-    <div className='w-full h-full flex flex-col justify-between'>
-      <div>
-        {/* Multiple Account */}
-        <div
-          dir='ltr'
-          className='flex items-center justify-center py-[10px] border-b'>
-          <MultipleAccount />
+    <div className='flex h-full items-center justify-center'>
+      <div className='w-full h-full flex flex-col justify-between'>
+        <div>
+          {/* Multiple Account */}
+          <div
+            dir='ltr'
+            className='flex items-center justify-center py-[10px] border-b'>
+            <MultipleAccount size={size} />
+          </div>
+          {/* menu item */}
+          <Command className='h-auto'>
+            <CommandList>
+              <CommandGroup>
+                {menuItem.map((item) => renderMenuItem(item, size, pathname))}
+              </CommandGroup>
+            </CommandList>
+          </Command>
         </div>
-        {/* menu item */}
-        <Command className='h-auto'>
-          <CommandList>
-            <CommandGroup>{menuItem.map(renderMenuItem)}</CommandGroup>
-          </CommandList>
-        </Command>
+        {/* switch */}
+        <ModeToggle size={size}/>
       </div>
-      {/* switch */}
-      <ModeToggle />
     </div>
   );
 };
@@ -109,6 +119,8 @@ const Menu = () => {
 export default Menu;
 
 export const MenuMobile = () => {
+  const { pathname } = useLocation();
+
   return (
     <div className='md:hidden'>
       <Sheet>
@@ -116,16 +128,18 @@ export const MenuMobile = () => {
           <MenuIcon className='cursor-pointer left-11' />
         </SheetTrigger>
         <SheetContent className='transition-all duration-300 ease-in-out'>
-          <SheetHeader className="mt-5 mb-1 ml-4">
-            <MultipleAccount />
+          <SheetHeader className='mt-5 mb-1 ml-4'>
+            <MultipleAccount size={16} />
           </SheetHeader>
           <Command className='h-auto'>
             <CommandList>
-              <CommandGroup>{menuItem.map(renderMenuItem)}</CommandGroup>
+              <CommandGroup>
+                {menuItem.map((item) => renderMenuItem(item, 16, pathname))}
+              </CommandGroup>
             </CommandList>
           </Command>
           <SheetFooter>
-            <ModeToggle />
+            <ModeToggle size={16}/>
           </SheetFooter>
         </SheetContent>
       </Sheet>
