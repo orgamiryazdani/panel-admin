@@ -63,7 +63,7 @@ const MultipleAccount = ({ size }: sizeType) => {
             {size < 15.1
               ? null
               : selectedEmail
-              ? truncateText(selectedEmail, 16)
+              ? truncateText(selectedEmail, 12)
               : "لطفا یک اکانت اضافه کنید"}
           </span>
           {size < 15.1 ? null : (
@@ -89,7 +89,7 @@ const MultipleAccount = ({ size }: sizeType) => {
                         account.selected ? "opacity-100" : "opacity-0",
                       )}
                     />
-                    {account.email}
+                    {truncateText(account.email,22)}
                   </CommandItem>
                 ))
               ) : (
