@@ -1,5 +1,11 @@
+import AppLayout from "../layouts/AppLayout";
+
 const CreateProduct = () => {
-    return ( <div>CreateProduct</div> );
-}
- 
+  return (
+    <AppLayout>
+      <div>CreateProduct</div>
+    </AppLayout>
+  );
+};
+
 export default CreateProduct;

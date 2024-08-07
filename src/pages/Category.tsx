@@ -1,5 +1,11 @@
+import AppLayout from "../layouts/AppLayout";
+
 const Category = () => {
-    return ( <div>Category</div> );
-}
- 
+  return (
+    <AppLayout>
+      <div>Category</div>
+    </AppLayout>
+  );
+};
+
 export default Category;

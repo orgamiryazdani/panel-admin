@@ -1,5 +1,11 @@
+import AppLayout from "../layouts/AppLayout";
+
 const Users = () => {
-    return ( <div>users</div> );
-}
- 
+  return (
+    <AppLayout>
+      <div>users</div>
+    </AppLayout>
+  );
+};
+
 export default Users;

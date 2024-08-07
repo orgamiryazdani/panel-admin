@@ -11,11 +11,14 @@ import {
 } from "../../ui/form";
 import { Input } from "../../ui/input";
 import { useSignIn } from "../../../hooks/useUsers";
-import { dataLoginType, UserAccount } from "../../../types/Auth";
+import { dataLoginType } from "../../../types/Auth";
 import Loading from "../../common/Loading";
 import { Eye, EyeOff } from "lucide-react";
-import { useState, useEffect } from "react";
-import { cleanupOldAccounts } from "../../../utils/cleanupOldAccounts";
+import { useState } from "react";
+import { useAccount } from "../../../context/AccountProvider";
+import { useNetworkStatus } from "../../../hooks/useNetworkStatus";
+import { useToast } from "../../ui/use-toast";
+import { usePageReloaded } from "../../../hooks/usePageReloaded";
 
 const formSchema = z.object({
   email: z
@@ -39,10 +42,10 @@ const formSchema = z.object({
 const SignInForm = () => {
   const { mutateAsync, isPending } = useSignIn();
   const [showPassword, setShowPassword] = useState(true);
-
-  useEffect(() => {
-    cleanupOldAccounts(); // فراخوانی تابع پاکسازی
-  }, []);
+  const { updateAccount, saveAccount, removeAccount } = useAccount();
+  const isOnline = useNetworkStatus();
+  const { toast } = useToast();
+  const isReload = usePageReloaded();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -53,27 +56,25 @@ const SignInForm = () => {
   });
 
   const onSubmit = async (data: dataLoginType) => {
-    const accounts: UserAccount[] = JSON.parse(
-      localStorage.getItem("AllEmailAccount") || "[]",
-    );
+    if (!isOnline) {
+      toast({
+        title: "لطفا اتصال اینترنت خود را چک کنید",
+      });
+      return;
+    }
 
-    const updatedAccounts = [
-      ...accounts.filter((account) => account.email !== data.email),
-      { email: data.email, selected: false, addedTime: Date.now() }, // افزودن تایم‌استمپ
-    ];
-    localStorage.setItem("AllEmailAccount", JSON.stringify(updatedAccounts));
-
+    updateAccount(data);
     try {
       await mutateAsync(data);
-
-      updatedAccounts.forEach((account) => {
-        account.selected = account.email === data.email;
-      });
-      localStorage.setItem("AllEmailAccount", JSON.stringify(updatedAccounts));
+      saveAccount(data);
     } catch {
-      localStorage.setItem("AllEmailAccount", JSON.stringify(accounts));
+      removeAccount();
     }
   };
+
+  if (isPending && isReload) {
+    removeAccount();
+  }
 
   return (
     <Form {...form}>

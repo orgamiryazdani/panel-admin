@@ -1,5 +1,11 @@
+import AppLayout from "../layouts/AppLayout";
+
 const CreateCategory = () => {
-  return <div>CreateCategory</div>;
+  return (
+    <AppLayout>
+      <div>CreateCategory</div>
+    </AppLayout>
+  );
 };
 
 export default CreateCategory;

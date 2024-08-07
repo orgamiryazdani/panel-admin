@@ -1,6 +1,6 @@
-import { Switch } from "../components/ui/switch";
-import { Label } from "../components/ui/label";
-import { useTheme } from "../context/theme-provider";
+import { Switch } from "./ui/switch";
+import { Label } from "./ui/label";
+import { useTheme } from "../context/ThemeProvider";
 import { sizeType } from "../types/GlobalTypes";
 
 export function ModeToggle({ size }: sizeType) {
@@ -10,7 +10,9 @@ export function ModeToggle({ size }: sizeType) {
   };
   return (
     <div
-      className={`flex items-center space-x-2 px-3 border-t py-3 w-full ${size < 15 ? "justify-center" : "justify-between"}`}
+      className={`flex items-center space-x-2 px-3 border-t py-3 w-full ${
+        size < 15 ? "justify-center" : "justify-between"
+      }`}
       dir='ltr'>
       <Switch
         onToggle={handleSwitchChange}

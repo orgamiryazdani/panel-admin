@@ -16,7 +16,7 @@ import {
   CommandList,
   CommandSeparator,
 } from "../components/ui/command";
-import { ModeToggle } from "../components/mode-toggle";
+import { ModeToggle } from "../components/ModeToggle";
 import {
   Sheet,
   SheetContent,
@@ -24,12 +24,12 @@ import {
   SheetHeader,
   SheetTrigger,
 } from "../components/ui/sheet";
-import { sizeType } from "../types/GlobalTypes";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
 } from "../components/ui/tooltip";
+import { sizeType } from "../types/GlobalTypes";
 
 const menuItem = [
   {
@@ -64,7 +64,7 @@ const menuItem = [
   },
   {
     id: 6,
-    path: "/create-users",
+    path: "/create-user",
     name: "اضافه کردن کاربر",
     icon: <UserPlus className='ml-2 h-[18px] w-[18px]' />,
   },
@@ -78,22 +78,21 @@ type menuItem = {
 };
 
 const renderMenuItem = (item: menuItem, size: number, location: string) => (
-  <Tooltip>
+  <Tooltip key={item.id}>
     <TooltipTrigger asChild>
       <Link
-        key={item.id}
         to={item.path}>
         <CommandItem
-          className={`mx-1 my-3 ${
-            size < 15.1 ? "pr-[7px] mx-2 hover:bg-accent" : "pr-2"
-          } ${location == item.path && "bg-accent"} text-xs lg:text-sm `}>
+          className={`mx-1 my-3 ${size < 15.1 ? "pr-[7px] mx-2" : "pr-2"} ${
+            location == item.path && "bg-accent"
+          } text-xs lg:text-sm `}>
           <span>{item.icon}</span>
           {size < 15.1 ? null : item.name}
         </CommandItem>
         {item.id === 3 && <CommandSeparator />}
       </Link>
     </TooltipTrigger>
-    {size > 15.1 ? null : (
+    {size > 15 ? null : (
       <TooltipContent>
         <p>{item.name}</p>
       </TooltipContent>
@@ -101,7 +100,7 @@ const renderMenuItem = (item: menuItem, size: number, location: string) => (
   </Tooltip>
 );
 
-const Menu = ({ size }: sizeType) => {
+const Menu = ({size}:sizeType) => {
   const { pathname } = useLocation();
 
   return (
@@ -136,13 +135,13 @@ export const MenuMobile = () => {
   const { pathname } = useLocation();
 
   return (
-    <div className='md:hidden'>
+    <div className='md:hidden m-5 absolute'>
       <Sheet>
         <SheetTrigger asChild>
           <MenuIcon className='cursor-pointer left-11' />
         </SheetTrigger>
-        <SheetContent className='transition-all duration-300 ease-in-out'>
-          <SheetHeader className='mt-5 mb-1 ml-4'>
+        <SheetContent className='transition-all duration-300 ease-in-out w-fit'>
+          <SheetHeader className='mt-5 mb-1 ml-4 pl-[14px] w-full'>
             <MultipleAccount size={16} />
           </SheetHeader>
           <Command className='h-auto'>

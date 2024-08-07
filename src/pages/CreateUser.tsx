@@ -1,5 +1,11 @@
+import AppLayout from "../layouts/AppLayout";
+
 const CreateUser = () => {
-    return ( <div>CreateUser</div> );
-}
- 
+  return (
+    <AppLayout>
+      <div>CreateUser</div>
+    </AppLayout>
+  );
+};
+
 export default CreateUser;

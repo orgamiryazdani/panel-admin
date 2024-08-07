@@ -15,7 +15,6 @@ app.interceptors.request.use(
         const accessToken = cookies.get(`access-token-${emailSelected?.email}`);
         if (accessToken) {
             config.headers['Authorization'] = `Bearer ${accessToken}`;
-            
         }
         return config;
     },
