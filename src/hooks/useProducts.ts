@@ -1,9 +1,9 @@
 import { UseMutationResult, UseQueryResult, useMutation, useQuery } from "@tanstack/react-query";
 import { deleteProduct, getProducts, updateProduct } from "../services/productsService";
-import { queryClient } from "../App";
 import { product } from "../types/Product";
 import { ApiError } from "../types/GlobalTypes";
-import toast from "react-hot-toast";
+import { queryClient } from "../providers/AppProviders";
+import { useToast } from "../components/ui/use-toast";
 
 // get all products
 const useProducts = () => {
@@ -21,6 +21,7 @@ export default useProducts;
 
 // delete product
 export const useDeleteProduct = (id: number): UseMutationResult<void, ApiError, number, unknown> => {
+    const { toast } = useToast()
     return useMutation<void, ApiError, number>({
         mutationFn: () => deleteProduct(id),
         onSuccess: () => {
@@ -28,14 +29,17 @@ export const useDeleteProduct = (id: number): UseMutationResult<void, ApiError, 
             queryClient.invalidateQueries({ queryKey: ['products'] });
         },
         onError: (error) => {
-            const errorMessage = error.response?.data?.message || "خطای ناشناخته‌ای رخ داده است.";
-            toast.error(errorMessage);
+            toast({
+                variant: "destructive",
+                title: error.response?.data?.message || "خطای ناشناخته‌ای رخ داد",
+            })
         },
     });
 };
 
 // update product
 export const useUpdateProduct = (id: number, title: string, price: number): UseMutationResult<void, ApiError, number, unknown> => {
+    const { toast } = useToast()
     return useMutation<void, ApiError, number>({
         mutationFn: () => updateProduct(id, title, price),
         onSuccess: () => {
@@ -43,8 +47,10 @@ export const useUpdateProduct = (id: number, title: string, price: number): UseM
             queryClient.invalidateQueries({ queryKey: ['products'] });
         },
         onError: (error) => {
-            const errorMessage = error.response?.data?.message || "خطای ناشناخته‌ای رخ داده است.";
-            toast.error(errorMessage);
+            toast({
+                variant: "destructive",
+                title: error.response?.data?.message || "خطای ناشناخته‌ای رخ داد",
+            })
         },
     });
 };
