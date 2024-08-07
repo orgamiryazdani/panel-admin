@@ -6,11 +6,13 @@ const Switch = ({
   className,
   isDarkMode,
   onToggle,
+  checked,
   ...props
 }: {
   className?: string;
   isDarkMode: boolean;
   onToggle: () => void;
+  checked: boolean;
 }) => (
   <SwitchPrimitives.Root
     className={cn(
@@ -18,7 +20,7 @@ const Switch = ({
       className,
     )}
     {...props}
-    onClick={onToggle}>
+    onClick={onToggle} checked={checked}>
     <SwitchPrimitives.Thumb
       className={cn(
         "relative block h-5 w-5 rounded-full bg-background shadow-lg ring-0 transition-transform data-[state=checked]:translate-x-5 data-[state=unchecked]:translate-x-0",

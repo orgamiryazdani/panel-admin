@@ -17,6 +17,7 @@ export function ModeToggle({ size }: sizeType) {
       <Switch
         onToggle={handleSwitchChange}
         isDarkMode={theme === "dark"}
+        checked={theme !== "dark" ? true :false}
       />
       {size > 15 && <Label htmlFor='airplane-mode'>تغییر تم برنامه</Label>}
     </div>

@@ -5,8 +5,6 @@ import {
 } from "../components/ui/resizable";
 import { ReactNode, useState } from "react";
 import Menu, { MenuMobile } from "./Menu";
-import useProfile from "../hooks/useUsers";
-import Loading from "../components/common/Loading";
 
 type props = {
   children: ReactNode;
@@ -15,8 +13,6 @@ type props = {
 const AppLayout = ({ children }: props) => {
   const [size, setSize] = useState(0);
 
-  const { data, isLoading } = useProfile();
-  if (isLoading) return <Loading />;
   return (
     <div className='w-[100svw] h-[100svh] flex items-center justify-center'>
       <ResizablePanelGroup
@@ -48,7 +44,6 @@ const AppLayout = ({ children }: props) => {
           defaultSize={75}
           minSize={30}>
           <div className='flex flex-col h-full items-center justify-center p-6'>
-            {data?.name}
             {children}
           </div>
         </ResizablePanel>
