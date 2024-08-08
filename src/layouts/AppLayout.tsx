@@ -5,6 +5,7 @@ import {
 } from "../components/ui/resizable";
 import { ReactNode, useState } from "react";
 import Menu, { MenuMobile } from "./Menu";
+import AccountMenu from "../components/account/AccountMenu";
 
 type props = {
   children: ReactNode;
@@ -43,7 +44,7 @@ const AppLayout = ({ children }: props) => {
         <ResizablePanel
           defaultSize={75}
           minSize={30}>
-          <div className='flex flex-col h-full items-center justify-center p-6'>
+          <div className="h-full">
             {children}
           </div>
         </ResizablePanel>
@@ -51,9 +52,12 @@ const AppLayout = ({ children }: props) => {
         {/* sidebar */}
         <ResizablePanel
           defaultSize={60}
-          minSize={25}>
-          <div className='flex h-full items-center justify-center p-6'>
-            <span className='font-semibold'>Sidebar</span>
+          minSize={29}>
+            <div className="w-full h-[10%] border-b">
+              <AccountMenu/>
+            </div>
+          <div className='flex h-[90%] items-center justify-center p-6'>
+            <span className='font-semibold'></span>
           </div>
         </ResizablePanel>
       </ResizablePanelGroup>

@@ -10,7 +10,7 @@ export function ModeToggle({ size }: sizeType) {
   };
   return (
     <div
-      className={`flex items-center space-x-2 px-3 border-t py-3 w-full ${
+      className={`flex items-center space-x-2 px-3 border-t w-full h-[7%] ${
         size < 15 ? "justify-center" : "justify-between"
       }`}
       dir='ltr'>

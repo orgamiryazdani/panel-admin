@@ -7,6 +7,7 @@ import {
 } from "react";
 import { dataLoginType, UserAccount } from "../types/Auth";
 import { cleanupOldAccounts } from "../utils/cleanupOldAccounts";
+import Cookies from "universal-cookie";
 
 interface AccountContextProps {
   allUserAccount: UserAccount[];
@@ -14,7 +15,10 @@ interface AccountContextProps {
   updateAccount: (data: dataLoginType) => void;
   saveAccount: (data: dataLoginType) => void;
   removeAccount: () => void;
+  logout: (email: string | undefined) => void;
 }
+
+const cookies = new Cookies();
 
 const AccountContext = createContext<AccountContextProps | undefined>(
   undefined,
@@ -63,6 +67,16 @@ export const AccountProvider = ({ children }: { children: ReactNode }) => {
     localStorage.setItem("AllEmailAccount", JSON.stringify(allUserAccount));
   };
 
+  const logout = (email: string | undefined) => {
+    const accountRemove = allUserAccount.filter(
+      (account) => account.email !== email,
+    );
+    localStorage.setItem("AllEmailAccount", JSON.stringify(accountRemove));
+    cookies.remove(`access-token-${email}`);
+    cookies.remove(`refresh-token-${email}`);
+    window.location.reload();
+  };
+
   return (
     <AccountContext.Provider
       value={{
@@ -71,6 +85,7 @@ export const AccountProvider = ({ children }: { children: ReactNode }) => {
         updateAccount,
         saveAccount,
         removeAccount,
+        logout,
       }}>
       {children}
     </AccountContext.Provider>

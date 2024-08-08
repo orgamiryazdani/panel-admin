@@ -1,11 +1,11 @@
+import FilterProducts from "../components/products/FilterProducts";
 import AppLayout from "../layouts/AppLayout";
 
 const Products = () => {
   return (
     <AppLayout>
-      <div>
-        product
-      </div>
+      <FilterProducts />
+      <div></div>
     </AppLayout>
   );
 };
