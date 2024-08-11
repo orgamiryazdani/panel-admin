@@ -11,8 +11,14 @@ import SignUp from "./pages/SignUp";
 import SignIn from "./pages/SignIn";
 import AuthGuard from "./components/auth/AuthGuard";
 import AppProviders from "./providers/AppProviders";
+import { useEffect } from "react";
+import { cleanupOldAccounts } from "./utils/cleanupOldAccounts";
 
 function App() {
+  useEffect(() => {
+    cleanupOldAccounts();
+  }, []);
+
   return (
     <AppProviders>
       <Routes>

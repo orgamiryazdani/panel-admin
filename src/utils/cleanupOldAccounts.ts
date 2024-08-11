@@ -1,12 +1,21 @@
-import { UserAccount } from "../types/Auth";
+import Cookies from "universal-cookie";
+
+const cookies = new Cookies();
 
 export const cleanupOldAccounts = () => {
-  const accounts: UserAccount[] = JSON.parse(localStorage.getItem("AllEmailAccount") || "[]");
-  const twelveHoursAgo = Date.now() - 10 * 60 * 60 * 1000;
+  const allUser = JSON.parse(localStorage.getItem("AllEmailAccount") || "[]");
+  const thirtySecondsAgo = Date.now() - 30 * 1000;
 
-  const updatedAccounts = accounts.filter(account => account.addedTime > twelveHoursAgo);
+  const updatedAccounts = allUser.filter(({ email, addedTime }: { email: string; addedTime: number }) => {
+    const presenceCookie = cookies.get(`refresh-token-${email}`);
+    return presenceCookie || addedTime >= thirtySecondsAgo;
+  });
 
-  if (updatedAccounts.length !== accounts.length) {
+  if (updatedAccounts.length !== allUser.length) {
+    if (updatedAccounts.length > 0) {
+      updatedAccounts[0].selected = true;
+    }
     localStorage.setItem("AllEmailAccount", JSON.stringify(updatedAccounts));
+    window.location.reload();
   }
 };

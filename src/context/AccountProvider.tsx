@@ -1,12 +1,10 @@
 import {
   createContext,
   useState,
-  useEffect,
   ReactNode,
   useContext,
 } from "react";
 import { dataLoginType, UserAccount } from "../types/Auth";
-import { cleanupOldAccounts } from "../utils/cleanupOldAccounts";
 import Cookies from "universal-cookie";
 
 interface AccountContextProps {
@@ -28,10 +26,6 @@ export const AccountProvider = ({ children }: { children: ReactNode }) => {
   const [allUserAccount, setAllUserAccount] = useState<UserAccount[]>(
     JSON.parse(localStorage.getItem("AllEmailAccount") || "[]"),
   );
-
-  useEffect(() => {
-    cleanupOldAccounts(); // فراخوانی تابع پاکسازی
-  }, []);
 
   const changeAccount = (email: string) => {
     const updatedAccounts = allUserAccount.map((account) => ({
@@ -64,13 +58,16 @@ export const AccountProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const removeAccount = () => {
-    localStorage.setItem("AllEmailAccount", JSON.stringify(allUserAccount));
+    localStorage.setItem("AllEmailAccount", JSON.stringify(allUserAccount.filter((_, index) => index !== allUserAccount.length - 1)));
   };
 
   const logout = (email: string | undefined) => {
     const accountRemove = allUserAccount.filter(
       (account) => account.email !== email,
     );
+    if(accountRemove.length > 0){
+      accountRemove[0].selected = true;
+    }
     localStorage.setItem("AllEmailAccount", JSON.stringify(accountRemove));
     cookies.remove(`access-token-${email}`);
     cookies.remove(`refresh-token-${email}`);
