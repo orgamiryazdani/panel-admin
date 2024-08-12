@@ -1,5 +1,5 @@
 const FilterProducts = () => {
-    return ( <div className="w-full h-[10%] border-b">
+    return ( <div className="w-full md:h-[10%] h-14 border-b">
         
     </div> );
 }

@@ -3,7 +3,7 @@ import {
   ResizablePanel,
   ResizablePanelGroup,
 } from "../components/ui/resizable";
-import { ReactNode, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import Menu, { MenuMobile } from "./Menu";
 import AccountMenu from "../components/account/AccountMenu";
 
@@ -14,10 +14,36 @@ type props = {
 const AppLayout = ({ children }: props) => {
   const [size, setSize] = useState(0);
 
+  const [direction, setDirection] = useState<"horizontal" | "vertical">(
+    "horizontal",
+  );
+
+  // Update direction based on screen size
+  useEffect(() => {
+    const updateDirection = () => {
+      if (window.innerWidth < 768) {
+        setDirection("vertical");
+      } else {
+        setDirection("horizontal");
+      }
+    };
+
+    // Initial check
+    updateDirection();
+
+    // Add event listener to handle window resize
+    window.addEventListener("resize", updateDirection);
+
+    // Cleanup the event listener on component unmount
+    return () => {
+      window.removeEventListener("resize", updateDirection);
+    };
+  }, []);
+
   return (
     <div className='w-[100svw] h-[100svh] flex items-center justify-center'>
       <ResizablePanelGroup
-        direction='horizontal'
+        direction={direction}
         autoSaveId='example'
         className='h-full w-full flex flex-col'>
         {/* menu */}
@@ -40,22 +66,26 @@ const AppLayout = ({ children }: props) => {
         />
         {/* menu mobile */}
         <MenuMobile />
+        {/* account menu */}
+        <div className='w-full h-16 border-b md:hidden'>
+          <AccountMenu />
+        </div>
         {/* content */}
         <ResizablePanel
           defaultSize={75}
           minSize={30}>
-          <div className="h-full">
-            {children}
-          </div>
+          <div className='h-full'>{children}</div>
         </ResizablePanel>
         <ResizableHandle withHandle />
         {/* sidebar */}
         <ResizablePanel
           defaultSize={60}
-          minSize={29}>
-            <div className="w-full h-[10%] border-b">
-              <AccountMenu/>
-            </div>
+          minSize={29}
+          className="md:min-w-80"
+          >
+          <div className='w-full h-[10%] border-b hidden md:flex'>
+            <AccountMenu />
+          </div>
           <div className='flex h-[90%] items-center justify-center p-6'>
             <span className='font-semibold'></span>
           </div>
