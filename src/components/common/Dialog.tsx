@@ -31,7 +31,7 @@ const Dialog = ({
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>{children}</AlertDialogTrigger>
-      <AlertDialogContent>
+      <AlertDialogContent className="w-11/12 md:w-full rounded-md">
         <AlertDialogHeader className='items-start'>
           <AlertDialogTitle>{title}</AlertDialogTitle>
           <AlertDialogDescription>{description}</AlertDialogDescription>
