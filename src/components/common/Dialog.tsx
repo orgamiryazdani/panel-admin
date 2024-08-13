@@ -1,48 +1,51 @@
 import { ReactNode } from "react";
 import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "../ui/alert-dialog";
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "../ui/dialog";
+import { Button } from "../ui/button";
 
 type props = {
   title: string;
   description?: string;
-  cancelBtn?: string;
   acceptBtn?: string;
   onClick: () => void;
+  trigger: ReactNode;
   children: ReactNode;
 };
 
-const Dialog = ({
+const DialogComponent = ({
   title,
   description = "",
-  cancelBtn = "خیر",
-  acceptBtn = "بله",
+  acceptBtn = "تایید",
   onClick,
+  trigger,
   children,
 }: props) => {
   return (
-    <AlertDialog>
-      <AlertDialogTrigger asChild>{children}</AlertDialogTrigger>
-      <AlertDialogContent className="w-11/12 md:w-full rounded-md">
-        <AlertDialogHeader className='items-start'>
-          <AlertDialogTitle>{title}</AlertDialogTitle>
-          <AlertDialogDescription>{description}</AlertDialogDescription>
-        </AlertDialogHeader>
-        <AlertDialogFooter className='gap-x-2'>
-          <AlertDialogCancel>{cancelBtn}</AlertDialogCancel>
-          <AlertDialogAction onClick={onClick}>{acceptBtn}</AlertDialogAction>
-        </AlertDialogFooter>
-      </AlertDialogContent>
-    </AlertDialog>
+    <Dialog>
+      <DialogTrigger asChild>{trigger}</DialogTrigger>
+      <DialogContent className='sm:max-w-[425px] w-11/12 md:w-full rounded-md'>
+        <DialogHeader>
+          <DialogTitle>{title}</DialogTitle>
+          <DialogDescription>{description}</DialogDescription>
+        </DialogHeader>
+        {children}
+        <DialogFooter>
+          <Button
+            type='submit'
+            onClick={onClick}>
+            {acceptBtn}
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   );
 };
 
-export default Dialog;
+export default DialogComponent;

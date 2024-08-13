@@ -5,7 +5,7 @@ import { LogOut, Plus } from "lucide-react";
 import useProfile from "../../hooks/useUsers";
 import { ProfileSkeleton } from "../common/Skeleton";
 import truncateText from "../../utils/truncateText";
-import AlertDialog from "../common/Dialog";
+import AlertDialogComponent from "../common/AlertDialog";
 import { useAccount } from "../../context/AccountProvider";
 
 const AccountMenu = () => {
@@ -15,19 +15,19 @@ const AccountMenu = () => {
   return (
     <div className='w-full h-full flex items-center justify-between px-3'>
       {/* add and logout account */}
-      <div className='flex text-xs w-1/2 mr-10'>
+      <div className='flex text-xs w-1/2 mr-10 md:mr-0'>
         <Link to='/signup'>
           <Button className='h-9 text-[10.5px] bg-secondary text-primary hover:bg-primary-foreground'>
             ساخت حساب جدید <Plus className='w-4 mr-1 mb-[1px]' />
           </Button>
         </Link>
-        <AlertDialog
+        <AlertDialogComponent
           title='آیا میخواهید از حساب خود خارج شوید ؟'
           onClick={() => logout(data?.email)}>
           <Button className='h-9 bg-secondary cursor-pointer text-primary hover:bg-primary-foreground hover:text-red-600 mr-2'>
             <LogOut className='w-4 rotate-180' />
           </Button>
-        </AlertDialog>
+        </AlertDialogComponent>
       </div>
       {/* profile */}
       <div className='flex items-center h-full justify-end w-1/2'>
