@@ -12,7 +12,7 @@ import {
 import truncateText from "../../utils/truncateText";
 import { useSearchParams } from "react-router-dom";
 
-const ProductCard = ({ item }: {  item: product }) => {
+const ProductCard = ({ item }: { item: product }) => {
   const { id, title, description, price, images, category } = item;
 
   const [searchParams, setSearchParams] = useSearchParams();
@@ -26,9 +26,9 @@ const ProductCard = ({ item }: {  item: product }) => {
   return (
     <Card
       onClick={activeProductHandler}
-      className={`w-full min-w-80 max-h-32 flex rounded-l-2xl cursor-pointer ${
-        productActive == id && "bg-accent"
-      }`}
+      className={`w-full min-w-80 max-h-32 flex cursor-pointer
+        ${isPersian(title) ? "rounded-r-2xl" : "rounded-l-2xl"}
+         ${productActive == id && "bg-accent"}`}
       dir={isPersian(title) ? "rtl" : "ltr"}>
       <CardHeader className='md:w-52 w-32 p-0'>
         <img
@@ -50,7 +50,9 @@ const ProductCard = ({ item }: {  item: product }) => {
       <CardFooter className='flex justify-between w-1/4 px-2 flex-col items-end pb-2 pt-1'>
         <Ellipsis className='cursor-pointer' />
         <div className='gap-y-1 flex flex-col items-end'>
-          <p className='text-sm text-green-500 px-1'>$ {price}</p>
+          <p className={`text-sm text-green-500 px-1 flex gap-x-[2px] ${isPersian(title) && "flex-row-reverse"}`}>
+            <span>$</span> {price}
+          </p>
           <div
             dir='ltr'
             className='text-[9px] bg-primary-foreground rounded-md p-2 cursor-pointer'>
