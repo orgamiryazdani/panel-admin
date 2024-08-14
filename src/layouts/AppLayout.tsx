@@ -73,7 +73,7 @@ const AppLayout = ({ children }: props) => {
         {/* content */}
         <ResizablePanel
           defaultSize={75}
-          minSize={30}>
+          minSize={38}>
           <div className='h-full'>{children}</div>
         </ResizablePanel>
         <ResizableHandle withHandle />

@@ -61,12 +61,12 @@ const FilterProducts = () => {
                 <SelectValue placeholder='یک دسته بندی انتخاب کنید' />
               </SelectTrigger>
               <SelectContent>
-                <SelectGroup className='h-56'>
+                <SelectGroup className='max-h-56 h-auto'>
                   {isLoading ? (
                     <Loading />
                   ) : (
                     data?.map((category) => (
-                      <SelectItem value={String(category.id)}>
+                      <SelectItem key={category.id} value={String(category.id)}>
                         {category.name}
                       </SelectItem>
                     ))
