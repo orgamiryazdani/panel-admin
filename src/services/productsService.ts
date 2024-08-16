@@ -1,8 +1,8 @@
 import http from "./httpService";
 
 // get product api
-export function getProducts() {
-    return http.get('/products').then(({ data }) => data);
+export function getProducts(qs: { offset: number, limit: number, search?: string }) {
+    return http.get(`/products?${qs.search}&offset=${qs.offset}&limit=${qs.limit}`).then(({ data }) => data);
 }
 
 // delete product api

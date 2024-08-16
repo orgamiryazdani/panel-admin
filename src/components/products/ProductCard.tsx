@@ -43,14 +43,17 @@ const ProductCard = ({ item }: { item: product }) => {
         <CardTitle className='text-[22px] h-8 overflow-hidden'>
           {truncateText(title, 26)}
         </CardTitle>
-        <CardDescription className='mt-1 text-[13px] h-16 overflow-hidden'>
+        <CardDescription className='mt-1 text-[13px] h-[60px] overflow-hidden'>
           {truncateText(description, 100)}
         </CardDescription>
       </CardContent>
       <CardFooter className='flex justify-between w-1/4 px-2 flex-col items-end pb-2 pt-1'>
         <Ellipsis className='cursor-pointer' />
         <div className='gap-y-1 flex flex-col items-end'>
-          <p className={`text-sm text-green-500 px-1 flex gap-x-[2px] ${isPersian(title) && "flex-row-reverse"}`}>
+          <p
+            className={`text-sm text-green-500 px-1 flex gap-x-[2px] ${
+              isPersian(title) && "flex-row-reverse"
+            }`}>
             <span>$</span> {price}
           </p>
           <div

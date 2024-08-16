@@ -6,15 +6,15 @@ import { queryClient } from "../providers/AppProviders";
 import { useToast } from "../components/ui/use-toast";
 
 // get all products
-const useProducts = () => {
+const useProducts = (qs: { offset: number, limit: number, }) => {
     const queryResult: UseQueryResult<product[]> = useQuery({
         queryKey: ["products"],
-        queryFn: getProducts,
+        queryFn: () => getProducts(qs),
     });
 
-    const { data, isLoading } = queryResult;
+    const { data, isLoading, refetch } = queryResult;
 
-    return { data, isLoading };
+    return { data, isLoading, refetch };
 };
 
 export default useProducts;
