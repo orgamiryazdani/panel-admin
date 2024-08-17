@@ -16,17 +16,17 @@ const ProductCard = ({ item }: { item: product }) => {
   const { id, title, description, price, images, category } = item;
 
   const [searchParams, setSearchParams] = useSearchParams();
-  const productActive = searchParams.get("productActive") || 1;
+  const productActive = searchParams.get("productactive") || 1;
 
   const activeProductHandler = () => {
-    searchParams.set("productActive", id.toString());
+    searchParams.set("productactive", id.toString());
     setSearchParams(searchParams);
   };
 
   return (
     <Card
       onClick={activeProductHandler}
-      className={`w-full min-w-80 max-h-32 flex cursor-pointer
+      className={`w-full min-w-72 max-h-32 flex cursor-pointer
         ${isPersian(title) ? "rounded-r-2xl" : "rounded-l-2xl"}
          ${productActive == id && "bg-accent"}`}
       dir={isPersian(title) ? "rtl" : "ltr"}>

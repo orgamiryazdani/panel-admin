@@ -43,7 +43,12 @@ const Products = () => {
   };
 
   const getNewData = async (operator: string) => {
-    const newOffset = operator === "plus" ? offsetValue + 3 : offsetValue > 0 ? offsetValue - 3 : offsetValue - 0;
+    const newOffset =
+      operator === "plus"
+        ? offsetValue + 3
+        : offsetValue > 0
+        ? offsetValue - 3
+        : offsetValue - 0;
     await setOffset(newOffset);
     await refetch();
   };
@@ -53,7 +58,7 @@ const Products = () => {
   return (
     <AppLayout>
       <FilterProducts />
-      <div className=' w-full h-full overflow-hidden flex flex-col items-center justify-start p-6 gap-y-5'>
+      <div className=' w-full h-[78%] overflow-hidden flex flex-col items-center justify-start p-6 gap-y-6'>
         {dataLoaded.length > 0 ? (
           dataLoaded.map((item) => (
             <ProductCard
@@ -64,30 +69,36 @@ const Products = () => {
         ) : (
           <p>محصولی وجود ندارد</p>
         )}
-
-        {/* pagination */}
-        <Pagination
-          dir='ltr'
-          className='mt-5'>
-          <PaginationContent>
-            <PaginationItem>
-              <PaginationPrevious
-                className='cursor-pointer'
-                onClick={() => getNewData("minus")}
-              />
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationLink isActive>{offsetValue}</PaginationLink>
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationNext
-                className='cursor-pointer'
-                onClick={() => getNewData("plus")}
-              />
-            </PaginationItem>
-          </PaginationContent>
-        </Pagination>
       </div>
+
+      {/* pagination */}
+      <Pagination dir='ltr'>
+        <PaginationContent>
+          <PaginationItem>
+            <PaginationPrevious
+              className={
+                offsetValue === 0
+                  ? "cursor-not-allowed text-muted-foreground hover:text-muted-foreground hover:bg-transparent"
+                  : "cursor-pointer"
+              }
+              onClick={() => getNewData("minus")}
+            />
+          </PaginationItem>
+          <PaginationItem>
+            <PaginationLink isActive>{offsetValue}</PaginationLink>
+          </PaginationItem>
+          <PaginationItem>
+            <PaginationNext
+              className={
+                dataLength <= 0
+                  ? "cursor-not-allowed text-muted-foreground hover:text-muted-foreground hover:bg-transparent"
+                  : "cursor-pointer"
+              }
+              onClick={() => getNewData("plus")}
+            />
+          </PaginationItem>
+        </PaginationContent>
+      </Pagination>
     </AppLayout>
   );
 };
