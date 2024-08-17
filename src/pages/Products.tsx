@@ -17,7 +17,7 @@ import { product } from "../types/Product";
 
 const Products = () => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const offsetValue = searchParams.get("offset") || 0;
+  const offsetValue = Number(searchParams.get("offset") || 0);
   const [offset, setOffset] = useState(Number(offsetValue));
   const [dataLoaded, setDataLoaded] = useState<product[]>([]);
 
@@ -26,21 +26,25 @@ const Products = () => {
     offset: offset,
   });
 
-  const offsetHandler = () => {
-    const dataLength = data?.length || 0;
+  const dataLength = data?.length || 0;
+
+  useEffect(() => {
     if (dataLength > 0) {
       setDataLoaded(data ? data : []);
-      searchParams.set("offset", String(offset + 3));
+      offsetHandler();
+    }
+  }, [data]);
+
+  const offsetHandler = () => {
+    if (dataLength > 0) {
+      searchParams.set("offset", String(offset));
       setSearchParams(searchParams);
     }
   };
 
-  useEffect(() => {
-    offsetHandler();
-  }, [data]);
-
-  const getNewData = async () => {
-    await setOffset((prev) => prev + 3);
+  const getNewData = async (operator: string) => {
+    const newOffset = operator === "plus" ? offsetValue + 3 : offsetValue > 0 ? offsetValue - 3 : offsetValue - 0;
+    await setOffset(newOffset);
     await refetch();
   };
 
@@ -69,7 +73,7 @@ const Products = () => {
             <PaginationItem>
               <PaginationPrevious
                 className='cursor-pointer'
-                onClick={getNewData}
+                onClick={() => getNewData("minus")}
               />
             </PaginationItem>
             <PaginationItem>
@@ -78,7 +82,7 @@ const Products = () => {
             <PaginationItem>
               <PaginationNext
                 className='cursor-pointer'
-                onClick={getNewData}
+                onClick={() => getNewData("plus")}
               />
             </PaginationItem>
           </PaginationContent>
