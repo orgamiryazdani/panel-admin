@@ -15,17 +15,36 @@ import useCategory from "../../hooks/useCategories";
 import Loading from "../common/Loading";
 import { Slider } from "../ui/slider";
 import { useState } from "react";
+import { useSearchParams } from "react-router-dom";
+import { queryClient } from "../../providers/AppProviders";
 
 const FilterProducts = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const priceMin = Number(searchParams.get("price_min") || 1);
+  const priceMax = Number(searchParams.get("price_max") || 100);
+  const categoryIdQuery = Number(searchParams.get("categoryId") || "");
+  const title = searchParams.get("title") || "";
+
   const { data, isLoading } = useCategory();
-  const [priceRange, setPriceRange] = useState([0, 100]);
+  const [priceRange, setPriceRange] = useState([priceMin, priceMax]);
+  const [categoryId, setCategoryId] = useState(categoryIdQuery);
 
   const handleValueChange = (value: number[]) => {
-    setPriceRange(value)
-  }
+    setPriceRange(value);
+  };
 
-  const test = () => {
-    console.log("amir");
+  const changeTitleHandler = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    await searchParams.set("title", e.target.value);
+    await setSearchParams(searchParams);
+    queryClient.invalidateQueries({ queryKey: ["products"] });
+  };
+
+  const filterHandler = async () => {
+    await searchParams.set("categoryId", String(categoryId || ""));
+    await searchParams.set("price_min", String(priceRange[0]));
+    await searchParams.set("price_max", String(priceRange[1]));
+    await setSearchParams(searchParams);
+    queryClient.invalidateQueries({ queryKey: ["products"] });
   };
 
   return (
@@ -36,6 +55,8 @@ const FilterProducts = () => {
           placeholder='جستجو'
           className='md:w-[86%] w-11/12 pr-11'
           autoComplete='false'
+          onChange={changeTitleHandler}
+          value={title}
         />
         <div className='h-8 top-1 w-10 text-muted-foreground absolute right-1 flex items-center justify-center cursor-pointer'>
           <Search className='w-5' />
@@ -44,8 +65,8 @@ const FilterProducts = () => {
       {/* dialog filter */}
       <DialogComponent
         title='فیلتر محصولات'
-        onClick={test}
-        acceptBtn="اعمال فیلتر"
+        onClick={filterHandler}
+        acceptBtn='اعمال فیلتر'
         trigger={
           <Button variant='outline'>
             <span className='hidden md:flex'>فیلتر محصولات</span>
@@ -54,19 +75,25 @@ const FilterProducts = () => {
         }>
         <div className='grid gap-4 py-4'>
           <div className='grid grid-cols-4 items-center gap-4'>
-            <Label className="text-xs md:text-base">دسته بندی</Label>
+            <Label className='text-xs md:text-base'>دسته بندی</Label>
 
-            <Select dir='rtl'>
+            <Select
+              dir='rtl'
+              onValueChange={(value) => setCategoryId(Number(value))}
+              value={String(categoryId)}>
               <SelectTrigger className='col-span-3'>
                 <SelectValue placeholder='یک دسته بندی انتخاب کنید' />
               </SelectTrigger>
               <SelectContent>
                 <SelectGroup className='max-h-56 h-auto'>
+                  <SelectItem value='0'>همه محصولات</SelectItem>
                   {isLoading ? (
                     <Loading />
                   ) : (
                     data?.map((category) => (
-                      <SelectItem key={category.id} value={String(category.id)}>
+                      <SelectItem
+                        key={category.id}
+                        value={String(category.id)}>
                         {category.name}
                       </SelectItem>
                     ))

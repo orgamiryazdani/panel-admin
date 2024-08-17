@@ -1,8 +1,9 @@
+import { queryStringType } from "../types/Product";
 import http from "./httpService";
 
 // get product api
-export function getProducts(qs: { offset: number, limit: number, search?: string }) {
-    return http.get(`/products?${qs.search}&offset=${qs.offset}&limit=${qs.limit}`).then(({ data }) => data);
+export function getProducts({ title, offset, limit, price_min, price_max, categoryId }: queryStringType) {
+    return http.get(`/products?title=${title}&categoryId=${categoryId}&price_min=${price_min}&price_max=${price_max}&offset=${offset}&limit=${limit}`).then(({ data }) => data);
 }
 
 // delete product api

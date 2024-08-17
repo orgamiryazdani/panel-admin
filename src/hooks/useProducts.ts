@@ -1,12 +1,12 @@
 import { UseMutationResult, UseQueryResult, useMutation, useQuery } from "@tanstack/react-query";
 import { deleteProduct, getProducts, updateProduct } from "../services/productsService";
-import { product } from "../types/Product";
+import { product, queryStringType } from "../types/Product";
 import { ApiError } from "../types/GlobalTypes";
 import { queryClient } from "../providers/AppProviders";
 import { useToast } from "../components/ui/use-toast";
 
 // get all products
-const useProducts = (qs: { offset: number, limit: number, }) => {
+const useProducts = (qs: queryStringType) => {
     const queryResult: UseQueryResult<product[]> = useQuery({
         queryKey: ["products"],
         queryFn: () => getProducts(qs),

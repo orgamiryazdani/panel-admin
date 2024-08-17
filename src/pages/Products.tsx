@@ -20,10 +20,18 @@ const Products = () => {
   const offsetValue = Number(searchParams.get("offset") || 0);
   const [offset, setOffset] = useState(Number(offsetValue));
   const [dataLoaded, setDataLoaded] = useState<product[]>([]);
+  const price_min = Number(searchParams.get("price_min"));
+  const price_max = Number(searchParams.get("price_max"));
+  const categoryId = Number(searchParams.get("categoryId"));
+  const title = searchParams.get("title") || "";
 
   const { data, isLoading, refetch } = useProducts({
+    title,
     limit: 3,
-    offset: offset,
+    offset,
+    price_min,
+    price_max,
+    categoryId,
   });
 
   const dataLength = data?.length || 0;

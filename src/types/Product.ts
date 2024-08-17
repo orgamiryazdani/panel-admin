@@ -10,3 +10,12 @@ export type product = {
     };
     images: string[];
 }
+
+export type queryStringType = {
+    title: string
+    offset: number;
+    limit: number;
+    price_min: number;
+    price_max: number;
+    categoryId: number
+}
