@@ -1,5 +1,5 @@
 import { UseMutationResult, UseQueryResult, useMutation, useQuery } from "@tanstack/react-query";
-import { deleteProduct, getProducts, updateProduct } from "../services/productsService";
+import { deleteProduct, getProducts, getSingleProduct, updateProduct } from "../services/productsService";
 import { product, queryStringType } from "../types/Product";
 import { ApiError } from "../types/GlobalTypes";
 import { queryClient } from "../providers/AppProviders";
@@ -18,6 +18,18 @@ const useProducts = (qs: queryStringType) => {
 };
 
 export default useProducts;
+
+// get single product
+export const useSingleProduct = (productActive: number) => {
+    const queryResult: UseQueryResult<product> = useQuery({
+        queryKey: ["singleProduct"],
+        queryFn: () => getSingleProduct(productActive),
+    });
+
+    const { data, isLoading, refetch } = queryResult;
+
+    return { data, isLoading, refetch };
+};
 
 // delete product
 export const useDeleteProduct = (id: number): UseMutationResult<void, ApiError, number, unknown> => {

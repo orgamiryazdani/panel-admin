@@ -15,3 +15,8 @@ export function deleteProduct(id: number) {
 export function updateProduct(id: number, title: string, price: number) {
     return http.put(`/products/${id}`, { title, price }).then(({ data }) => data);
 }
+
+// get single product api
+export function getSingleProduct(productActive: number) {
+    return http.get(`/products/${productActive}`).then(({ data }) => data);
+}

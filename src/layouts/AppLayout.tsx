@@ -6,6 +6,7 @@ import {
 import { ReactNode, useEffect, useState } from "react";
 import Menu, { MenuMobile } from "./Menu";
 import AccountMenu from "../components/account/AccountMenu";
+import ProductDetails from "../components/products/ProductDetails";
 
 type props = {
   children: ReactNode;
@@ -81,13 +82,12 @@ const AppLayout = ({ children }: props) => {
         <ResizablePanel
           defaultSize={60}
           minSize={29}
-          className="md:min-w-80"
-          >
+          className='md:min-w-80'>
           <div className='w-full h-[10%] border-b hidden md:flex'>
             <AccountMenu />
           </div>
-          <div className='flex h-[90%] items-center justify-center p-6'>
-            <span className='font-semibold'></span>
+          <div className='flex h-[90%] items-start justify-center p-6 overflow-y-scroll overflow-x-hidden'>
+            <ProductDetails />
           </div>
         </ResizablePanel>
       </ResizablePanelGroup>

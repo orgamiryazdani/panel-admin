@@ -50,6 +50,7 @@ const FilterProducts = () => {
   return (
     <div className='w-full md:h-[10%] h-14 md:border-b mt-2 md:mt-0 flex items-center justify-end md:px-3 px-4'>
       <div className='flex w-full items-center gap-x-2 relative'>
+        {/* search title */}
         <Input
           type='email'
           placeholder='جستجو'
@@ -75,8 +76,8 @@ const FilterProducts = () => {
         }>
         <div className='grid gap-4 py-4'>
           <div className='grid grid-cols-4 items-center gap-4'>
+            {/* category */}
             <Label className='text-xs md:text-base'>دسته بندی</Label>
-
             <Select
               dir='rtl'
               onValueChange={(value) => setCategoryId(Number(value))}
@@ -102,7 +103,7 @@ const FilterProducts = () => {
               </SelectContent>
             </Select>
           </div>
-
+          {/* price */}
           <div className='flex items-center justify-between md:text-sm text-xs mt-2'>
             <span>
               قیمت از {priceRange[0]} تا {priceRange[1]} تومان

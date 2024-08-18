@@ -11,6 +11,7 @@ import {
 } from "../ui/card";
 import truncateText from "../../utils/truncateText";
 import { useSearchParams } from "react-router-dom";
+import { queryClient } from "../../providers/AppProviders";
 
 const ProductCard = ({ item }: { item: product }) => {
   const { id, title, description, price, images, category } = item;
@@ -18,9 +19,10 @@ const ProductCard = ({ item }: { item: product }) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const productActive = searchParams.get("productactive") || 1;
 
-  const activeProductHandler = () => {
-    searchParams.set("productactive", id.toString());
-    setSearchParams(searchParams);
+  const activeProductHandler = async () => {
+    await searchParams.set("productactive", id.toString());
+    await setSearchParams(searchParams);
+    queryClient.invalidateQueries({ queryKey: ["singleProduct"] });
   };
 
   return (
