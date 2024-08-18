@@ -1,5 +1,4 @@
 import { useSearchParams } from "react-router-dom";
-import Loading from "../components/common/Loading";
 import FilterProducts from "../components/products/FilterProducts";
 import ProductCard from "../components/products/ProductCard";
 import {
@@ -14,6 +13,7 @@ import useProducts from "../hooks/useProducts";
 import AppLayout from "../layouts/AppLayout";
 import { useEffect, useState } from "react";
 import { product } from "../types/Product";
+import { ProductSkeleton } from "../components/common/Skeleton";
 
 const Products = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -61,13 +61,13 @@ const Products = () => {
     await refetch();
   };
 
-  if (isLoading) return <Loading />;
-
   return (
     <AppLayout>
       <FilterProducts />
       <div className='w-full h-[78%] pb-16 md:pb-0 overflow-y-scroll md:overflow-y-hidden overflow-x-hidden flex flex-col items-center justify-start p-6 gap-y-6'>
-        {dataLoaded.length > 0 ? (
+        {isLoading ? (
+          <ProductSkeleton />
+        ) : dataLoaded.length > 0 ? (
           dataLoaded.map((item) => (
             <ProductCard
               key={item.id}
@@ -80,7 +80,9 @@ const Products = () => {
       </div>
 
       {/* pagination */}
-      <Pagination dir='ltr' className="pb-5 pt-3 absolute bottom-0 md:relative bg-background">
+      <Pagination
+        dir='ltr'
+        className='pb-5 pt-3 absolute bottom-0 md:relative bg-background'>
         <PaginationContent>
           <PaginationItem>
             <PaginationPrevious
