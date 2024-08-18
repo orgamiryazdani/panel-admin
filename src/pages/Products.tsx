@@ -66,7 +66,7 @@ const Products = () => {
   return (
     <AppLayout>
       <FilterProducts />
-      <div className=' w-full h-[78%] overflow-hidden flex flex-col items-center justify-start p-6 gap-y-6'>
+      <div className='w-full h-[78%] pb-16 md:pb-0 overflow-y-scroll md:overflow-y-hidden overflow-x-hidden flex flex-col items-center justify-start p-6 gap-y-6'>
         {dataLoaded.length > 0 ? (
           dataLoaded.map((item) => (
             <ProductCard
@@ -80,7 +80,7 @@ const Products = () => {
       </div>
 
       {/* pagination */}
-      <Pagination dir='ltr'>
+      <Pagination dir='ltr' className="pb-5 pt-3 absolute bottom-0 md:relative bg-background">
         <PaginationContent>
           <PaginationItem>
             <PaginationPrevious
