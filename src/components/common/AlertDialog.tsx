@@ -15,7 +15,7 @@ type props = {
   title: string;
   description?: string;
   cancelBtn?: string;
-  acceptBtn?: string;
+  acceptBtn?: string | ReactNode;
   onClick: () => void;
   children: ReactNode;
 };
