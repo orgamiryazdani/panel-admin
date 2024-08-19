@@ -1,4 +1,4 @@
-import { Ellipsis } from "lucide-react";
+import { Edit, Ellipsis, Trash } from "lucide-react";
 import { product } from "../../types/Product";
 import { isPersian } from "../../utils/isPersian";
 import {
@@ -12,6 +12,7 @@ import {
 import truncateText from "../../utils/truncateText";
 import { useSearchParams } from "react-router-dom";
 import { queryClient } from "../../providers/AppProviders";
+import DrawerComponent from "../common/Drawer";
 
 const ProductCard = ({ item }: { item: product }) => {
   const { id, title, description, price, images, category } = item;
@@ -50,7 +51,18 @@ const ProductCard = ({ item }: { item: product }) => {
         </CardDescription>
       </CardContent>
       <CardFooter className='flex justify-between w-1/4 px-2 flex-col items-end pb-2 pt-1'>
-        <Ellipsis className='cursor-pointer' />
+          <DrawerComponent
+            trigger={<Ellipsis className='cursor-pointer' />}
+            title={title}>
+            <div className='w-5/6 md:w-full flex items-center gap-x-2 h-10 p-2 rounded-md mt-5 mb-7 bg-accent text-accent-foreground cursor-pointer'>
+              <Edit className='w-[22.5px]' />
+              <span>ویراش محصول</span>
+            </div>
+            <div className='w-5/6 md:w-full flex items-center gap-x-2 h-10 p-2 rounded-md mb-10 bg-rose-500 cursor-pointer'>
+              <Trash className='w-[22.5px]' />
+              <span>حذف محصول</span>
+            </div>
+          </DrawerComponent>
         <div className='gap-y-1 flex flex-col items-end'>
           <p
             className={`text-sm text-green-500 px-1 flex gap-x-[2px] ${
