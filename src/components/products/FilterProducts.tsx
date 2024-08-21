@@ -28,6 +28,7 @@ const FilterProducts = () => {
   const { data, isLoading } = useCategory();
   const [priceRange, setPriceRange] = useState([priceMin, priceMax]);
   const [categoryId, setCategoryId] = useState(categoryIdQuery);
+  const [loadingFilter, setLoadingFilter] = useState(false);
 
   const handleValueChange = (value: number[]) => {
     setPriceRange(value);
@@ -35,16 +36,20 @@ const FilterProducts = () => {
 
   const changeTitleHandler = async (e: React.ChangeEvent<HTMLInputElement>) => {
     await searchParams.set("title", e.target.value);
+    await searchParams.set("offset", "0");
     await setSearchParams(searchParams);
     queryClient.invalidateQueries({ queryKey: ["products"] });
   };
 
   const filterHandler = async () => {
+    setLoadingFilter(true);
     await searchParams.set("categoryId", String(categoryId || ""));
     await searchParams.set("price_min", String(priceRange[0]));
     await searchParams.set("price_max", String(priceRange[1]));
+    await searchParams.set("offset", "0");
     await setSearchParams(searchParams);
-    queryClient.invalidateQueries({ queryKey: ["products"] });
+    await queryClient.invalidateQueries({ queryKey: ["products"] });
+    setLoadingFilter(false);
   };
 
   return (
@@ -67,7 +72,7 @@ const FilterProducts = () => {
       <DialogComponent
         title='فیلتر محصولات'
         onClick={filterHandler}
-        acceptBtn='اعمال فیلتر'
+        acceptBtn={loadingFilter ? <Loading width='60' /> : "اعمال فیلتر"}
         trigger={
           <Button variant='outline'>
             <span className='hidden md:flex'>فیلتر محصولات</span>

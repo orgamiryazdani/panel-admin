@@ -32,12 +32,14 @@ export const useSingleProduct = (productActive: number) => {
 };
 
 // delete product
-export const useDeleteProduct = (id: number): UseMutationResult<void, ApiError, number, unknown> => {
+export const useDeleteProduct = (): UseMutationResult<void, ApiError, number, unknown> => {
     const { toast } = useToast()
     return useMutation<void, ApiError, number>({
-        mutationFn: () => deleteProduct(id),
+        mutationFn: deleteProduct,
         onSuccess: () => {
-            // toast.success("محصول با موفقیت حذف شد !");
+            toast({
+                title: "محصول با موفقیت حذف شد",
+            });
             queryClient.invalidateQueries({ queryKey: ['products'] });
         },
         onError: (error) => {
@@ -50,19 +52,22 @@ export const useDeleteProduct = (id: number): UseMutationResult<void, ApiError, 
 };
 
 // update product
-export const useUpdateProduct = (id: number, title: string, price: number): UseMutationResult<void, ApiError, number, unknown> => {
-    const { toast } = useToast()
-    return useMutation<void, ApiError, number>({
-        mutationFn: () => updateProduct(id, title, price),
+export const useUpdateProduct = (): UseMutationResult<void, ApiError, { id: number; title: string; price: number,  description: string, images: string[] }, unknown> => {
+    const { toast } = useToast();
+
+    return useMutation<void, ApiError, { id: number; title: string; price: number, description: string, images: string[] }>({
+        mutationFn: updateProduct,
         onSuccess: () => {
-            // toast.success("محصول با موفقیت آپدیت شد");
+            toast({
+                title: "عملیات با موفقیت انجام شد",
+            });
             queryClient.invalidateQueries({ queryKey: ['products'] });
         },
         onError: (error) => {
             toast({
                 variant: "destructive",
                 title: error.response?.data?.message || "خطای ناشناخته‌ای رخ داد",
-            })
+            });
         },
     });
 };

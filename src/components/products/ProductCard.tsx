@@ -14,13 +14,24 @@ import { useSearchParams } from "react-router-dom";
 import { queryClient } from "../../providers/AppProviders";
 import DrawerComponent from "../common/Drawer";
 import AlertDialogComponent from "../common/AlertDialog";
-import { useDeleteProduct } from "../../hooks/useProducts";
+import { useDeleteProduct, useUpdateProduct } from "../../hooks/useProducts";
 import Loading from "../common/Loading";
+import DialogComponent from "../common/Dialog";
+import { Label } from "../ui/label";
+import { Input } from "../ui/input";
+import { parseImages } from "../../utils/parseImages";
+import { Textarea } from "../ui/textarea";
+import ImageUploader from "../ImageUploader";
 
 const ProductCard = ({ item }: { item: product }) => {
   const { id, title, description, price, images, category } = item;
 
-  const { mutateAsync, isPending } = useDeleteProduct(id);
+  const imagesParse = parseImages(images);
+
+  const { mutateAsync, isPending } = useDeleteProduct();
+  const { mutateAsync: mutateUpdateProduct, isPending: updatePending } =
+    useUpdateProduct();
+
   const [searchParams, setSearchParams] = useSearchParams();
   const productActive = searchParams.get("productactive") || 1;
 
@@ -40,7 +51,7 @@ const ProductCard = ({ item }: { item: product }) => {
       {/* image */}
       <CardHeader className='md:w-52 w-32 p-0'>
         <img
-          src={images[0]}
+          src={imagesParse[0]}
           alt='Photo by Drew Beamer'
           className={`object-cover h-full w-full rounded-2xl ${
             productActive != id && "p-2"
@@ -62,10 +73,77 @@ const ProductCard = ({ item }: { item: product }) => {
         <DrawerComponent
           trigger={<Ellipsis className='cursor-pointer' />}
           title={title}>
-          <div className='w-5/6 md:w-full flex items-center gap-x-2 h-10 p-2 rounded-md mt-5 mb-7 bg-accent text-accent-foreground cursor-pointer'>
-            <Edit className='w-[22.5px]' />
-            <span>ویراش محصول</span>
-          </div>
+          {/* edit dialog */}
+          <DialogComponent
+            title='ویراش محصول'
+            description={title}
+            acceptBtn={updatePending ? <Loading width='80' /> : "ذخیره تغییرات"}
+            onClick={() => {
+              // mutateUpdateProduct({
+              //   id: 8,
+              //   title,
+              //   price: 20,
+              //   description:
+              //   "Elevate your casual wardrobe with this timeless red baseball cap. Crafted from durable fabric, it fe",
+              //   images: [
+              //     "https://i.imgur.com/R3iobJA.jpeg",
+              //     "https://i.imgur.com/Wv2KTsf.jpeg",
+              //     "https://i.imgur.com/76HAxcA.jpeg",
+              //   ],
+              // })
+            }}
+            trigger={
+              <div className='w-5/6 md:w-full flex items-center gap-x-2 h-10 p-2 rounded-md mt-5 mb-7 bg-accent text-accent-foreground cursor-pointer'>
+                <Edit className='w-[22.5px]' />
+                <span>ویراش محصول</span>
+              </div>
+            }>
+            <div className='grid gap-4 py-4'>
+              <ImageUploader />
+              <div className='grid grid-cols-4 items-center gap-4'>
+                <Label
+                  htmlFor='title'
+                  className='text-right'>
+                  عنوان
+                </Label>
+                <Input
+                  id='title'
+                  defaultValue={title}
+                  className='col-span-3'
+                  placeholder='عنوان را وارد کنید'
+                />
+              </div>
+              <div className='grid grid-cols-4 items-center gap-4'>
+                <Label
+                  htmlFor='description'
+                  className='text-right'>
+                  توضیحات
+                </Label>
+                {/* <Input type='string' /> */}
+                <Textarea
+                  id='description'
+                  className='col-span-3'
+                  defaultValue={description}
+                  placeholder='توضیحات را وارد کنید'
+                />
+              </div>
+              <div className='grid grid-cols-4 items-center gap-4'>
+                <Label
+                  htmlFor='price'
+                  className='text-right'>
+                  قیمت
+                </Label>
+                <Input
+                  id='price'
+                  type='number'
+                  defaultValue={price}
+                  className='col-span-3'
+                  placeholder='قیمت را وارد کنید'
+                />
+              </div>
+            </div>
+          </DialogComponent>
+          {/* delete Dialog */}
           <AlertDialogComponent
             acceptBtn={isPending ? <Loading width='30' /> : "بله"}
             title='آیا از حذف این محصول مطمعن هستید ؟'

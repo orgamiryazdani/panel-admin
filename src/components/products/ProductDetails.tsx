@@ -10,17 +10,21 @@ import {
 } from "../ui/carousel";
 import { isPersian } from "../../utils/isPersian";
 import { SingleProductSkeleton } from "../common/Skeleton";
+import { parseImages } from "../../utils/parseImages";
 
 const ProductDetails = () => {
   const [searchParams] = useSearchParams();
   const productActive = searchParams.get("productactive") || 1;
 
   const { data, isLoading } = useSingleProduct(Number(productActive));
+  const imagesParse = parseImages(data?.images || [""]);
 
   return (
     <div className='w-full h-auto flex items-center justify-start flex-col'>
       {isLoading ? (
         <SingleProductSkeleton />
+      ) : !data ? (
+        <p>لطفا یک محصول انتخاب کنید</p>
       ) : (
         <>
           {/* Carousel */}
@@ -28,7 +32,7 @@ const ProductDetails = () => {
             className='relative w-full'
             dir='ltr'>
             <CarouselContent>
-              {data?.images.map((image, index) => (
+              {imagesParse.map((image: string, index: number) => (
                 <CarouselItem key={index}>
                   <Card className='min-h-60 overflow-hidden'>
                     <CardContent className='p-0 h-full w-full'>

@@ -13,7 +13,7 @@ import { Button } from "../ui/button";
 type props = {
   title: string;
   description?: string;
-  acceptBtn?: string;
+  acceptBtn?: string | ReactNode;
   onClick: () => void;
   trigger: ReactNode;
   children: ReactNode;

@@ -12,8 +12,8 @@ export function deleteProduct(id: number) {
 }
 
 // update product api
-export function updateProduct(id: number, title: string, price: number) {
-    return http.put(`/products/${id}`, { title, price }).then(({ data }) => data);
+export function updateProduct({ id, title, price, description, images }: { id: number; title: string; price: number, description: string, images: string[] }) {
+    return http.put(`/products/${id}`, { title, price, description, images }).then(({ data }) => data);
 }
 
 // get single product api

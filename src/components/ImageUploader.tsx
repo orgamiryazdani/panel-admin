@@ -1,35 +1,79 @@
-import React, { useState } from 'react';
-import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
-import img from "../assets/images/user-default.svg"
-interface ImageUploaderProps {
-  onUpload: (url: string) => void;
+import React, { useState } from "react";
+import { useUploadFile } from "../hooks/useUploadFile";
+import { X } from "lucide-react";
+
+interface UploadedFile {
+  file: File;
+  preview: string;
+  progress: number;
 }
 
-const ImageUploader: React.FC<ImageUploaderProps> = () => {
-  const [image, setImage] = useState<File | null>(null);
+const ImageUploader = () => {
+  const { mutateAsync, progress ,data} = useUploadFile();
+  console.log(data);
+  
+  const [files, setFiles] = useState<UploadedFile[]>([]);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files && event.target.files[0]) {
-      setImage(event.target.files[0]);
+    const selectedFiles = event.target.files;
+    if (selectedFiles && selectedFiles.length > 0) {
+      const newFiles = Array.from(selectedFiles)
+        .slice(0, 3 - files.length) // محدود کردن به 3 تصویر
+        .map((file) => ({
+          file,
+          preview: URL.createObjectURL(file),
+          progress: 0,
+        }));
+
+      setFiles((prevFiles) => [...prevFiles, ...newFiles]);
+
+      newFiles.forEach((newFile) => {
+        const formData = new FormData();
+        formData.append("file", newFile.file);
+        mutateAsync(formData);
+      });
     }
-    if (!image) return;
-    const formData = new FormData();
-    formData.append('image', image);
-    // onUpload(data.data.url); // استفاده از data.data.url برای دریافت لینک تصویر
   };
 
-  return (
-    <div className='relative h-[88px] flex items-center justify-center my-3'>
-      <input type="file" id='image' onChange={handleFileChange} className='absolute w-16 h-16 opacity-0 cursor-pointer
-            '/>
-      <label htmlFor="image" className='flex items-center justify-between flex-col h-full cursor-pointer '>
+  const handleRemoveFile = (index: number) => {
+    setFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
+  };
 
-      <Avatar className='w-16 h-16 bg-white'>
-      <AvatarImage src={img} alt="@shadcn" className='object-cover'/>
-      <AvatarFallback>CN</AvatarFallback>
-    </Avatar>
-    <span className='text-[11px] border-b pb-[2px] border-white'>تصویر خود را انتخاب کنید ( اختیاری )</span>
-      </label>
+  const defaultImage = "/src/assets/images/imageUploader.png"; // تصویر پیش‌فرض
+  const previewImage = files.length > 0 ? files[0].preview : defaultImage; // اگر فایلی انتخاب شده باشد، از پیش‌نمایش استفاده کن
+
+  return (
+    <div className="flex flex-col items-end">
+      <div className="relative w-full h-36 flex items-center justify-center mb-3 border rounded-md overflow-hidden">
+        <input
+          type="file"
+          id="image"
+          multiple
+          onChange={handleFileChange}
+          className="absolute w-full h-full opacity-0 cursor-pointer"
+        />
+          <img
+            src={previewImage}
+            className="w-full h-full object-contain"
+            alt="Selected preview"
+          />
+      </div>
+      <div className="flex items-center justify-start gap-x-4 w-full">
+        {files.map((file, index) => (
+          <div key={index} className="relative w-20 h-20 rounded-md border overflow-hidden">
+            <img src={file.preview} className="w-full h-full object-cover" alt="" />
+            <button
+              className="absolute top-0 right-0 m-1 text-white bg-black rounded-full"
+              onClick={() => handleRemoveFile(index)}
+            >
+              <X size={16} />
+            </button>
+            <p dir="ltr" className="absolute bottom-0 left-0 w-full bg-black bg-opacity-50 text-white text-xs text-center">
+              {progress}%
+            </p>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };

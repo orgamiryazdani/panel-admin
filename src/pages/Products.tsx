@@ -14,6 +14,7 @@ import AppLayout from "../layouts/AppLayout";
 import { useEffect, useState } from "react";
 import { product } from "../types/Product";
 import { ProductSkeleton } from "../components/common/Skeleton";
+import { useToast } from "../components/ui/use-toast";
 
 const Products = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -24,6 +25,7 @@ const Products = () => {
   const price_max = Number(searchParams.get("price_max"));
   const categoryId = Number(searchParams.get("categoryId"));
   const title = searchParams.get("title") || "";
+  const { toast } = useToast();
 
   const { data, isLoading, refetch } = useProducts({
     title,
@@ -40,6 +42,12 @@ const Products = () => {
     if (dataLength > 0) {
       setDataLoaded(data ? data : []);
       offsetHandler();
+    }
+    if (data?.length == 0) {
+      toast({
+        variant: "destructive",
+        title: "محصولی پیدا نشد",
+      });
     }
   }, [data]);
 
