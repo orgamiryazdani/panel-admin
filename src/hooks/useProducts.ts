@@ -52,10 +52,10 @@ export const useDeleteProduct = (): UseMutationResult<void, ApiError, number, un
 };
 
 // update product
-export const useUpdateProduct = (): UseMutationResult<void, ApiError, { id: number; title: string; price: number,  description: string, images: string[] }, unknown> => {
+export const useUpdateProduct = (): UseMutationResult<void, ApiError, { id: number; title?: string; price?: number,  description?: string, images?: string[] }, unknown> => {
     const { toast } = useToast();
 
-    return useMutation<void, ApiError, { id: number; title: string; price: number, description: string, images: string[] }>({
+    return useMutation<void, ApiError, { id: number; title?: string; price?: number, description?: string, images?: string[] }>({
         mutationFn: updateProduct,
         onSuccess: () => {
             toast({

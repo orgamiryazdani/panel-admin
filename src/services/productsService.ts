@@ -12,7 +12,7 @@ export function deleteProduct(id: number) {
 }
 
 // update product api
-export function updateProduct({ id, title, price, description, images }: { id: number; title: string; price: number, description: string, images: string[] }) {
+export function updateProduct({ id, title, price, description, images }: { id: number; title?: string; price?: number, description?: string, images?: string[] }) {
     return http.put(`/products/${id}`, { title, price, description, images }).then(({ data }) => data);
 }
 
