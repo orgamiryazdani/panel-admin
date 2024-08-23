@@ -13,11 +13,11 @@ function AppProviders({ children }: { children: ReactNode }) {
       <Toaster />
       <AccountProvider>
         <TooltipProvider>
-            <ThemeProvider
-              defaultTheme='dark'
-              storageKey='vite-ui-theme'>
-              {children}
-            </ThemeProvider>
+          <ThemeProvider
+            defaultTheme='dark'
+            storageKey='vite-ui-theme'>
+            {children}
+          </ThemeProvider>
         </TooltipProvider>
       </AccountProvider>
     </QueryClientProvider>

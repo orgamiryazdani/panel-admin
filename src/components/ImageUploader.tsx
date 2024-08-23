@@ -3,81 +3,156 @@ import { useUploadFile } from "../hooks/useUploadFile";
 import { X } from "lucide-react";
 import { useSingleProduct } from "../hooks/useProducts";
 import defaultImg from "../assets/images/imageUploader.png";
+import {
+  arrayMove,
+  horizontalListSortingStrategy,
+  SortableContext,
+  sortableKeyboardCoordinates,
+  useSortable,
+} from "@dnd-kit/sortable";
+import {
+  closestCorners,
+  DndContext,
+  KeyboardSensor,
+  PointerSensor,
+  TouchSensor,
+  useSensor,
+  useSensors,
+  DragEndEvent,
+} from "@dnd-kit/core";
+import { parseImages } from "../utils/parseImages";
+import { CSS } from "@dnd-kit/utilities";
+import Loading from "./common/Loading";
 
-interface UploadedFile {
-  file: File;
-  preview: string;
-  progress: number;
-}
-
-const ImageUploader = (id: { id: number }) => {
-  const { mutateAsync, progress, data } = useUploadFile();
+const ImageUploader = ({ id }: { id: number }) => {
+  const { mutateAsync, isPending, data } = useUploadFile();
   const { data: singleData, isLoading } = useSingleProduct(id);
 
-  const [files, setFiles] = useState(singleData?.images || []);
-  console.log(files);
+  const [images, setImages] = useState<string[]>(
+    parseImages(singleData?.images || []),
+  );
+
+  const [test, setTest] = useState("");
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
+      const file = URL.createObjectURL(event.target.files[0]);
+      setTest(file);
+
       const formData = new FormData();
       formData.append("file", event.target.files[0]);
+
       mutateAsync(formData);
     }
   };
 
   useEffect(() => {
-    if (data?.length > 0) {
-      setFiles([...files, data?.location]);
+    if (data?.location) {
+      setImages([...images, data?.location]);
+      setTest("");
     }
   }, [data]);
 
-  const handleRemoveFile = (index: number) => {
-    setFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
+  const getImagePos = (img: string) =>
+    images.findIndex((image) => image === img);
+
+  const handleDragEnd = (event: DragEndEvent) => {
+    const { active, over } = event;
+
+    if (!over || active.id === over.id) return;
+
+    setImages((imageList) => {
+      const originalPos = getImagePos(active.id as string);
+      const newPos = getImagePos(over.id as string);
+
+      return arrayMove(imageList, originalPos, newPos);
+    });
   };
 
-  const previewImage = data ? data.location : defaultImg; // اگر فایلی انتخاب شده باشد، از پیش‌نمایش استفاده کن
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(TouchSensor),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    }),
+  );
 
   return (
-    <div className='flex flex-col items-end'>
-      <div className='relative w-full h-36 flex items-center justify-center mb-3 border rounded-md overflow-hidden'>
-        <input
-          type='file'
-          id='image'
-          multiple
-          onChange={handleFileChange}
-          className='absolute w-full h-full opacity-0 cursor-pointer'
-        />
-        <img
-          src={previewImage}
-          className='w-full h-full object-contain'
-          alt='Selected preview'
-        />
+    <DndContext
+      sensors={sensors}
+      onDragEnd={handleDragEnd}
+      collisionDetection={closestCorners}>
+      <div className='flex flex-col items-end'>
+        <div className='relative w-full h-36 flex items-center justify-center mb-3 border rounded-md overflow-hidden'>
+          <input
+            type='file'
+            id='image'
+            multiple
+            onChange={handleFileChange}
+            className='absolute w-full h-full opacity-0 cursor-pointer'
+          />
+          <img
+            src={test || defaultImg}
+            className='w-full h-full object-contain'
+            alt='Selected preview'
+          />
+          {isPending ? (
+            <>
+              <span className='absolute z-10'>
+                <Loading />
+              </span>
+              <div className='absolute w-full h-full bg-accent bg-opacity-70 opacity-55 flex items-center justify-center'></div>
+            </>
+          ) : null}
+        </div>
+        <div className='flex items-center justify-start gap-x-4 w-full'>
+          <SortableContext
+            items={images}
+            strategy={horizontalListSortingStrategy}>
+            {isLoading ? (
+              <Loading />
+            ) : (
+              images?.map((img) => (
+                <ImageSorted
+                  id={img}
+                  image={img}
+                  key={img}
+                />
+              ))
+            )}
+          </SortableContext>
+        </div>
       </div>
-      <div className='flex items-center justify-start gap-x-4 w-full'>
-        {files.map((file, index) => (
-          <div
-            key={index}
-            className='relative w-20 h-20 rounded-md border overflow-hidden'>
-            <img
-              src={file}
-              className='w-full h-full object-cover'
-              alt=''
-            />
-            <button
-              className='absolute top-0 right-0 m-1 text-white bg-black rounded-full'
-              onClick={() => handleRemoveFile(index)}>
-              <X size={16} />
-            </button>
-            <p
-              dir='ltr'
-              className='absolute bottom-0 left-0 w-full bg-black bg-opacity-50 text-white text-xs text-center'>
-              {progress}%
-            </p>
-          </div>
-        ))}
-      </div>
-    </div>
+    </DndContext>
   );
 };
 
 export default ImageUploader;
+
+const ImageSorted = ({ id, image }: { id: string; image: string }) => {
+  const { attributes, listeners, setNodeRef, transform, transition } =
+    useSortable({ id });
+
+  const style = {
+    transition,
+    transform: CSS.Transform.toString(transform),
+  };
+
+  return (
+    <div
+      ref={setNodeRef}
+      {...listeners}
+      {...attributes}
+      style={style}
+      className='relative w-20 h-20 rounded-md border overflow-hidden'>
+      <div className='w-5 h-5 bg-black absolute flex items-center justify-center rounded-full m-1'>
+        <X className='w-4' />
+      </div>
+      <img
+        src={image}
+        className='w-full h-full object-cover'
+        alt={image}
+      />
+    </div>
+  );
+};

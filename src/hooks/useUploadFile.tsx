@@ -5,16 +5,23 @@ import { uploadFileApi } from "../services/filesService";
 import { useState } from "react";
 import { AxiosProgressEvent } from "axios";
 
+// Define the response type
+interface UploadResponse {
+  location: string;
+  // Other fields if needed
+}
+
+// Update the useUploadFile hook
 export const useUploadFile = (): {
-  mutateAsync: (file: FormData) => Promise<void>;
+  mutateAsync: (file: FormData) => Promise<UploadResponse>;
   isPending: boolean;
-  data: unknown;
+  data: UploadResponse | undefined;
   progress: number;
 } => {
   const { toast } = useToast();
   const [progress, setProgress] = useState(0);
 
-  const mutation = useMutation<void, ApiError, FormData>({
+  const mutation = useMutation<UploadResponse, ApiError, FormData>({
     mutationFn: (file: FormData) =>
       uploadFileApi(file, (progressEvent: AxiosProgressEvent) => {
         if (progressEvent.total) {
