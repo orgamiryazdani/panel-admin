@@ -152,7 +152,7 @@ const UpdateProduct = ({ id, title, description, price }: dataUpdated) => {
                     <FormLabel htmlFor='description'>توضیحات</FormLabel>
                     <FormControl>
                       <Textarea
-                        className='w-full'
+                        className='w-full h-28'
                         id='description'
                         {...field}
                         placeholder='توضیحات را وارد کنید'

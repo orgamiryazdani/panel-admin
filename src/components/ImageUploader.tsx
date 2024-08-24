@@ -180,6 +180,7 @@ const ImageUploader = ({
             )}
           </SortableContext>
         </div>
+          <span className="text-xs w-full mt-2">میتوانید با گرفتن و کشیدن عکس , اولویت هر عکس را تغییر دهید</span>
       </div>
     </DndContext>
   );
@@ -210,10 +211,10 @@ const ImageSorted = ({
       {...listeners}
       {...attributes}
       style={style}
-      className='relative w-20 h-20 my-2 rounded-md border overflow-hidden'>
+      className='relative pointer-events-auto w-20 h-20 my-2 rounded-md border overflow-hidden'>
       <div
-        onClick={() => handleRemoveImage(image)}
-        className='w-5 h-5 bg-black absolute flex items-center justify-center rounded-full m-1'>
+        onPointerUp={() => handleRemoveImage(image)}
+        className='w-5 h-5 bg-accent absolute flex items-center justify-center rounded-full m-1'>
         <X className='w-4' />
       </div>
       <img
