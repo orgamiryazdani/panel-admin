@@ -4,7 +4,7 @@ import Loading from "../common/Loading";
 import ImageUploader from "../ImageUploader";
 import { Input } from "../ui/input";
 import { Textarea } from "../ui/textarea";
-import { useUpdateProduct } from "../../hooks/useProducts";
+import { useSingleProduct, useUpdateProduct } from "../../hooks/useProducts";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import {
   Form,
@@ -17,6 +17,8 @@ import {
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
+import { parseImages } from "../../utils/parseImages";
+import { useState } from "react";
 
 const formSchema = z.object({
   title: z.string().min(1, {
@@ -46,6 +48,11 @@ type dataUpdated = {
 const UpdateProduct = ({ id, title, description, price }: dataUpdated) => {
   const { mutateAsync: mutateUpdateProduct, isPending: updatePending } =
     useUpdateProduct();
+  const { data: singleData, isLoading } = useSingleProduct(id);
+  const [images, setImages] = useState<string[]>(
+    parseImages(singleData?.images || []),
+  );
+  console.log(images);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -57,7 +64,7 @@ const UpdateProduct = ({ id, title, description, price }: dataUpdated) => {
   });
 
   const onSubmit = async (data: Omit<dataUpdated, "id">) => {
-    mutateUpdateProduct({ id, ...data });
+    mutateUpdateProduct({ id, images, ...data });
   };
 
   return (
@@ -84,7 +91,11 @@ const UpdateProduct = ({ id, title, description, price }: dataUpdated) => {
           </TabsList>
           {/* image tab */}
           <TabsContent value='image'>
-            <ImageUploader id={id}/>
+            <ImageUploader
+              images={images}
+              setImages={setImages}
+              isLoading={isLoading}
+            />
           </TabsContent>
           {/* info tab */}
           <TabsContent
@@ -101,8 +112,8 @@ const UpdateProduct = ({ id, title, description, price }: dataUpdated) => {
                       <Input
                         className='w-full'
                         id='title'
-                        defaultValue={title}
                         {...field}
+                        placeholder='عنوان را وارد کنید'
                       />
                     </FormControl>
                   </div>
@@ -122,8 +133,8 @@ const UpdateProduct = ({ id, title, description, price }: dataUpdated) => {
                         className='w-full'
                         id='price'
                         type='number'
-                        defaultValue={price}
                         {...field}
+                        placeholder='قیمت را وارد کنید'
                         onChange={(e) => field.onChange(Number(e.target.value))}
                       />
                     </FormControl>
@@ -143,9 +154,8 @@ const UpdateProduct = ({ id, title, description, price }: dataUpdated) => {
                       <Textarea
                         className='w-full'
                         id='description'
-                        defaultValue={description}
                         {...field}
-                        placeholder='Type your message here.'
+                        placeholder='توضیحات را وارد کنید'
                       />
                     </FormControl>
                   </div>

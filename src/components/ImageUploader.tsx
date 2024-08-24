@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { Dispatch, SetStateAction, useState } from "react";
 import { useUploadFile } from "../hooks/useUploadFile";
 import { X } from "lucide-react";
-import { useSingleProduct } from "../hooks/useProducts";
 import defaultImg from "../assets/images/imageUploader.png";
 import {
   arrayMove,
@@ -20,42 +19,94 @@ import {
   useSensors,
   DragEndEvent,
 } from "@dnd-kit/core";
-import { parseImages } from "../utils/parseImages";
 import { CSS } from "@dnd-kit/utilities";
 import Loading from "./common/Loading";
+import { useToast } from "./ui/use-toast";
 
-const ImageUploader = ({ id }: { id: number }) => {
-  const { mutateAsync, isPending, data } = useUploadFile();
-  const { data: singleData, isLoading } = useSingleProduct(id);
+const ImageUploader = ({
+  images,
+  setImages,
+  isLoading,
+}: {
+  images: string[];
+  setImages: Dispatch<SetStateAction<string[]>>;
+  isLoading: boolean;
+}) => {
+  const { mutateAsync, isPending } = useUploadFile();
+  const { toast } = useToast();
+  const [newImage, setNewImage] = useState("");
 
-  const [images, setImages] = useState<string[]>(
-    parseImages(singleData?.images || []),
-  );
-
-  const [test, setTest] = useState("");
-
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files && event.target.files[0]) {
-      const file = URL.createObjectURL(event.target.files[0]);
-      setTest(file);
-
-      const formData = new FormData();
-      formData.append("file", event.target.files[0]);
-
-      mutateAsync(formData);
+  // remove image handler
+  const handleRemoveImage = (img: string) => {
+    if (images.length > 1) {
+      const imageSelected = images.filter((image) => image !== img);
+      console.log(imageSelected);
+      setImages(imageSelected);
+    } else {
+      toast({
+        title: "حداقل یک تصویر ضروری است",
+        variant: "destructive",
+      });
     }
   };
 
-  useEffect(() => {
-    if (data?.location) {
-      setImages([...images, data?.location]);
-      setTest("");
-    }
-  }, [data]);
+  // image uploader handler
+  const handleFileChange = async (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    if (event.target.files) {
+      const selectedFiles = Array.from(event.target.files);
 
+      if (selectedFiles.length > 3) {
+        toast({
+          title: "شما فقط می‌توانید حداکثر 3 تصویر انتخاب کنید",
+          variant: "destructive",
+        });
+        return;
+      }
+
+      // ابتدا تعداد تصاویر انتخاب شده و تعداد تصاویر فعلی را با هم چک می‌کنیم
+      if (images.length + selectedFiles.length > 6) {
+        toast({
+          title: "شما فقط می‌توانید حداکثر 6 تصویر انتخاب کنید",
+          variant: "destructive",
+        });
+        return;
+      }
+
+      for (const file of selectedFiles) {
+        const fileType = file.type.split("/")[0];
+
+        if (fileType !== "image") {
+          toast({
+            title: "فقط میتوانید تصویر انتخاب کنید",
+            variant: "destructive",
+          });
+          return;
+        }
+
+        const tempImageUrl = URL.createObjectURL(file);
+        setNewImage(tempImageUrl);
+
+        const formData = new FormData();
+        formData.append("file", file);
+
+        const uploadResult = await mutateAsync(formData);
+
+        if (uploadResult?.location) {
+          setImages((prevImages) => [...prevImages, uploadResult.location]);
+        }
+
+        setNewImage("");
+      }
+    }
+  };
+
+  // get image position
   const getImagePos = (img: string) =>
     images.findIndex((image) => image === img);
 
+  // handle dragging
   const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
 
@@ -69,6 +120,7 @@ const ImageUploader = ({ id }: { id: number }) => {
     });
   };
 
+  // sensor dnd-kit (mobile)
   const sensors = useSensors(
     useSensor(PointerSensor),
     useSensor(TouchSensor),
@@ -83,16 +135,18 @@ const ImageUploader = ({ id }: { id: number }) => {
       onDragEnd={handleDragEnd}
       collisionDetection={closestCorners}>
       <div className='flex flex-col items-end'>
-        <div className='relative w-full h-36 flex items-center justify-center mb-3 border rounded-md overflow-hidden'>
+        {/* select image ==> input */}
+        <div className='relative w-full h-36 mt-3 flex items-center justify-center mb-3 border rounded-md overflow-hidden'>
           <input
             type='file'
             id='image'
             multiple
             onChange={handleFileChange}
             className='absolute w-full h-full opacity-0 cursor-pointer'
+            accept='image/*'
           />
           <img
-            src={test || defaultImg}
+            src={newImage || defaultImg}
             className='w-full h-full object-contain'
             alt='Selected preview'
           />
@@ -105,18 +159,22 @@ const ImageUploader = ({ id }: { id: number }) => {
             </>
           ) : null}
         </div>
-        <div className='flex items-center justify-start gap-x-4 w-full'>
+        {/* image and image selected */}
+        <div className='flex items-center flex-wrap justify-start gap-x-4 w-full'>
           <SortableContext
             items={images}
             strategy={horizontalListSortingStrategy}>
             {isLoading ? (
-              <Loading />
+              <div className='w-full flex items-center justify-center'>
+                <Loading />
+              </div>
             ) : (
               images?.map((img) => (
                 <ImageSorted
                   id={img}
                   image={img}
                   key={img}
+                  handleRemoveImage={handleRemoveImage}
                 />
               ))
             )}
@@ -129,7 +187,15 @@ const ImageUploader = ({ id }: { id: number }) => {
 
 export default ImageUploader;
 
-const ImageSorted = ({ id, image }: { id: string; image: string }) => {
+const ImageSorted = ({
+  id,
+  image,
+  handleRemoveImage,
+}: {
+  id: string;
+  image: string;
+  handleRemoveImage: (img: string) => void;
+}) => {
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({ id });
 
@@ -144,8 +210,10 @@ const ImageSorted = ({ id, image }: { id: string; image: string }) => {
       {...listeners}
       {...attributes}
       style={style}
-      className='relative w-20 h-20 rounded-md border overflow-hidden'>
-      <div className='w-5 h-5 bg-black absolute flex items-center justify-center rounded-full m-1'>
+      className='relative w-20 h-20 my-2 rounded-md border overflow-hidden'>
+      <div
+        onClick={() => handleRemoveImage(image)}
+        className='w-5 h-5 bg-black absolute flex items-center justify-center rounded-full m-1'>
         <X className='w-4' />
       </div>
       <img
