@@ -26,11 +26,9 @@ import { useToast } from "./ui/use-toast";
 const ImageUploader = ({
   images,
   setImages,
-  isLoading,
 }: {
   images: string[];
   setImages: Dispatch<SetStateAction<string[]>>;
-  isLoading: boolean;
 }) => {
   const { mutateAsync, isPending } = useUploadFile();
   const { toast } = useToast();
@@ -164,23 +162,19 @@ const ImageUploader = ({
           <SortableContext
             items={images}
             strategy={horizontalListSortingStrategy}>
-            {isLoading ? (
-              <div className='w-full flex items-center justify-center'>
-                <Loading />
-              </div>
-            ) : (
-              images?.map((img) => (
-                <ImageSorted
-                  id={img}
-                  image={img}
-                  key={img}
-                  handleRemoveImage={handleRemoveImage}
-                />
-              ))
-            )}
+            {images?.map((img) => (
+              <ImageSorted
+                id={img}
+                image={img}
+                key={img}
+                handleRemoveImage={handleRemoveImage}
+              />
+            ))}
           </SortableContext>
         </div>
-          <span className="text-xs w-full mt-2">میتوانید با گرفتن و کشیدن عکس , اولویت هر عکس را تغییر دهید</span>
+        <span className='text-xs w-full mt-2'>
+          میتوانید با گرفتن و کشیدن عکس , اولویت هر عکس را تغییر دهید
+        </span>
       </div>
     </DndContext>
   );

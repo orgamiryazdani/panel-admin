@@ -37,13 +37,14 @@ const ProductCard = ({ item }: { item: product }) => {
 
   return (
     <Card
-      onClick={activeProductHandler}
-      className={`w-full min-w-72 max-h-32 flex cursor-pointer
+      className={`w-full min-w-72 max-h-32 flex
         ${isPersian(title) ? "rounded-r-2xl" : "rounded-l-2xl"}
          ${productActive == id && "bg-accent"}`}
       dir={isPersian(title) ? "rtl" : "ltr"}>
       {/* image */}
-      <CardHeader className='md:w-52 w-32 p-0'>
+      <CardHeader
+        onClick={activeProductHandler}
+        className='md:w-52 w-32 p-0 cursor-pointer'>
         <img
           src={imagesParse[0]}
           alt='Photo by Drew Beamer'
@@ -53,7 +54,9 @@ const ProductCard = ({ item }: { item: product }) => {
         />
       </CardHeader>
       {/* title and description */}
-      <CardContent className='w-2/4 p-3 pt-3'>
+      <CardContent
+        onClick={activeProductHandler}
+        className='w-2/4 p-3 pt-3 cursor-pointer'>
         <CardTitle className='text-[22px] h-8 overflow-hidden'>
           {truncateText(title, 26)}
         </CardTitle>
@@ -73,6 +76,7 @@ const ProductCard = ({ item }: { item: product }) => {
             title={title}
             description={description}
             price={price}
+            img={images}
           />
           {/* delete Dialog */}
           <AlertDialogComponent

@@ -4,7 +4,7 @@ import Loading from "../common/Loading";
 import ImageUploader from "../ImageUploader";
 import { Input } from "../ui/input";
 import { Textarea } from "../ui/textarea";
-import { useSingleProduct, useUpdateProduct } from "../../hooks/useProducts";
+import { useUpdateProduct } from "../../hooks/useProducts";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import {
   Form,
@@ -43,16 +43,14 @@ type dataUpdated = {
   title: string;
   description: string;
   price: number;
+  img: string[];
 };
 
-const UpdateProduct = ({ id, title, description, price }: dataUpdated) => {
+const UpdateProduct = ({ id, title, description, price, img }: dataUpdated) => {
   const { mutateAsync: mutateUpdateProduct, isPending: updatePending } =
     useUpdateProduct();
-  const { data: singleData, isLoading } = useSingleProduct(id);
-  const [images, setImages] = useState<string[]>(
-    parseImages(singleData?.images || []),
-  );
-  console.log(images);
+
+  const [images, setImages] = useState<string[]>(parseImages(img || []));
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -63,7 +61,7 @@ const UpdateProduct = ({ id, title, description, price }: dataUpdated) => {
     },
   });
 
-  const onSubmit = async (data: Omit<dataUpdated, "id">) => {
+  const onSubmit = async (data:  Omit<dataUpdated, "id" | "img">) => {
     mutateUpdateProduct({ id, images, ...data });
   };
 
@@ -94,7 +92,6 @@ const UpdateProduct = ({ id, title, description, price }: dataUpdated) => {
             <ImageUploader
               images={images}
               setImages={setImages}
-              isLoading={isLoading}
             />
           </TabsContent>
           {/* info tab */}
