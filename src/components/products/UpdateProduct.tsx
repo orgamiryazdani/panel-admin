@@ -18,7 +18,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { parseImages } from "../../utils/parseImages";
-import { useState } from "react";
+import { memo, useState } from "react";
 
 const formSchema = z.object({
   title: z.string().min(1, {
@@ -167,4 +167,4 @@ const UpdateProduct = ({ id, title, description, price, img }: dataUpdated) => {
   );
 };
 
-export default UpdateProduct;
+export default memo(UpdateProduct);

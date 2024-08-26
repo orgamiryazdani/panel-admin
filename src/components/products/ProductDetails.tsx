@@ -11,6 +11,7 @@ import {
 import { isPersian } from "../../utils/isPersian";
 import { SingleProductSkeleton } from "../common/Skeleton";
 import { parseImages } from "../../utils/parseImages";
+import { memo } from "react";
 
 const ProductDetails = () => {
   const [searchParams] = useSearchParams();
@@ -79,4 +80,4 @@ const ProductDetails = () => {
   );
 };
 
-export default ProductDetails;
+export default memo(ProductDetails);

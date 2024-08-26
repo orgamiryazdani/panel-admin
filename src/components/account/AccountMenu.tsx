@@ -7,6 +7,7 @@ import { ProfileSkeleton } from "../common/Skeleton";
 import truncateText from "../../utils/truncateText";
 import AlertDialogComponent from "../common/AlertDialog";
 import { useAccount } from "../../context/AccountProvider";
+import { memo } from "react";
 
 const AccountMenu = () => {
   const { data, isLoading } = useProfile();
@@ -65,4 +66,4 @@ const AccountMenu = () => {
   );
 };
 
-export default AccountMenu;
+export default memo(AccountMenu);

@@ -1,9 +1,4 @@
-import {
-  createContext,
-  useState,
-  ReactNode,
-  useContext,
-} from "react";
+import { createContext, useState, ReactNode, useContext } from "react";
 import { dataLoginType, UserAccount } from "../types/Auth";
 import Cookies from "universal-cookie";
 
@@ -14,6 +9,7 @@ interface AccountContextProps {
   saveAccount: (data: dataLoginType) => void;
   removeAccount: () => void;
   logout: (email: string | undefined) => void;
+  removeAccountFailCreateUser: () => void;
 }
 
 const cookies = new Cookies();
@@ -58,14 +54,32 @@ export const AccountProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const removeAccount = () => {
-    localStorage.setItem("AllEmailAccount", JSON.stringify(allUserAccount.filter((_, index) => index !== allUserAccount.length - 1)));
+    const allUser = JSON.parse(localStorage.getItem("AllEmailAccount") || "[]");
+    localStorage.setItem(
+      "AllEmailAccount",
+      JSON.stringify(
+        allUser.filter((_: [], index: number) => index !== allUser.length - 1),
+      ),
+    );
+    setAllUserAccount(JSON.parse(localStorage.getItem("allEmailAccount")||"[]"))
+  };
+
+  const removeAccountFailCreateUser = () => {
+    localStorage.setItem(
+      "AllEmailAccount",
+      JSON.stringify(
+        allUserAccount.filter(
+          (_, index) => index !== allUserAccount.length - 1,
+        ),
+      ),
+    );
   };
 
   const logout = (email: string | undefined) => {
     const accountRemove = allUserAccount.filter(
       (account) => account.email !== email,
     );
-    if(accountRemove.length > 0){
+    if (accountRemove.length > 0) {
       accountRemove[0].selected = true;
     }
     localStorage.setItem("AllEmailAccount", JSON.stringify(accountRemove));
@@ -83,6 +97,7 @@ export const AccountProvider = ({ children }: { children: ReactNode }) => {
         saveAccount,
         removeAccount,
         logout,
+        removeAccountFailCreateUser,
       }}>
       {children}
     </AccountContext.Provider>

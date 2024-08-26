@@ -30,6 +30,7 @@ import {
   TooltipTrigger,
 } from "../components/ui/tooltip";
 import { sizeType } from "../types/GlobalTypes";
+import { memo } from "react";
 
 const menuItem = [
   {
@@ -77,15 +78,20 @@ type menuItem = {
   icon: JSX.Element;
 };
 
-const renderMenuItem = (item: menuItem, size: number, location: string) => (
+type MenuItemProps = {
+  item: menuItem;
+  size: number;
+  location: string;
+};
+
+const RenderMenuItem: React.FC<MenuItemProps> = ({ item, size, location }) => (
   <Tooltip key={item.id}>
     <TooltipTrigger asChild>
-      <Link
-        to={item.path}>
+      <Link to={item.path}>
         <CommandItem
           className={`mx-1 my-3 ${size < 15.1 ? "pr-[7px] mx-2" : "pr-2"} ${
-            location == item.path && "bg-accent"
-          } text-xs lg:text-sm `}>
+            location === item.path && "bg-accent"
+          } text-xs lg:text-sm`}>
           <span>{item.icon}</span>
           {size < 15.1 ? null : item.name}
         </CommandItem>
@@ -100,7 +106,9 @@ const renderMenuItem = (item: menuItem, size: number, location: string) => (
   </Tooltip>
 );
 
-const Menu = ({size}:sizeType) => {
+const MemoizedRenderMenuItem = memo(RenderMenuItem);
+
+const Menu = ({ size }: sizeType) => {
   const { pathname } = useLocation();
 
   return (
@@ -117,7 +125,14 @@ const Menu = ({size}:sizeType) => {
           <Command className='h-[89.3%]'>
             <CommandList>
               <CommandGroup>
-                {menuItem.map((item) => renderMenuItem(item, size, pathname))}
+                {menuItem.map(item => (
+                  <MemoizedRenderMenuItem
+                    key={item.id}
+                    item={item}
+                    size={size}
+                    location={pathname}
+                  />
+                ))}
               </CommandGroup>
             </CommandList>
           </Command>
@@ -129,9 +144,9 @@ const Menu = ({size}:sizeType) => {
   );
 };
 
-export default Menu;
+export default memo(Menu);
 
-export const MenuMobile = () => {
+export const MenuMobile = memo(() => {
   const { pathname } = useLocation();
 
   return (
@@ -147,7 +162,14 @@ export const MenuMobile = () => {
           <Command className='h-auto'>
             <CommandList>
               <CommandGroup>
-                {menuItem.map((item) => renderMenuItem(item, 16, pathname))}
+                {menuItem.map(item => (
+                  <MemoizedRenderMenuItem
+                    key={item.id}
+                    item={item}
+                    size={16}
+                    location={pathname}
+                  />
+                ))}
               </CommandGroup>
             </CommandList>
           </Command>
@@ -158,4 +180,4 @@ export const MenuMobile = () => {
       </Sheet>
     </div>
   );
-};
+});

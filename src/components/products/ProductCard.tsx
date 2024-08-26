@@ -18,6 +18,7 @@ import { useDeleteProduct } from "../../hooks/useProducts";
 import Loading from "../common/Loading";
 import { parseImages } from "../../utils/parseImages";
 import UpdateProduct from "./UpdateProduct";
+import { memo } from "react";
 
 const ProductCard = ({ item }: { item: product }) => {
   const { id, title, description, price, images, category } = item;
@@ -108,4 +109,4 @@ const ProductCard = ({ item }: { item: product }) => {
   );
 };
 
-export default ProductCard;
+export default memo(ProductCard);

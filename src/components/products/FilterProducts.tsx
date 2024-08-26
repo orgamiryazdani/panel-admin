@@ -14,7 +14,7 @@ import {
 import useCategory from "../../hooks/useCategories";
 import Loading from "../common/Loading";
 import { Slider } from "../ui/slider";
-import { useState } from "react";
+import { memo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { queryClient } from "../../providers/AppProviders";
 
@@ -127,4 +127,4 @@ const FilterProducts = () => {
   );
 };
 
-export default FilterProducts;
+export default memo(FilterProducts);
