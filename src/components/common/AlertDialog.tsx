@@ -1,4 +1,3 @@
-import { ReactNode } from "react";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -10,15 +9,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "../ui/alert-dialog";
-
-type props = {
-  title: string;
-  description?: string;
-  cancelBtn?: string;
-  acceptBtn?: string | ReactNode;
-  onClick: () => void;
-  children: ReactNode;
-};
+import { UiComponentType } from "../../types/GlobalTypes";
 
 const AlertDialogComponent = ({
   title,
@@ -27,11 +18,11 @@ const AlertDialogComponent = ({
   acceptBtn = "بله",
   onClick,
   children,
-}: props) => {
+}: Omit<UiComponentType, "trigger">) => {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>{children}</AlertDialogTrigger>
-      <AlertDialogContent className="w-11/12 md:w-full rounded-md">
+      <AlertDialogContent className='w-11/12 md:w-full rounded-md'>
         <AlertDialogHeader className='items-start'>
           <AlertDialogTitle>{title}</AlertDialogTitle>
           <AlertDialogDescription>{description}</AlertDialogDescription>

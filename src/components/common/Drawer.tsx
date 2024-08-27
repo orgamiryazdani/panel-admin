@@ -1,4 +1,3 @@
-import { ReactNode } from "react";
 import {
   Drawer,
   DrawerContent,
@@ -6,20 +5,22 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "../ui/drawer";
+import { UiComponentType } from "../../types/GlobalTypes";
 
-type props = {
-  trigger: ReactNode;
-  title: string;
-  children: ReactNode;
-};
-
-const DrawerComponent = ({ trigger, title, children }: props) => {
+const DrawerComponent = ({
+  trigger,
+  title,
+  children,
+}: Omit<
+  UiComponentType,
+  "cancelBtn" | "description" | "acceptBtn" | "onClick"
+>) => {
   return (
     <Drawer>
       <DrawerTrigger asChild>{trigger}</DrawerTrigger>
       <DrawerContent>
         <div className='mx-auto w-full max-w-sm flex flex-col items-center md:items-end'>
-          <DrawerHeader className="w-full flex flex-col items-center md:px-0 mt-3">
+          <DrawerHeader className='w-full flex flex-col items-center md:px-0 mt-3'>
             <DrawerTitle>{title}</DrawerTitle>
           </DrawerHeader>
           {children}

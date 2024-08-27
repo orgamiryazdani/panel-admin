@@ -1,16 +1,6 @@
 import { createContext, useState, ReactNode, useContext } from "react";
-import { dataLoginType, UserAccount } from "../types/Auth";
+import { AccountContextProps, dataLoginType, UserAccount } from "../types/Auth";
 import Cookies from "universal-cookie";
-
-interface AccountContextProps {
-  allUserAccount: UserAccount[];
-  changeAccount: (email: string) => void;
-  saveAccount: (data: dataLoginType) => void;
-  updateAccount: () => void;
-  removeAccount: () => void;
-  removeAccountAfterReload: () => void;
-  logout: (email: string | undefined) => void;
-}
 
 const cookies = new Cookies();
 

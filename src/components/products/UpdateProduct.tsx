@@ -19,6 +19,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { parseImages } from "../../utils/parseImages";
 import { memo, useState } from "react";
+import { product } from "../../types/Product";
 
 const formSchema = z.object({
   title: z.string().min(1, {
@@ -38,15 +39,13 @@ const formSchema = z.object({
   }),
 });
 
-type dataUpdated = {
-  id: number;
-  title: string;
-  description: string;
-  price: number;
-  img: string[];
-};
-
-const UpdateProduct = ({ id, title, description, price, img }: dataUpdated) => {
+const UpdateProduct = ({
+  id,
+  title,
+  description,
+  price,
+  images: img,
+}: Omit<product, "category">) => {
   const { mutateAsync: mutateUpdateProduct, isPending: updatePending } =
     useUpdateProduct();
 
@@ -61,7 +60,9 @@ const UpdateProduct = ({ id, title, description, price, img }: dataUpdated) => {
     },
   });
 
-  const onSubmit = async (data:  Omit<dataUpdated, "id" | "img">) => {
+  const onSubmit = async (
+    data: Omit<product, "id" | "images" | "category">,
+  ) => {
     mutateUpdateProduct({ id, images, ...data });
   };
 

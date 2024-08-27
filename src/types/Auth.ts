@@ -24,3 +24,14 @@ export type UserType = {
     role: string;
     avatar: string;
 }
+
+export interface AccountContextProps {
+    allUserAccount: UserAccount[];
+    changeAccount: (email: string) => void;
+    saveAccount: (data: dataLoginType) => void;
+    updateAccount: () => void;
+    removeAccount: () => void;
+    removeAccountAfterReload: () => void;
+    logout: (email: string | undefined) => void;
+  }
+  

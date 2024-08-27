@@ -1,6 +1,6 @@
 import { UseMutationResult, UseQueryResult, useMutation, useQuery } from "@tanstack/react-query";
 import { deleteProduct, getProducts, getSingleProduct, updateProduct } from "../services/productsService";
-import { product, queryStringType } from "../types/Product";
+import { product, queryStringType, UpdateDataType } from "../types/Product";
 import { ApiError } from "../types/GlobalTypes";
 import { queryClient } from "../providers/AppProviders";
 import { useToast } from "../components/ui/use-toast";
@@ -52,10 +52,10 @@ export const useDeleteProduct = (): UseMutationResult<void, ApiError, number, un
 };
 
 // update product
-export const useUpdateProduct = (): UseMutationResult<void, ApiError, { id: number; title?: string; price?: number,  description?: string, images?: string[] }, unknown> => {
+export const useUpdateProduct = (): UseMutationResult<void, ApiError, UpdateDataType, unknown> => {
     const { toast } = useToast();
 
-    return useMutation<void, ApiError, { id: number; title?: string; price?: number, description?: string, images?: string[] }>({
+    return useMutation<void, ApiError, UpdateDataType>({
         mutationFn: updateProduct,
         onSuccess: () => {
             toast({

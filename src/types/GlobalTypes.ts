@@ -1,4 +1,4 @@
-// import { UseFormRegister, RegisterOptions } from "react-hook-form";
+import { ReactNode } from "react";
 
 export interface ApiError {
     response?: {
@@ -15,15 +15,6 @@ export interface FormData {
     categoryId: string;
 }
 
-// export interface InputProps {
-//     type?: string;
-//     name: keyof FormData;
-//     register: UseFormRegister<FormData>; // تایپ‌گذاری register با UseFormRegister<FormData>
-//     validationSchema: RegisterOptions;
-//     errors?: Record<keyof FormData, { message: string }>; // تایپ‌گذاری errors با Record<keyof FormData, { message: string }>
-//     placeholder: string;
-// }
-
 export interface CreateProduct {
     title: string;
     price: number;
@@ -33,4 +24,14 @@ export interface CreateProduct {
 
 export type sizeType = {
     size: number;
-  };
+};
+
+export type UiComponentType = {
+    title: string;
+    description?: string;
+    cancelBtn?: string;
+    acceptBtn?: string | ReactNode;
+    onClick: () => void;
+    children: ReactNode;
+    trigger: ReactNode;
+}

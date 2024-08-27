@@ -14,11 +14,6 @@ export function signUpApi(data: dataSignUpType) {
     return http.post('/users/', dataUser).then(({ data }) => data);
 }
 
-// export function uploadImageApi(data: dataSignUpType) {
-//     const dataUser = {...data , avatar:"https://avatars.githubusercontent.com/u/124599?v=4"}
-//     return http.post('/users/', dataUser).then(({ data }) => data);
-// }
-
 export function getProfileApi() {
     return http.get('/auth/profile').then(({ data }) => data);
 }

@@ -19,3 +19,11 @@ export type queryStringType = {
     price_max: number;
     categoryId: number
 }
+
+export type UpdateDataType = {
+    id: number;
+    title?: string;
+    price?: number;
+    description?: string;
+    images?: string[]
+}

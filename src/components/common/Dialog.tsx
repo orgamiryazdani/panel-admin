@@ -1,4 +1,3 @@
-import { ReactNode } from "react";
 import {
   Dialog,
   DialogContent,
@@ -9,15 +8,7 @@ import {
   DialogTrigger,
 } from "../ui/dialog";
 import { Button } from "../ui/button";
-
-type props = {
-  title: string;
-  description?: string;
-  acceptBtn?: string | ReactNode;
-  onClick: () => void;
-  trigger: ReactNode;
-  children: ReactNode;
-};
+import { UiComponentType } from "../../types/GlobalTypes";
 
 const DialogComponent = ({
   title,
@@ -26,7 +17,7 @@ const DialogComponent = ({
   onClick,
   trigger,
   children,
-}: props) => {
+}: Omit<UiComponentType, "cancelBtn">) => {
   return (
     <Dialog>
       <DialogTrigger asChild>{trigger}</DialogTrigger>

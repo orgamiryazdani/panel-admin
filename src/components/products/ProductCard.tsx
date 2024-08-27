@@ -77,7 +77,7 @@ const ProductCard = ({ item }: { item: product }) => {
             title={title}
             description={description}
             price={price}
-            img={images}
+            images={images}
           />
           {/* delete Dialog */}
           <AlertDialogComponent
