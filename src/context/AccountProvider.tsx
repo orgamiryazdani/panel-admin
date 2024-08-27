@@ -5,11 +5,11 @@ import Cookies from "universal-cookie";
 interface AccountContextProps {
   allUserAccount: UserAccount[];
   changeAccount: (email: string) => void;
-  updateAccount: (data: dataLoginType) => void;
   saveAccount: (data: dataLoginType) => void;
+  updateAccount: () => void;
   removeAccount: () => void;
+  removeAccountAfterReload: () => void;
   logout: (email: string | undefined) => void;
-  removeAccountFailCreateUser: () => void;
 }
 
 const cookies = new Cookies();
@@ -34,44 +34,43 @@ export const AccountProvider = ({ children }: { children: ReactNode }) => {
     window.location.reload();
   };
 
-  let updatedAccounts: UserAccount[] = [];
-
-  const updateAccount = (data: dataLoginType) => {
-    updatedAccounts = [
+  const saveAccount = (data: dataLoginType) => {
+    const updatedAccounts = [
       ...allUserAccount.filter((account) => account.email !== data.email),
-      { email: data.email, selected: false, addedTime: Date.now() }, // افزودن تایم‌استمپ
+      { email: data.email, selected: true, addedTime: Date.now() },
     ];
-    setAllUserAccount(updatedAccounts); // این خط اضافه شد
+    setAllUserAccount(updatedAccounts);
     localStorage.setItem("AllEmailAccount", JSON.stringify(updatedAccounts));
   };
 
-  const saveAccount = (data: dataLoginType) => {
-    updatedAccounts.forEach((account) => {
-      account.selected = account.email === data.email;
-    });
-    setAllUserAccount(updatedAccounts); // این خط اضافه شد
-    localStorage.setItem("AllEmailAccount", JSON.stringify(updatedAccounts));
+  const updateAccount = () => {
+    if (allUserAccount.length > 1) {
+      setAllUserAccount((prevAccounts) => {
+        if (prevAccounts.length === 0) return prevAccounts; // اگر لیست خالی است، هیچ تغییری ایجاد نکنید
+
+        const updatedAccounts = prevAccounts.map((account, index, array) => ({
+          ...account,
+          selected: index === array.length - 1, // آخرین اکانت selected = true است
+        }));
+
+        localStorage.setItem(
+          "AllEmailAccount",
+          JSON.stringify(updatedAccounts),
+        );
+        return updatedAccounts;
+      });
+    }
   };
 
   const removeAccount = () => {
-    const allUser = JSON.parse(localStorage.getItem("AllEmailAccount") || "[]");
-    localStorage.setItem(
-      "AllEmailAccount",
-      JSON.stringify(
-        allUser.filter((_: [], index: number) => index !== allUser.length - 1),
-      ),
-    );
-    setAllUserAccount(JSON.parse(localStorage.getItem("allEmailAccount")||"[]"))
+    setAllUserAccount((prevAccounts) => prevAccounts.slice(0, -1));
+    localStorage.setItem("AllEmailAccount", JSON.stringify(allUserAccount));
   };
 
-  const removeAccountFailCreateUser = () => {
+  const removeAccountAfterReload = () => {
     localStorage.setItem(
       "AllEmailAccount",
-      JSON.stringify(
-        allUserAccount.filter(
-          (_, index) => index !== allUserAccount.length - 1,
-        ),
-      ),
+      JSON.stringify(allUserAccount.slice(0, -1)),
     );
   };
 
@@ -93,11 +92,11 @@ export const AccountProvider = ({ children }: { children: ReactNode }) => {
       value={{
         allUserAccount,
         changeAccount,
-        updateAccount,
         saveAccount,
+        updateAccount,
         removeAccount,
+        removeAccountAfterReload,
         logout,
-        removeAccountFailCreateUser,
       }}>
       {children}
     </AccountContext.Provider>

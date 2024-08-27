@@ -42,7 +42,12 @@ const formSchema = z.object({
 const SignInForm = () => {
   const { mutateAsync, isPending } = useSignIn();
   const [showPassword, setShowPassword] = useState(true);
-  const { updateAccount, saveAccount, removeAccount } = useAccount();
+  const {
+    saveAccount,
+    removeAccount,
+    removeAccountAfterReload,
+    updateAccount,
+  } = useAccount();
   const isOnline = useNetworkStatus();
   const { toast } = useToast();
   const isReload = usePageReloaded();
@@ -63,19 +68,17 @@ const SignInForm = () => {
       return;
     }
 
-   await updateAccount(data);
+    await saveAccount(data);
     try {
       await mutateAsync(data);
-      saveAccount(data);
+      updateAccount();
     } catch {
       removeAccount();
-      console.log('ok');
-      
     }
   };
 
   if (isPending && isReload) {
-    removeAccount();
+    removeAccountAfterReload();
   }
 
   return (
@@ -138,4 +141,4 @@ const SignInForm = () => {
   );
 };
 
-export default memo(SignInForm) ;
+export default memo(SignInForm);
