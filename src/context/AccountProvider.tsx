@@ -34,7 +34,6 @@ export const AccountProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const updateAccount = () => {
-    if (allUserAccount.length > 1) {
       setAllUserAccount((prevAccounts) => {
         if (prevAccounts.length === 0) return prevAccounts; // اگر لیست خالی است، هیچ تغییری ایجاد نکنید
 
@@ -49,7 +48,6 @@ export const AccountProvider = ({ children }: { children: ReactNode }) => {
         );
         return updatedAccounts;
       });
-    }
   };
 
   const removeAccount = () => {
