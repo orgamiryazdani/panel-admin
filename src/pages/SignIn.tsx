@@ -30,10 +30,10 @@ const SignIn = () => {
     <div className='w-svw h-svh flex md:flex-row flex-col'>
       <div className='w-full h-20 bg-background top-0 sm:hidden'></div>
       {/* login */}
-      <div className='md:w-1/2 w-full h-3/4 overflow-auto lg:overflow-hidden md:h-full flex items-start justify-center xl:pt-[88px] pt-5 md:pt-12 lg:pt-10'>
+      <div className='md:w-1/2 w-full h-[62%] overflow-auto lg:overflow-hidden md:h-full flex items-start justify-center xl:pt-[88px] pt-5 md:pt-12 lg:pt-10'>
         <Tabs
           value={tabValue}
-          className='w-3/4'>
+          className='md:w-3/4 w-full px-6 md:px-0'>
           {/* tablist */}
           <TabsList className='grid w-full grid-cols-2 '>
             <TabsTrigger
@@ -78,7 +78,7 @@ const SignIn = () => {
         </Tabs>
       </div>
       {/* info  */}
-      <div className='md:w-1/2 w-full h-2/4 md:h-full p-[18px] md:relative'>
+      <div className='md:w-1/2 w-full h-[38%] md:h-full p-[18px] md:relative'>
         {/* back to home */}
         <Link
           className={`absolute md:left-9 left-5 md:top-8 top-5 bg-white bg-opacity-25 text-white px-2 py-[2px] rounded-full text-xs flex items-center gap-x-1 ${
