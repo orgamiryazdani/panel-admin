@@ -17,7 +17,7 @@ const AccountMenu = () => {
     <div className='w-full h-full flex items-center justify-between px-3'>
       {/* add and logout account */}
       <div className='flex text-xs w-1/2 mr-10 md:mr-0'>
-        <Link to='/signup'>
+        <Link to='/signin'>
           <Button className='h-9 text-[10.5px] bg-secondary text-primary hover:bg-primary-foreground'>
             ساخت حساب جدید <Plus className='w-4 mr-1 mb-[1px]' />
           </Button>

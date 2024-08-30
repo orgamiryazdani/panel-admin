@@ -39,7 +39,6 @@ export const useSignIn = (): UseMutationResult<void, ApiError, dataLoginType, un
 };
 
 export const useSignUp = (): UseMutationResult<void, ApiError, dataSignUpType, unknown> => {
-    const navigate = useNavigate();
     const { toast } = useToast()
     return useMutation<void, ApiError, dataSignUpType>({
         mutationFn: (data) => signUpApi(data),
@@ -47,7 +46,6 @@ export const useSignUp = (): UseMutationResult<void, ApiError, dataSignUpType, u
             toast({
                 title: "خوش آمدید لطفا وارد شوبد",
             })
-            navigate("/signin");
         },
         onError: (error) => {
             toast({

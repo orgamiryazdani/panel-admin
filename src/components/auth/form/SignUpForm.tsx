@@ -13,7 +13,7 @@ import { Input } from "../../ui/input";
 import { useSignUp } from "../../../hooks/useUsers";
 import { dataSignUpType } from "../../../types/Auth";
 import Loading from "../../common/Loading";
-import { memo, useState } from "react";
+import { Dispatch, memo, SetStateAction, useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
 
 const formSchema = z.object({
@@ -43,7 +43,11 @@ const formSchema = z.object({
     }),
 });
 
-const SignUpForm = () => {
+const SignUpForm = ({
+  setTabValue,
+}: {
+  setTabValue: Dispatch<SetStateAction<string>>;
+}) => {
   const { mutateAsync, isPending } = useSignUp();
   const [showPassword, setShowPassword] = useState(true);
 
@@ -56,15 +60,20 @@ const SignUpForm = () => {
     },
   });
 
-  function onSubmit(data: dataSignUpType) {
-    mutateAsync(data);
+  async function onSubmit(data: dataSignUpType) {
+    try {
+      await mutateAsync(data);
+      setTabValue("signin");
+    } catch {
+      setTabValue("signup");
+    }
   }
 
   return (
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className='space-y-8 mt-5 md:w-4/6 w-5/6'>
+        className='space-y-7 mt-9 w-full'>
         <FormField
           control={form.control}
           name='name'
@@ -73,6 +82,7 @@ const SignUpForm = () => {
               <FormControl>
                 <Input
                   placeholder='نام'
+                  className='rounded-lg !bg-accent !ring-0 focus:border-violet-900'
                   {...field}
                 />
               </FormControl>
@@ -88,6 +98,7 @@ const SignUpForm = () => {
               <FormControl>
                 <Input
                   placeholder='ایمیل'
+                  className='rounded-lg !bg-accent !ring-0 focus:border-violet-900'
                   {...field}
                 />
               </FormControl>
@@ -101,16 +112,17 @@ const SignUpForm = () => {
           render={({ field }) => (
             <FormItem>
               <div className='flex items-center justify-center relative'>
-                <FormControl className='mt-2'>
+                <FormControl className='mt-0'>
                   <Input
                     type={showPassword ? "password" : "text"}
                     placeholder='رمز عبور'
+                    className='rounded-lg !bg-accent !ring-0 focus:border-violet-900'
                     {...field}
                   />
                 </FormControl>
                 <div
                   onClick={() => setShowPassword(!showPassword)}
-                  className='h-8 top-3 w-10 [&>*]:w-5 absolute left-1 bg-background flex items-center justify-center cursor-pointer'>
+                  className='h-8 top-1 w-10 [&>*]:w-5 absolute left-1 bg-accent rounded-md flex items-center justify-center cursor-pointer'>
                   {showPassword ? <EyeOff /> : <Eye />}
                 </div>
               </div>

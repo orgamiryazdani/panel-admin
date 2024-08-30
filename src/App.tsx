@@ -7,7 +7,6 @@ import CreateCategory from "./pages/CreateCategory";
 import Users from "./pages/Users";
 import CreateUser from "./pages/CreateUser";
 import Profile from "./pages/Profile";
-import SignUp from "./pages/SignUp";
 import SignIn from "./pages/SignIn";
 import AuthGuard from "./components/auth/AuthGuard";
 import AppProviders from "./providers/AppProviders";
@@ -60,11 +59,6 @@ function App() {
             element={<Profile />}
           />
         </Route>
-        {/* sign up page*/}
-        <Route
-          path='/signup'
-          element={<SignUp />}
-        />
         {/* sign in page*/}
         <Route
           path='/signin'

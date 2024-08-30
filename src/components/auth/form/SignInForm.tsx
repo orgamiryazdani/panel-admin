@@ -85,7 +85,7 @@ const SignInForm = () => {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className='space-y-8 mt-10 md:w-4/6 w-5/6'>
+        className='space-y-12 md:mt-10 mt-7 w-full'>
         <FormField
           control={form.control}
           name='email'
@@ -93,6 +93,7 @@ const SignInForm = () => {
             <FormItem>
               <FormControl>
                 <Input
+                  className='rounded-lg bg-accent !ring-0 focus:border-violet-900'
                   placeholder='john@mail.com'
                   {...field}
                 />
@@ -111,12 +112,13 @@ const SignInForm = () => {
                   <Input
                     type={showPassword ? "password" : "text"}
                     placeholder='changeme'
+                    className='rounded-lg !bg-accent !ring-0 0 focus:border-violet-900'
                     {...field}
                   />
                 </FormControl>
                 <div
                   onClick={() => setShowPassword(!showPassword)}
-                  className='h-8 top-3 w-10 [&>*]:w-5 absolute left-1 bg-background flex items-center justify-center cursor-pointer'>
+                  className='h-8 top-3 w-10 [&>*]:w-5 absolute left-1 bg-accent rounded-md flex items-center justify-center cursor-pointer'>
                   {showPassword ? <EyeOff /> : <Eye />}
                 </div>
               </div>

@@ -41,6 +41,7 @@
     "react-loader-spinner": "^6.1.6",
     "react-resizable-panels": "^2.0.20",
     "react-router-dom": "^6.24.1",
+    "swiper": "^11.1.11",
     "tailwind-merge": "^2.4.0",
     "tailwindcss-animate": "^1.0.7",
     "universal-cookie": "^7.2.0",
