@@ -12,20 +12,16 @@ import {
 import useProducts from "../hooks/useProducts";
 import AppLayout from "../layouts/AppLayout";
 import { useEffect, useState } from "react";
-import { product } from "../types/Product";
 import { ProductSkeleton } from "../components/common/Skeleton";
-import { useToast } from "../components/ui/use-toast";
 
 const Products = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const offsetValue = Number(searchParams.get("offset") || 0);
   const [offset, setOffset] = useState(Number(offsetValue));
-  const [dataLoaded, setDataLoaded] = useState<product[]>([]);
   const price_min = Number(searchParams.get("price_min"));
   const price_max = Number(searchParams.get("price_max"));
   const categoryId = Number(searchParams.get("categoryId"));
   const title = searchParams.get("title") || "";
-  const { toast } = useToast();
 
   const { data, isLoading, refetch } = useProducts({
     title,
@@ -36,27 +32,17 @@ const Products = () => {
     categoryId,
   });
 
-  const dataLength = data?.length || 0;
-
   useEffect(() => {
-    if (dataLength > 0) {
-      setDataLoaded(data ? data : []);
-      offsetHandler();
-    }
-    if (data?.length == 0) {
-      toast({
-        variant: "destructive",
-        title: "محصولی پیدا نشد",
-      });
-    }
-  }, [data]);
-
-  const offsetHandler = () => {
-    if (dataLength > 0) {
+    if (data && data?.length > 0) {
       searchParams.set("offset", String(offset));
       setSearchParams(searchParams);
     }
-  };
+  }, [data]);
+
+  useEffect(() => {
+    const offsetValue = Number(searchParams.get("offset") || 0);
+    setOffset(offsetValue);
+  }, [offsetValue]);
 
   const getNewData = async (operator: string) => {
     const newOffset =
@@ -75,8 +61,8 @@ const Products = () => {
       <div className='w-full h-[78%] pb-16 md:pb-0 overflow-y-scroll md:overflow-y-hidden overflow-x-hidden flex flex-col items-center justify-start p-6 gap-y-6'>
         {isLoading ? (
           <ProductSkeleton />
-        ) : dataLoaded.length > 0 ? (
-          dataLoaded.map((item) => (
+        ) : data && data?.length > 0 ? (
+          data.map((item) => (
             <ProductCard
               key={item.id}
               item={item}
@@ -86,7 +72,6 @@ const Products = () => {
           <p>محصولی وجود ندارد</p>
         )}
       </div>
-
       {/* pagination */}
       <Pagination
         dir='ltr'
@@ -95,7 +80,7 @@ const Products = () => {
           <PaginationItem>
             <PaginationPrevious
               className={
-                offsetValue === 0
+                data?.length == 0
                   ? "cursor-not-allowed text-muted-foreground hover:text-muted-foreground hover:bg-transparent"
                   : "cursor-pointer"
               }
@@ -108,7 +93,7 @@ const Products = () => {
           <PaginationItem>
             <PaginationNext
               className={
-                dataLength <= 0
+                data?.length == 0
                   ? "cursor-not-allowed text-muted-foreground hover:text-muted-foreground hover:bg-transparent"
                   : "cursor-pointer"
               }

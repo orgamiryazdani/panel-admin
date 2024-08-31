@@ -7,9 +7,21 @@ import { useToast } from "../components/ui/use-toast";
 
 // get all products
 const useProducts = (qs: queryStringType) => {
+    const { toast } = useToast()
     const queryResult: UseQueryResult<product[]> = useQuery({
         queryKey: ["products"],
-        queryFn: () => getProducts(qs),
+        queryFn: async () => {
+            const data = await getProducts(qs);
+            if (!data || data.length === 0) {
+                // اگر داده جدید دریافت نشد، داده‌های کش فعلی را بازگردانید
+                toast({
+                    variant: "destructive",
+                    title: "محصولی پیدا نشد",
+                })
+                return queryClient.getQueryData<product[]>(["products"]);
+            }
+            return data;
+        },
     });
 
     const { data, isLoading, refetch } = queryResult;

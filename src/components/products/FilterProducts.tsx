@@ -16,7 +16,7 @@ import Loading from "../common/Loading";
 import { Slider } from "../ui/slider";
 import { memo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import { queryClient } from "../../providers/AppProviders";
+import useProducts from "../../hooks/useProducts";
 
 const FilterProducts = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -24,32 +24,42 @@ const FilterProducts = () => {
   const priceMax = Number(searchParams.get("price_max") || 100);
   const categoryIdQuery = Number(searchParams.get("categoryId") || "");
   const title = searchParams.get("title") || "";
+  const offsetValue = Number(searchParams.get("offset") || 0);
 
   const { data, isLoading } = useCategory();
   const [priceRange, setPriceRange] = useState([priceMin, priceMax]);
   const [categoryId, setCategoryId] = useState(categoryIdQuery);
-  const [loadingFilter, setLoadingFilter] = useState(false);
+  const [filterLoading, setFilterLoading] = useState(false);
 
   const handleValueChange = (value: number[]) => {
     setPriceRange(value);
   };
 
+  const { refetch } = useProducts({
+    title,
+    limit: 3,
+    offset: offsetValue,
+    price_min: priceMin,
+    price_max: priceMax,
+    categoryId,
+  });
+
   const changeTitleHandler = async (e: React.ChangeEvent<HTMLInputElement>) => {
     await searchParams.set("title", e.target.value);
     await searchParams.set("offset", "0");
     await setSearchParams(searchParams);
-    queryClient.invalidateQueries({ queryKey: ["products"] });
+    refetch();
   };
 
   const filterHandler = async () => {
-    setLoadingFilter(true);
+    await setFilterLoading(true);
     await searchParams.set("categoryId", String(categoryId || ""));
     await searchParams.set("price_min", String(priceRange[0]));
     await searchParams.set("price_max", String(priceRange[1]));
-    await searchParams.set("offset", "0");
+    await searchParams.set("offset", String(0));
     await setSearchParams(searchParams);
-    await queryClient.invalidateQueries({ queryKey: ["products"] });
-    setLoadingFilter(false);
+    await refetch();
+    setFilterLoading(false);
   };
 
   return (
@@ -72,7 +82,7 @@ const FilterProducts = () => {
       <DialogComponent
         title='فیلتر محصولات'
         onClick={filterHandler}
-        acceptBtn={loadingFilter ? <Loading width='60' /> : "اعمال فیلتر"}
+        acceptBtn={filterLoading ? <Loading width='60' /> : "اعمال فیلتر"}
         trigger={
           <Button variant='outline'>
             <span className='hidden md:flex'>فیلتر محصولات</span>
@@ -117,6 +127,7 @@ const FilterProducts = () => {
               value={priceRange}
               onValueChange={handleValueChange} // مقدار جدید را در state ذخیره می‌کند
               max={100}
+              min={1}
               step={1}
               className='w-[58%]'
             />
