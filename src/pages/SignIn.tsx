@@ -55,7 +55,7 @@ const SignIn = () => {
               <span className='md:text-3xl text-xl font-bold'>
                 وارد حساب کاربری خود شوید
               </span>
-              <span className='md:text-md text-xs font-bold text-gray-500 md:mt-6 mt-3'>
+              <span className='md:text-md text-xs md:text-base font-bold text-gray-500 md:mt-6 mt-3'>
                 برای ورود ایمیل و رمز عبور خود را وارد کنید
               </span>
               <SignInForm />
