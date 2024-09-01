@@ -5,14 +5,14 @@ import {
 } from "../components/ui/resizable";
 import { ReactNode, useEffect, useState } from "react";
 import Menu, { MenuMobile } from "./Menu";
-import AccountMenu from "../components/account/AccountMenu";
-import ProductDetails from "../components/products/ProductDetails";
+import Navbar from "./Navbar";
 
 type props = {
   children: ReactNode;
+  sidebar: ReactNode;
 };
 
-const AppLayout = ({ children }: props) => {
+const AppLayout = ({ sidebar, children }: props) => {
   const [size, setSize] = useState(0);
 
   const [direction, setDirection] = useState<"horizontal" | "vertical">(
@@ -69,7 +69,7 @@ const AppLayout = ({ children }: props) => {
         <MenuMobile />
         {/* account menu */}
         <div className='w-full h-16 border-b md:hidden'>
-          <AccountMenu />
+          <Navbar />
         </div>
         {/* content */}
         <ResizablePanel
@@ -84,10 +84,10 @@ const AppLayout = ({ children }: props) => {
           minSize={29}
           className='md:min-w-80'>
           <div className='w-full h-[10%] border-b hidden md:flex'>
-            <AccountMenu />
+            <Navbar />
           </div>
           <div className='flex h-[90%] items-start justify-center p-6 overflow-y-scroll overflow-x-hidden'>
-            <ProductDetails />
+            {sidebar}
           </div>
         </ResizablePanel>
       </ResizablePanelGroup>

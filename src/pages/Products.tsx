@@ -13,6 +13,7 @@ import useProducts from "../hooks/useProducts";
 import AppLayout from "../layouts/AppLayout";
 import { useEffect, useState } from "react";
 import { ProductSkeleton } from "../components/common/Skeleton";
+import ProductDetails from "../components/products/ProductDetails";
 
 const Products = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -56,7 +57,7 @@ const Products = () => {
   };
 
   return (
-    <AppLayout>
+    <AppLayout sidebar={<ProductDetails />}>
       <FilterProducts />
       <div className='w-full h-[78%] pb-16 md:pb-0 overflow-y-scroll md:overflow-y-hidden overflow-x-hidden flex flex-col items-center justify-start p-6 gap-y-6'>
         {isLoading ? (

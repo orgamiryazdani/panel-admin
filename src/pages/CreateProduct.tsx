@@ -3,7 +3,7 @@ import AppLayout from "../layouts/AppLayout";
 const CreateProduct = () => {
   return (
     <AppLayout>
-      <div>CreateProduct</div>
+      <div className="w-full h-full"></div>
     </AppLayout>
   );
 };
