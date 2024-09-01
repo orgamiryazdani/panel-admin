@@ -29,11 +29,7 @@ const formSchema = z.object({
     .string()
     .min(1, {
       message: "وارد کردن توضیحات اجباری است",
-    })
-    .refine((val) => val.length > 49, {
-      message: "توضیحات حداقل باید 50 کلمه باشد",
     }),
-
   price: z.number().min(1, {
     message: "وارد کردن قیمت اجباری است",
   }),
