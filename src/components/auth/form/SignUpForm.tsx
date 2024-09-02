@@ -82,7 +82,7 @@ const SignUpForm = ({
               <FormControl>
                 <Input
                   placeholder='نام'
-                  className='rounded-lg !bg-accent !ring-0 focus:border-violet-900'
+                  className='rounded-lg !bg-accent'
                   {...field}
                 />
               </FormControl>
@@ -98,7 +98,7 @@ const SignUpForm = ({
               <FormControl>
                 <Input
                   placeholder='ایمیل'
-                  className='rounded-lg !bg-accent !ring-0 focus:border-violet-900'
+                  className='rounded-lg !bg-accent'
                   {...field}
                 />
               </FormControl>
@@ -116,7 +116,7 @@ const SignUpForm = ({
                   <Input
                     type={showPassword ? "password" : "text"}
                     placeholder='رمز عبور'
-                    className='rounded-lg !bg-accent !ring-0 focus:border-violet-900'
+                    className='rounded-lg !bg-accent'
                     {...field}
                   />
                 </FormControl>

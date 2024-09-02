@@ -27,3 +27,12 @@ export type UpdateDataType = {
     description?: string;
     images?: string[]
 }
+
+export type createProduct = {
+    id: number;
+    title: string;
+    price: number;
+    description: string;
+    images: string[]
+    categoryId:number
+}

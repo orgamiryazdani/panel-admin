@@ -86,7 +86,7 @@ const AppLayout = ({ sidebar, children }: props) => {
           <div className='w-full h-[10%] border-b hidden md:flex'>
             <Navbar />
           </div>
-          <div className='flex h-[90%] items-start justify-center p-6 overflow-y-scroll overflow-x-hidden'>
+          <div className='flex h-[90%] items-start justify-center p-6 overflow-y-auto overflow-x-hidden'>
             {sidebar}
           </div>
         </ResizablePanel>

@@ -93,7 +93,7 @@ const SignInForm = () => {
             <FormItem>
               <FormControl>
                 <Input
-                  className='rounded-lg bg-accent !ring-0 focus:border-violet-900'
+                  className='rounded-lg bg-accent'
                   placeholder='john@mail.com'
                   {...field}
                 />
@@ -112,7 +112,7 @@ const SignInForm = () => {
                   <Input
                     type={showPassword ? "password" : "text"}
                     placeholder='changeme'
-                    className='rounded-lg !bg-accent !ring-0 0 focus:border-violet-900'
+                    className='rounded-lg !bg-accent'
                     {...field}
                   />
                 </FormControl>

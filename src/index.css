@@ -69,6 +69,12 @@
   body {
     @apply bg-background text-foreground;
   }
+  input {
+    @apply !ring-0 focus:border-violet-900;
+  }
+  textarea {
+    @apply !ring-0 focus:border-violet-900;
+  }
 }
 
 /* width */
@@ -90,7 +96,6 @@
 ::-webkit-scrollbar-thumb:hover {
   background: #696969;
 }
-
 
 .my-custom-bullet {
   width: 40px;

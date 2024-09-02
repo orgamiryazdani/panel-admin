@@ -89,6 +89,7 @@ const UpdateProduct = ({
             <ImageUploader
               images={images}
               setImages={setImages}
+              direction="vertical"
             />
           </TabsContent>
           {/* info tab */}

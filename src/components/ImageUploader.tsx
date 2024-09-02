@@ -26,9 +26,11 @@ import { useToast } from "./ui/use-toast";
 const ImageUploader = ({
   images,
   setImages,
+  direction
 }: {
   images: string[];
   setImages: Dispatch<SetStateAction<string[]>>;
+  direction:string;
 }) => {
   const { mutateAsync, isPending } = useUploadFile();
   const { toast } = useToast();
@@ -132,9 +134,10 @@ const ImageUploader = ({
       sensors={sensors}
       onDragEnd={handleDragEnd}
       collisionDetection={closestCorners}>
-      <div className='flex flex-col items-end'>
+      <div className="flex items-end flex-col">
         {/* select image ==> input */}
-        <div className='relative w-full h-36 mt-3 flex items-center justify-center mb-3 border rounded-md overflow-hidden'>
+        <div className={`flex w-full ${direction === "vertical" ? "flex-col items-end" : "flex-row items-start mt-4"}`}>
+        <div className={`relative flex items-center justify-center border rounded-md overflow-hidden ${direction === "vertical" ? "w-full h-36 my-3" : images.length > 0 ?  "w-4/6 h-56" : "w-full h-56"}`}>
           <input
             type='file'
             id='image'
@@ -158,7 +161,7 @@ const ImageUploader = ({
           ) : null}
         </div>
         {/* image and image selected */}
-        <div className='flex items-center flex-wrap justify-start gap-x-4 w-full'>
+        <div className={`flex flex-wrap gap-x-4 pr-4 ${direction === "vertical" ? "w-full justify-start items-center" : images.length > 0 ? "w-2/6 h-56 overflow-auto justify-center items-start" : "hidden"}`}>
           <SortableContext
             items={images}
             strategy={horizontalListSortingStrategy}>
@@ -172,9 +175,12 @@ const ImageUploader = ({
             ))}
           </SortableContext>
         </div>
-        <span className='text-xs w-full mt-2'>
-          میتوانید با گرفتن و کشیدن عکس , اولویت هر عکس را تغییر دهید
-        </span>
+        </div>
+         {images.length > 1 && (
+          <span className='text-xs w-full mt-2'>
+            میتوانید با گرفتن و کشیدن عکس , اولویت هر عکس را تغییر دهید
+          </span>
+        )} 
       </div>
     </DndContext>
   );

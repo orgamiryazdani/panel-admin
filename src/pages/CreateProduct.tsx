@@ -1,9 +1,12 @@
+import CreateProductForm from "../components/products/CreateProductForm";
 import AppLayout from "../layouts/AppLayout";
 
 const CreateProduct = () => {
   return (
-    <AppLayout>
-      <div className="w-full h-full"></div>
+    <AppLayout sidebar={<p>amir</p>}>
+      <div className='w-full h-full'>
+        <CreateProductForm />
+      </div>
     </AppLayout>
   );
 };
