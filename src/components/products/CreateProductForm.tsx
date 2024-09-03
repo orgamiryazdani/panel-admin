@@ -24,7 +24,11 @@ import {
   SelectValue,
 } from "../ui/select";
 import { Textarea } from "../ui/textarea";
+import { createProductType } from "../../types/Product";
+import { useCreateProduct } from "../../hooks/useProducts";
+import { useToast } from "../ui/use-toast";
 
+// validation form
 const formSchema = z.object({
   title: z.string().min(1, {
     message: "وارد کردن عنوان اجباری است",
@@ -40,6 +44,7 @@ const formSchema = z.object({
   }),
 });
 
+// input array
 const formItems = [
   { id: 1, name: "title", type: "text", placeholder: "عنوان" },
   { id: 2, name: "price", type: "number", placeholder: "قیمت" },
@@ -48,6 +53,8 @@ const formItems = [
 const CreateProductForm = () => {
   const [images, setImages] = useState<string[]>(parseImages([]));
   const { data, isLoading } = useCategory();
+  const { mutateAsync, isPending } = useCreateProduct();
+  const { toast } = useToast();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -59,11 +66,17 @@ const CreateProductForm = () => {
     },
   });
 
-  const onSubmit = async (data) => {
-    console.log(data);
+  // create product handler
+  const onSubmit = async (data: Omit<createProductType, "images">) => {
+    if (images.length === 0) {
+      toast({
+        variant: "destructive",
+        title: "حداقل یک عکس اضافه کنید",
+      });
+      return;
+    }
+    mutateAsync({ images, ...data });
   };
-
-  const booleans = false;
 
   return (
     <div className='w-full h-full'>
@@ -77,22 +90,23 @@ const CreateProductForm = () => {
           setImages={setImages}
           direction='horizontal'
         />
+        {/* image and price input */}
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
             className='space-y-[22px] md:mt-5 mt-7 w-full'>
-            <div className='flex items-center gap-x-4 justify-between'>
+            <div className='flex flex-col gap-y-[22px] md:gap-y-0 md:flex-row items-center gap-x-4 justify-between'>
               {formItems.map((item) => (
                 <FormField
                   key={item.id}
                   control={form.control}
                   name={item.name as "title" | "price"}
                   render={({ field }) => (
-                    <FormItem className='w-1/2'>
+                    <FormItem className='md:w-1/2 w-full'>
                       <FormControl>
                         <Input
                           type={item.type}
-                          className='rounded-lg '
+                          className='rounded-lg'
                           placeholder={item.placeholder}
                           {...field}
                         />
@@ -103,7 +117,7 @@ const CreateProductForm = () => {
                 />
               ))}
             </div>
-
+            {/* category select */}
             <FormField
               control={form.control}
               name='categoryId'
@@ -139,7 +153,7 @@ const CreateProductForm = () => {
                 </FormItem>
               )}
             />
-
+            {/* description */}
             <FormField
               control={form.control}
               name='description'
@@ -159,10 +173,11 @@ const CreateProductForm = () => {
                 </FormItem>
               )}
             />
+            {/* submit btn */}
             <Button
               type='submit'
               className='w-full text-lg'>
-              {booleans ? (
+              {isPending ? (
                 <Loading
                   width='55'
                   height='21'

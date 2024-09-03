@@ -1,4 +1,4 @@
-import { queryStringType, UpdateDataType } from "../types/Product";
+import { createProductType, queryStringType, UpdateDataType } from "../types/Product";
 import http from "./httpService";
 
 // get product api
@@ -19,4 +19,9 @@ export function updateProduct({ id, title, price, description, images }: UpdateD
 // get single product api
 export function getSingleProduct(productActive: number) {
     return http.get(`/products/${productActive}`).then(({ data }) => data);
+}
+
+// create product api
+export function createProduct(data: createProductType) {
+    return http.post(`/products`, data).then(({ data }) => data);
 }

@@ -1,6 +1,6 @@
 import { UseMutationResult, UseQueryResult, useMutation, useQuery } from "@tanstack/react-query";
-import { deleteProduct, getProducts, getSingleProduct, updateProduct } from "../services/productsService";
-import { product, queryStringType, UpdateDataType } from "../types/Product";
+import { createProduct, deleteProduct, getProducts, getSingleProduct, updateProduct } from "../services/productsService";
+import { createProductType, product, queryStringType, UpdateDataType } from "../types/Product";
 import { ApiError } from "../types/GlobalTypes";
 import { queryClient } from "../providers/AppProviders";
 import { useToast } from "../components/ui/use-toast";
@@ -74,6 +74,26 @@ export const useUpdateProduct = (): UseMutationResult<void, ApiError, UpdateData
                 title: "عملیات با موفقیت انجام شد",
             });
             queryClient.invalidateQueries({ queryKey: ['products'] });
+        },
+        onError: (error) => {
+            toast({
+                variant: "destructive",
+                title: error.response?.data?.message || "خطای ناشناخته‌ای رخ داد",
+            });
+        },
+    });
+};
+
+// create product
+export const useCreateProduct = (): UseMutationResult<void, ApiError, createProductType, unknown> => {
+    const { toast } = useToast();
+
+    return useMutation<void, ApiError, createProductType>({
+        mutationFn: createProduct,
+        onSuccess: () => {
+            toast({
+                title: "محصول شما اضافه شد",
+            });
         },
         onError: (error) => {
             toast({
