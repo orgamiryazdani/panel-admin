@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ImageUploader from "../ImageUploader";
 import { parseImages } from "../../utils/parseImages";
 import { z } from "zod";
@@ -27,8 +27,8 @@ import { Textarea } from "../ui/textarea";
 import { createProductType } from "../../types/Product";
 import { useCreateProduct } from "../../hooks/useProducts";
 import { useToast } from "../ui/use-toast";
+import { useProductDemo } from "../../context/ProductDemoContext"; // Import the context
 
-// validation form
 const formSchema = z.object({
   title: z.string().min(1, {
     message: "وارد کردن عنوان اجباری است",
@@ -44,17 +44,21 @@ const formSchema = z.object({
   }),
 });
 
-// input array
 const formItems = [
   { id: 1, name: "title", type: "text", placeholder: "عنوان" },
   { id: 2, name: "price", type: "number", placeholder: "قیمت" },
 ];
 
 const CreateProductForm = () => {
+  const { updateProductDemoField } = useProductDemo();
   const [images, setImages] = useState<string[]>(parseImages([]));
   const { data, isLoading } = useCategory();
   const { mutateAsync, isPending } = useCreateProduct();
   const { toast } = useToast();
+
+  useEffect(() => {
+    updateProductDemoField("images", images);
+  }, [images]);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -66,7 +70,6 @@ const CreateProductForm = () => {
     },
   });
 
-  // create product handler
   const onSubmit = async (data: Omit<createProductType, "images">) => {
     if (images.length === 0) {
       toast({
@@ -80,9 +83,12 @@ const CreateProductForm = () => {
 
   return (
     <div className='w-full h-full'>
-      {/* header */}
-      <div className='w-full h-[10%] border-b'>
-        اضافه کردن محصول و نمایش نتیجه بصورت زنده
+      <div className='w-full flex flex-row justify-between items-center px-4 h-[10%] border-b'>
+        <span className='font-bold'>اطلاعات محصول خود را وارد کنید</span>
+        <div className='bg-muted p-[10px] rounded-md text-xs flex items-center gap-x-2'>
+          مشاهده نتیجه بصورت زنده
+          <span className=' w-2 h-2 bg-red-500 rounded-full'></span>
+        </div>
       </div>
       <div className='w-full h-[90%] px-5 overflow-auto'>
         <ImageUploader
@@ -90,11 +96,10 @@ const CreateProductForm = () => {
           setImages={setImages}
           direction='horizontal'
         />
-        {/* image and price input */}
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
-            className='space-y-[22px] md:mt-5 mt-7 w-full'>
+            className='space-y-[22px] md:mt-5 mt-7 w-full mb-5 md:mb-0'>
             <div className='flex flex-col gap-y-[22px] md:gap-y-0 md:flex-row items-center gap-x-4 justify-between'>
               {formItems.map((item) => (
                 <FormField
@@ -109,6 +114,13 @@ const CreateProductForm = () => {
                           className='rounded-lg'
                           placeholder={item.placeholder}
                           {...field}
+                          onChange={(e) => {
+                            field.onChange(e);
+                            updateProductDemoField(
+                              item.name as keyof createProductType,
+                              e.target.value,
+                            );
+                          }}
                         />
                       </FormControl>
                       <FormMessage />
@@ -117,7 +129,6 @@ const CreateProductForm = () => {
                 />
               ))}
             </div>
-            {/* category select */}
             <FormField
               control={form.control}
               name='categoryId'
@@ -125,7 +136,10 @@ const CreateProductForm = () => {
                 <FormItem>
                   <FormControl>
                     <Select
-                      onValueChange={field.onChange}
+                      onValueChange={(value) => {
+                        field.onChange(value);
+                        updateProductDemoField("categoryId", value);
+                      }}
                       value={field.value}>
                       <SelectTrigger
                         className='w-full'
@@ -153,7 +167,6 @@ const CreateProductForm = () => {
                 </FormItem>
               )}
             />
-            {/* description */}
             <FormField
               control={form.control}
               name='description'
@@ -166,6 +179,10 @@ const CreateProductForm = () => {
                         id='description'
                         {...field}
                         placeholder='توضیحات'
+                        onChange={(e) => {
+                          field.onChange(e);
+                          updateProductDemoField("description", e.target.value);
+                        }}
                       />
                     </FormControl>
                   </div>
@@ -173,7 +190,6 @@ const CreateProductForm = () => {
                 </FormItem>
               )}
             />
-            {/* submit btn */}
             <Button
               type='submit'
               className='w-full text-lg'>

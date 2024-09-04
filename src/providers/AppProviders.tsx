@@ -4,6 +4,7 @@ import { AccountProvider } from "../context/AccountProvider";
 import { ThemeProvider } from "../context/ThemeProvider";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "../components/ui/toaster";
+import { ProductDemoProvider } from "../context/ProductDemoContext";
 
 export const queryClient = new QueryClient();
 
@@ -12,13 +13,15 @@ function AppProviders({ children }: { children: ReactNode }) {
     <QueryClientProvider client={queryClient}>
       <Toaster />
       <AccountProvider>
-        <TooltipProvider>
-          <ThemeProvider
-            defaultTheme='dark'
-            storageKey='vite-ui-theme'>
-            {children}
-          </ThemeProvider>
-        </TooltipProvider>
+        <ProductDemoProvider>
+          <TooltipProvider>
+            <ThemeProvider
+              defaultTheme='dark'
+              storageKey='vite-ui-theme'>
+              {children}
+            </ThemeProvider>
+          </TooltipProvider>
+        </ProductDemoProvider>
       </AccountProvider>
     </QueryClientProvider>
   );
