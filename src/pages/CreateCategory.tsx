@@ -2,7 +2,7 @@ import AppLayout from "../layouts/AppLayout";
 
 const CreateCategory = () => {
   return (
-    <AppLayout>
+    <AppLayout sidebar={<p>ایشالا بعد خدمت</p>}>
       <div>CreateCategory</div>
     </AppLayout>
   );
