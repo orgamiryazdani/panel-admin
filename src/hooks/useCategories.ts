@@ -1,6 +1,6 @@
 import { useQuery, UseQueryResult } from "@tanstack/react-query";
 import { category } from "../types/Category";
-import { getCategories } from "../services/categoryService";
+import { getCategories, getSingleCategory } from "../services/categoryService";
 
 const useCategory = () => {
     const queryResult: UseQueryResult<category[]> = useQuery({
@@ -14,3 +14,15 @@ const useCategory = () => {
 };
 
 export default useCategory;
+
+export const useSingleCategory = (id:number) => {
+    const queryResult: UseQueryResult<category, number> = useQuery({
+        queryKey: ["single-category"],
+        queryFn: () => getSingleCategory(id),
+        enabled:false
+    });
+
+    const { data, isLoading ,refetch} = queryResult;
+
+    return { data, isLoading ,refetch};
+};
