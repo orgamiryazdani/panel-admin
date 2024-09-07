@@ -26,11 +26,15 @@ import { useToast } from "./ui/use-toast";
 const ImageUploader = ({
   images,
   setImages,
-  direction
+  direction,
+  minImage = 1,
+  maxImage = 3
 }: {
   images: string[];
   setImages: Dispatch<SetStateAction<string[]>>;
-  direction:string;
+  direction: string;
+  minImage?: number;
+  maxImage?: number;
 }) => {
   const { mutateAsync, isPending } = useUploadFile();
   const { toast } = useToast();
@@ -38,9 +42,8 @@ const ImageUploader = ({
 
   // remove image handler
   const handleRemoveImage = (img: string) => {
-    if (images.length > 1) {
+    if (images.length > minImage) {
       const imageSelected = images.filter((image) => image !== img);
-      console.log(imageSelected);
       setImages(imageSelected);
     } else {
       toast({
@@ -57,18 +60,18 @@ const ImageUploader = ({
     if (event.target.files) {
       const selectedFiles = Array.from(event.target.files);
 
-      if (selectedFiles.length > 3) {
+      if (selectedFiles.length > maxImage) {
         toast({
-          title: "شما فقط می‌توانید حداکثر 3 تصویر انتخاب کنید",
+          title: `شما فقط می‌توانید حداکثر ${maxImage} تصویر انتخاب کنید`,
           variant: "destructive",
         });
         return;
       }
 
       // ابتدا تعداد تصاویر انتخاب شده و تعداد تصاویر فعلی را با هم چک می‌کنیم
-      if (images.length + selectedFiles.length > 6) {
+      if (images.length + selectedFiles.length > maxImage) {
         toast({
-          title: "شما فقط می‌توانید حداکثر 6 تصویر انتخاب کنید",
+          title: `شما فقط می‌توانید حداکثر ${maxImage} تصویر انتخاب کنید`,
           variant: "destructive",
         });
         return;
@@ -134,53 +137,72 @@ const ImageUploader = ({
       sensors={sensors}
       onDragEnd={handleDragEnd}
       collisionDetection={closestCorners}>
-      <div className="flex items-end flex-col">
+      <div className='flex items-end flex-col'>
         {/* select image ==> input */}
-        <div className={`flex w-full ${direction === "vertical" ? "flex-col items-end" : "flex-row items-start mt-4"}`}>
-        <div className={`relative flex items-center justify-center border rounded-md overflow-hidden ${direction === "vertical" ? "w-full h-36 my-3" : images.length > 0 ?  "w-4/6 h-56" : "w-full h-56"}`}>
-          <input
-            type='file'
-            id='image'
-            multiple
-            onChange={handleFileChange}
-            className='absolute w-full h-full opacity-0 cursor-pointer'
-            accept='image/*'
-          />
-          <img
-            src={newImage || defaultImg}
-            className='w-full h-full object-contain'
-            alt='Selected preview'
-          />
-          {isPending ? (
-            <>
-              <span className='absolute z-10'>
-                <Loading />
-              </span>
-              <div className='absolute w-full h-full bg-accent bg-opacity-70 opacity-55 flex items-center justify-center'></div>
-            </>
-          ) : null}
+        <div
+          className={`flex w-full ${
+            direction === "vertical"
+              ? "flex-col items-end"
+              : "flex-row items-start mt-4"
+          }`}>
+          <div
+            className={`relative flex items-center justify-center border rounded-md overflow-hidden ${
+              direction === "vertical"
+                ? "w-full h-36 my-3"
+                : images.length > 0
+                ? "w-4/6 h-56"
+                : "w-full h-56"
+            }`}>
+            <input
+              type='file'
+              id='image'
+              multiple
+              onChange={handleFileChange}
+              className='absolute w-full h-full opacity-0 cursor-pointer'
+              accept='image/*'
+            />
+            <img
+              src={newImage || defaultImg}
+              className='w-full h-full object-contain'
+              alt='Selected preview'
+            />
+            {isPending ? (
+              <>
+                <span className='absolute z-10'>
+                  <Loading />
+                </span>
+                <div className='absolute w-full h-full bg-accent bg-opacity-70 opacity-55 flex items-center justify-center'></div>
+              </>
+            ) : null}
+          </div>
+          {/* image and image selected */}
+          <div
+            className={`flex flex-wrap gap-x-4 pr-4 ${
+              direction === "vertical"
+                ? "w-full justify-start items-center"
+                : images.length > 0
+                ? "w-2/6 h-56 overflow-auto justify-center items-start"
+                : "hidden"
+            }`}>
+            <SortableContext
+              items={images}
+              strategy={horizontalListSortingStrategy}>
+              {images?.map((img) => (
+                <ImageSorted
+                  id={img}
+                  image={img}
+                  key={img}
+                  handleRemoveImage={handleRemoveImage}
+                />
+              ))}
+            </SortableContext>
+          </div>
         </div>
-        {/* image and image selected */}
-        <div className={`flex flex-wrap gap-x-4 pr-4 ${direction === "vertical" ? "w-full justify-start items-center" : images.length > 0 ? "w-2/6 h-56 overflow-auto justify-center items-start" : "hidden"}`}>
-          <SortableContext
-            items={images}
-            strategy={horizontalListSortingStrategy}>
-            {images?.map((img) => (
-              <ImageSorted
-                id={img}
-                image={img}
-                key={img}
-                handleRemoveImage={handleRemoveImage}
-              />
-            ))}
-          </SortableContext>
-        </div>
-        </div>
-         {images.length > 1 && (
+        {images.length > 1 && (
           <span className='text-xs w-full mt-2'>
             میتوانید با گرفتن و کشیدن عکس , اولویت هر عکس را تغییر دهید
           </span>
-        )} 
+        )}
       </div>
     </DndContext>
   );

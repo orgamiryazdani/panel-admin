@@ -81,7 +81,7 @@ const SignIn = () => {
       <div className='md:w-1/2 w-full h-[38%] md:h-full p-[18px] md:relative'>
         {/* back to home */}
         <Link
-          className={`absolute md:left-9 left-5 md:top-8 top-5 bg-white bg-opacity-25 text-white px-2 py-[2px] rounded-full text-xs flex items-center gap-x-1 ${
+          className={`absolute md:left-9 left-5 md:top-8 top-5 bg-accent-foreground text-accent opacity-70 px-2 py-[2px] rounded-full text-xs flex items-center gap-x-1 ${
             allUserAccount.length > 0 ? "cursor-pointer" : "cursor-not-allowed"
           }
               `}
@@ -109,7 +109,7 @@ const SignIn = () => {
             {textItems.map((text) => (
               <SwiperSlide
                 key={text}
-                className='w-full flex items-start justify-center h-20 md:text-[21px]'>
+                className='w-full flex items-start justify-center h-20 md:text-[21px] text-white'>
                 {text}
               </SwiperSlide>
             ))}

@@ -1,4 +1,4 @@
-export function parseImages(images: string[]) {
+export function parseImages(images: string[] | string) {
     // اگر images یک آرایه بود، بررسی می‌کنیم که آیا نیاز به تبدیل دارد یا نه
     if (Array.isArray(images) && images.length > 0 && typeof images[0] === 'string' && images[0].includes('[')) {
         try {
