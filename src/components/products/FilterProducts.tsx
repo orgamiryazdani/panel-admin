@@ -63,7 +63,7 @@ const FilterProducts = () => {
   };
 
   return (
-    <div className='w-full md:h-[10%] h-14 md:border-b mt-2 md:mt-0 flex items-center justify-end md:px-3 px-4'>
+    <div className='w-full md:h-[10%] min-h-12 h-14 md:border-b mt-2 md:mt-0 flex items-center justify-end md:px-3 px-4'>
       <div className='flex w-full items-center gap-x-2 relative'>
         {/* search title */}
         <Input

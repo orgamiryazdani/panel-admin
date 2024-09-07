@@ -12,7 +12,7 @@ export const ModeToggle = memo(({ size }: sizeType) => {
   
   return (
     <div
-      className={`flex items-center space-x-2 px-3 border-t pt-3 md:pt-0 w-full h-[7%] ${
+      className={`flex items-center space-x-2 px-3 border-t pt-3 md:pt-0 w-full h-[7%] min-h-10 ${
         size < 15 ? "justify-center" : "justify-between"
       }`}
       dir='ltr'>

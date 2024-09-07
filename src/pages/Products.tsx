@@ -59,7 +59,7 @@ const Products = () => {
   return (
     <AppLayout sidebar={<ProductDetails />}>
       <FilterProducts />
-      <div className='w-full h-[78%] pb-16 md:pb-0 overflow-y-scroll md:overflow-y-hidden overflow-x-hidden flex flex-col items-center justify-start p-6 gap-y-6'>
+      <div className='w-full h-[78%] pb-16 md:pb-0 overflow-y-scroll md:overflow-y-auto overflow-x-hidden flex flex-col items-center justify-start p-6 gap-y-6'>
         {isLoading ? (
           <ProductSkeleton />
         ) : data && data?.length > 0 ? (
@@ -76,7 +76,7 @@ const Products = () => {
       {/* pagination */}
       <Pagination
         dir='ltr'
-        className='pb-5 pt-3 absolute bottom-0 md:relative bg-background'>
+        className='pb-5 pt-3 absolute bottom-0 md:relative bg-background md:min-h-12'>
         <PaginationContent>
           <PaginationItem>
             <PaginationPrevious

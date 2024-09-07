@@ -114,11 +114,11 @@ const Menu = ({ size }: sizeType) => {
   return (
     <div className='flex h-full items-center justify-center'>
       <div className='w-full h-full flex flex-col justify-between'>
-        <div className="h-[93%]">
+        <div className="h-[93%] overflow-auto">
           {/* Multiple Account */}
           <div
             dir='ltr'
-            className='flex items-center justify-center h-[10.7%] border-b'>
+            className='flex items-center justify-center h-[10.7%] min-h-12 border-b'>
             <MultipleAccount size={size} />
           </div>
           {/* menu item */}

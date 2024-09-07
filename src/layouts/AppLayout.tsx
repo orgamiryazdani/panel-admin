@@ -83,7 +83,7 @@ const AppLayout = ({ sidebar, children }: props) => {
           defaultSize={60}
           minSize={29}
           className='md:min-w-80'>
-          <div className='w-full h-[10%] border-b hidden md:flex'>
+          <div className='w-full h-[10%] min-h-12 border-b hidden md:flex'>
             <Navbar />
           </div>
           <div className='flex h-[90%] items-start justify-center p-6 overflow-y-auto overflow-x-hidden'>
