@@ -18,11 +18,11 @@ const useCategory = () => {
 
 export default useCategory;
 
-export const useSingleCategory = (id: number) => {
+export const useSingleCategory = ({ id, enabledValue = false }: { id: number; enabledValue?: boolean }) => {
     const queryResult: UseQueryResult<category, number> = useQuery({
         queryKey: ["single-category"],
         queryFn: () => getSingleCategory(id),
-        enabled: false
+        enabled: enabledValue
     });
 
     const { data, isLoading, refetch } = queryResult;

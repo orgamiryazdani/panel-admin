@@ -42,7 +42,7 @@ const AppLayout = ({ sidebar, children }: props) => {
   }, []);
 
   return (
-    <div className='w-[100svw] h-[100svh] flex items-center justify-center'>
+    <div className='w-[100svw] h-[100svh] max-w-[1800px] flex items-center justify-center'>
       <ResizablePanelGroup
         direction={direction}
         autoSaveId='example'

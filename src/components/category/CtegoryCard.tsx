@@ -7,28 +7,68 @@ import AlertDialogComponent from "../common/AlertDialog";
 import Loading from "../common/Loading";
 import { useDeleteCategory } from "../../hooks/useCategories";
 import UpdateCategory from "./UpdateCategory";
+import { Button } from "../ui/button";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { memo, useState } from "react";
+import { queryClient } from "../../providers/AppProviders";
 
 const CategoryCard = ({ category }: { category: category }) => {
   const { id, name, image } = category;
-
   const { isPending, mutateAsync } = useDeleteCategory();
+  const [activeCategory, setActiveCategory] = useState(0);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const navigate = useNavigate();
+
+  const activeCategoryHandler = async () => {
+    await searchParams.set("categoryactive", id.toString());
+    await setSearchParams(searchParams);
+    queryClient.invalidateQueries({ queryKey: ["single-category"] });
+  };
+
+  const setQueryAndPushUser = () => {
+    searchParams.set("categoryId", String(id))
+    setSearchParams(searchParams)
+    navigate({
+      pathname: '/',
+      search: `?${searchParams.toString()}`, // نگه داشتن کوئری‌ها
+    });
+  }
 
   return (
-    <div className='w-[48%] min-w-54 max-w-96 h-56 rounded-lg rounded-t-xl bg-accent overflow-hidden'>
+    <div
+      onMouseEnter={() => setActiveCategory(id)}
+      onMouseLeave={() => setActiveCategory(0)}
+      className='w-[48%] md:min-w-56 min-w-80 max-w-96 h-56 relative rounded-lg rounded-t-xl bg-accent overflow-hidden'>
+      {/* option btn */}
+      <div
+        className={`absolute gap-y-2 w-full h-full bg-slate-700 bg-opacity-80 flex-col items-center justify-center ${
+          activeCategory == id ? "flex" : "hidden"
+        }`}>
+        <div
+          onClick={setQueryAndPushUser}
+          className='bg-transparent cursor-pointer border-b rounded-none pb-0 border-blue-500 text-blue-500'>
+          مشاهده محصولات مرتبط
+        </div>
+        <Button
+          onClick={activeCategoryHandler}
+          className='px-[22px] hover:bg-accent rounded-xl bg-accent text-accent-foreground shadow-lg'>
+          مشاهده جزئیات دسته بندی
+        </Button>
+      </div>
       {/* category image */}
-      <div className='w-full h-5/6'>
+      <div className='w-full flex items-center justify-center h-5/6 overflow-hidden rounded-xl'>
         <img
-          className='bg-cover rounded-xl w-full h-full'
+          className='bg-cover rounded-xl w-full'
           src={parseImages(image)}
           alt={name}
         />
       </div>
       <div
         dir={isPersian(name) ? "rtl" : "ltr"}
-        className='w-full h-1/6 flex items-center justify-between px-3'>
+        className='w-full h-1/6 relative flex items-center justify-between px-3'>
         {/* category name */}
         <p>{truncateText(name, 14)}</p>
-        <div className='flex items-center [&>*]:w-5 [&>*]:cursor-pointer gap-3'>
+        <div className='flex items-center absolute right-3 [&>*]:w-5 [&>*]:cursor-pointer gap-3'>
           {/* edit category */}
           <UpdateCategory
             id={id}
@@ -48,4 +88,4 @@ const CategoryCard = ({ category }: { category: category }) => {
   );
 };
 
-export default CategoryCard;
+export default memo(CategoryCard);

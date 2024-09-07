@@ -1,3 +1,4 @@
+import React from "react";
 import { Skeleton } from "../ui/skeleton";
 
 export const ProfileSkeleton = () => {
@@ -51,9 +52,44 @@ export const SingleProductSkeleton = () => {
         <Skeleton className='h-8 w-[60%] mt-2' />
         <Skeleton className='h-32 w-[100%]' />
       </div>
-      <div className="flex justify-between pt-3">
+      <div className='flex justify-between pt-3'>
         <Skeleton className='h-8 w-[30%]' />
         <Skeleton className='h-8 w-[30%]' />
+      </div>
+    </div>
+  );
+};
+
+// category
+
+export const CategorySkeleton = () => {
+  return (
+    <>
+      {Array.from({ length: 2 }).map((_, index) => (
+        <React.Fragment key={index}>
+          <div className='w-[45%] md:min-w-56 min-w-80 h-56 my-2'>
+            <Skeleton className='h-5/6 w-full min-w-10 rounded-xl mb-3' />
+            <Skeleton className='h-1/6 w-full min-w-10 rounded-xl' />
+          </div>
+          <div className='w-[45%] md:min-w-56 min-w-80 h-56'>
+            <Skeleton className='h-5/6 w-full min-w-10 rounded-xl mb-3' />
+            <Skeleton className='h-1/6 w-full min-w-10 rounded-xl' />
+          </div>
+        </React.Fragment>
+      ))}
+    </>
+  );
+};
+
+export const SingleCategorySkeleton = () => {
+  return (
+    <div
+      className='flex flex-col space-y-3 w-full'>
+      <Skeleton className='h-64 w-full rounded-xl' />
+      <Skeleton className='h-8 w-[40%] mt-2' />
+      <div className='flex justify-between pt-3'>
+        <Skeleton className='h-8 w-[45%]' />
+        <Skeleton className='h-8 w-[45%]' />
       </div>
     </div>
   );

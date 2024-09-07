@@ -11,7 +11,7 @@ import {
 import { Input } from "../ui/input";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
+import { memo, useState } from "react";
 import { parseImages } from "../../utils/parseImages";
 import Loading from "../common/Loading";
 import { Edit } from "lucide-react";
@@ -94,4 +94,4 @@ const UpdateCategory = ({ id, name, image }: category) => {
   );
 };
 
-export default UpdateCategory;
+export default memo(UpdateCategory);

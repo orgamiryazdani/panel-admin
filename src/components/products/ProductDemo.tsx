@@ -22,7 +22,7 @@ const ProductDemo = () => {
     data: category,
     isLoading,
     refetch,
-  } = useSingleCategory(Number(productDemoData.categoryId));
+  } = useSingleCategory({ id: Number(productDemoData.categoryId) });
 
   useEffect(() => {
     if (productDemoData.categoryId) {
@@ -34,12 +34,12 @@ const ProductDemo = () => {
     <div className='space-y-5 w-full'>
       <ProductCard
         productDemoData={productDemoData}
-        category={category||[]}
+        category={category || []}
         isLoading={isLoading}
       />
       <ProductDetail
         productDemoData={productDemoData}
-        category={category||[]}
+        category={category || []}
         isLoading={isLoading}
       />
     </div>
@@ -47,7 +47,6 @@ const ProductDemo = () => {
 };
 
 export default ProductDemo;
-
 
 type dataComponentProduct = {
   productDemoData: createProductType;
@@ -196,22 +195,18 @@ function ProductDetail({
               <img
                 className='w-10 h-10 rounded-md'
                 src={
-                  isLoading ? (
-                    "https://hashtagyar.com/adminz-conten/uploads/2023/12/97.jpg"
-                  ) : Array.isArray(category) ? (
-                    "https://hashtagyar.com/adminz-conten/uploads/2023/12/97.jpg"
-                  ) : (
-                    category.image
-                  )
+                  isLoading
+                    ? "https://hashtagyar.com/adminz-conten/uploads/2023/12/97.jpg"
+                    : Array.isArray(category)
+                    ? "https://hashtagyar.com/adminz-conten/uploads/2023/12/97.jpg"
+                    : category.image
                 }
                 alt={
-                  isLoading ? (
-                    "دسته بندی"
-                  ) : Array.isArray(category) ? (
-                    "دسته بندی"
-                  ) : (
-                    category.name
-                  )
+                  isLoading
+                    ? "دسته بندی"
+                    : Array.isArray(category)
+                    ? "دسته بندی"
+                    : category.name
                 }
               />
               <p className='px-2 text-sm flex items-center text-muted-foreground'>
