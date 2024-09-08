@@ -20,6 +20,7 @@ import { z } from "zod";
 import { parseImages } from "../../utils/parseImages";
 import { memo, useState } from "react";
 import { product } from "../../types/Product";
+import truncateText from "../../utils/truncateText";
 
 const formSchema = z.object({
   title: z.string().min(1, {
@@ -66,7 +67,7 @@ const UpdateProduct = ({
     <Form {...form}>
       <DialogComponent
         title='ویراش محصول'
-        description={title}
+        description={truncateText(title,20)}
         acceptBtn={updatePending ? <Loading width='80' /> : "ذخیره تغییرات"}
         onClick={form.handleSubmit(onSubmit)}
         trigger={

@@ -5,8 +5,8 @@ import { UserAccount } from '../types/Auth';
 const cookies = new Cookies();
 
 const app: AxiosInstance = axios.create({
-    baseURL: "https://api.escuelajs.co/api/v1",
-});
+    baseURL: import.meta.env.VITE_API_URL,
+  });
 
 app.interceptors.request.use(
     (config) => {
@@ -45,7 +45,7 @@ app.interceptors.response.use(
                 originalConfig._retry = true;
                 try {
                     const { data } = await axios.post(
-                        `https://api.escuelajs.co/api/v1/auth/refresh-token`,
+                        `${import.meta.env.VITE_API_URL}/auth/refresh-token`,
                         { refreshToken }
                     );
                     if (data) {

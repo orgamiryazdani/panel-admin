@@ -4,15 +4,17 @@ import { Moon, Sun } from "lucide-react";
 
 const Switch = ({
   className,
-  isDarkMode,
+  isDarkMode = false,
   onToggle,
   checked,
+  showIcon = true,
   ...props
 }: {
   className?: string;
-  isDarkMode: boolean;
+  isDarkMode?: boolean;
   onToggle: () => void;
   checked: boolean;
+  showIcon?: boolean;
 }) => (
   <SwitchPrimitives.Root
     className={cn(
@@ -20,13 +22,14 @@ const Switch = ({
       className,
     )}
     {...props}
-    onClick={onToggle} checked={checked}>
+    onClick={onToggle}
+    checked={checked}>
     <SwitchPrimitives.Thumb
       className={cn(
         "relative block h-5 w-5 rounded-full bg-background shadow-lg ring-0 transition-transform data-[state=checked]:translate-x-5 data-[state=unchecked]:translate-x-0",
       )}>
       <span className='absolute inset-0 flex items-center justify-center'>
-        {isDarkMode ? (
+        {showIcon ?  isDarkMode  ? (
           <Moon
             className=''
             size={15}
@@ -36,7 +39,7 @@ const Switch = ({
             className='transition-opacity duration-200 data-[state=unchecked]:opacity-0'
             size={16}
           />
-        )}
+        ) : null}
       </span>
     </SwitchPrimitives.Thumb>
   </SwitchPrimitives.Root>

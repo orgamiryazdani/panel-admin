@@ -21,7 +21,7 @@ export const ModeToggle = memo(({ size }: sizeType) => {
         isDarkMode={theme === "dark"}
         checked={theme !== "dark" ? true : false}
       />
-      {size > 15 && <Label htmlFor='airplane-mode'>تغییر تم برنامه</Label>}
+      {size > 15 && <Label htmlFor='airplane'>تغییر تم برنامه</Label>}
     </div>
   );
 });

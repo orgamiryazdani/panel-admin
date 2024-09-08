@@ -23,6 +23,8 @@ export type UserType = {
     name: string;
     role: string;
     avatar: string;
+    creationAt?: string;
+    updatedAt?: string
 }
 
 export interface AccountContextProps {
@@ -33,5 +35,4 @@ export interface AccountContextProps {
     removeAccount: () => void;
     removeAccountAfterReload: () => void;
     logout: (email: string | undefined) => void;
-  }
-  
+}

@@ -22,7 +22,8 @@ export const useSingleCategory = ({ id, enabledValue = false }: { id: number; en
     const queryResult: UseQueryResult<category, number> = useQuery({
         queryKey: ["single-category"],
         queryFn: () => getSingleCategory(id),
-        enabled: enabledValue
+        enabled: enabledValue,
+        retry: false
     });
 
     const { data, isLoading, refetch } = queryResult;
@@ -52,7 +53,7 @@ export const useDeleteCategory = (): UseMutationResult<void, ApiError, number, u
 };
 
 
-// delete category
+// update category
 export const useUpdateCategory = (): UseMutationResult<void, ApiError, category, unknown> => {
     const { toast } = useToast()
     return useMutation<void, ApiError, category>({

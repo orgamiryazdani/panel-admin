@@ -36,6 +36,7 @@ export const useSingleProduct = (productActive: number) => {
     const queryResult: UseQueryResult<product> = useQuery({
         queryKey: ["singleProduct"],
         queryFn: () => getSingleProduct(productActive),
+        retry:false
     });
 
     const { data, isLoading, refetch } = queryResult;

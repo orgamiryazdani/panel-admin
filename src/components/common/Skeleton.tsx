@@ -83,14 +83,40 @@ export const CategorySkeleton = () => {
 
 export const SingleCategorySkeleton = () => {
   return (
-    <div
-      className='flex flex-col space-y-3 w-full'>
+    <div className='flex flex-col space-y-3 w-full'>
       <Skeleton className='h-64 w-full rounded-xl' />
       <Skeleton className='h-8 w-[40%] mt-2' />
       <div className='flex justify-between pt-3'>
         <Skeleton className='h-8 w-[45%]' />
         <Skeleton className='h-8 w-[45%]' />
       </div>
+    </div>
+  );
+};
+
+export const UsersSkeleton = () => {
+  return (
+    <div
+      className='flex md:flex-wrap flex-col md:flex-row md:justify-center justify-start gap-5 w-full h-full'
+      >
+      {Array.from({ length: 9 }).map((_, index) => (
+        <div key={index} className="flex flex-col items-center">
+          <Skeleton className='h-36 w-[90%] md:w-44 rounded-sm mb-3' />
+          <Skeleton className='h-10 w-[90%] md:w-44 rounded-sm' />
+        </div>
+      ))}
+    </div>
+  );
+};
+
+
+export const UserDetailSkeleton = () => {
+  return (
+    <div className='flex flex-col space-y-7 w-full items-center'>
+      <Skeleton className='h-72 w-72 rounded-full' />
+      <Skeleton className='h-10 max-w-96 w-full rounded-xl' />
+      <Skeleton className='h-10 max-w-96 w-full rounded-xl' />
+      <Skeleton className='h-10 max-w-96 w-full rounded-xl' />
     </div>
   );
 };

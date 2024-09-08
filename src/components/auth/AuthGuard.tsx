@@ -18,8 +18,10 @@ const AuthGuard = () => {
       (account: UserAccount) => account.selected === true,
     )?.email;
 
+    let retry = false;
     const refreshToken = cookies.get(`refresh-token-${emailSelected}`);
-    if (refreshToken) {
+    if (refreshToken && retry) {
+      retry = true;
       mutateAsync(refreshToken);
     }
   }

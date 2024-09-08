@@ -19,6 +19,7 @@ import ImageUploader from "../ImageUploader";
 import { useUpdateCategory } from "../../hooks/useCategories";
 import { category } from "../../types/Category";
 import { useToast } from "../ui/use-toast";
+import truncateText from "../../utils/truncateText";
 
 const formSchema = z.object({
   name: z.string().min(1, {
@@ -54,8 +55,8 @@ const UpdateCategory = ({ id, name, image }: category) => {
   return (
     <Form {...form}>
       <DialogComponent
-        title='ویراش محصول'
-        description={name}
+        title='ویراش دسته بندی'
+        description={truncateText(name,20)}
         acceptBtn={isPending ? <Loading width='80' /> : "ذخیره تغییرات"}
         onClick={form.handleSubmit(onSubmit)}
         trigger={<Edit className='w-5' />}>
@@ -68,7 +69,6 @@ const UpdateCategory = ({ id, name, image }: category) => {
           maxImage={1}
         />
         {/* info tab */}
-
         <FormField
           control={form.control}
           name='name'
