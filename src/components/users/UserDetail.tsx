@@ -29,15 +29,15 @@ const UserDetail = () => {
         </span>
         <div className='detailItemStyle'>
           <span>نام</span>
-          <p className='overflow-x-auto max-w-[85%]'>{data?.name}</p>
+          <p className='overflow-x-auto overflow-y-hidden max-w-[85%]'>{data?.name}</p>
         </div>
         <div className='detailItemStyle'>
           <span>ایمیل</span>
-          <p className='overflow-x-auto max-w-[85%]'>{data?.email}</p>
+          <p className='overflow-x-auto overflow-y-hidden max-w-[85%]'>{data?.email}</p>
         </div>
         <div className='detailItemStyle'>
           <span>رمز عبور</span>
-          <span className='overflow-x-auto max-w-[85%]'>{data?.password}</span>
+          <span className='overflow-x-auto overflow-y-hidden max-w-[85%]'>{data?.password}</span>
         </div>
         <div className='detailItemStyle'>
           <span>نقش کاربر</span>
