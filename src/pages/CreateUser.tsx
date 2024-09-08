@@ -2,7 +2,7 @@ import AppLayout from "../layouts/AppLayout";
 
 const CreateUser = () => {
   return (
-    <AppLayout sidebar={<p>ایشالا بعد خدمت</p>}>
+    <AppLayout sidebar={<p></p>}>
       <div>CreateUser</div>
     </AppLayout>
   );
