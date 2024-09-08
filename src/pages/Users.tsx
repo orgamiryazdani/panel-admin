@@ -1,5 +1,3 @@
-import { Search } from "lucide-react";
-import { Input } from "../components/ui/input";
 import UserCard from "../components/users/UserCard";
 import AppLayout from "../layouts/AppLayout";
 import { useGetUsers } from "../hooks/useUsers";
