@@ -37,21 +37,8 @@ const Users = () => {
   return (
     <AppLayout sidebar={<UserDetail />}>
       <div className='w-full h-full'>
-        <div className='w-full h-[10%] min-h-12 border-b flex items-center px-4'>
-          <div className='flex w-full items-center gap-x-2 relative'>
-            {/* search user */}
-            <Input
-              type='email'
-              placeholder='جستجو کاربر'
-              className='w-full pr-11'
-              autoComplete='false'
-              // onChange={changeTitleHandler}
-              // value={title}
-            />
-            <div className='h-8 top-1 w-10 text-muted-foreground absolute right-1 flex items-center justify-center cursor-pointer'>
-              <Search className='w-5' />
-            </div>
-          </div>
+        <div className='w-full h-[10%] min-h-12 border-b flex items-center justify-center px-4'>
+          <span className="text-xs lg:text-base">با کلیک روی کاربر میتواند جزئیات  مربوط به آن را مشاهده کنید</span>
         </div>
         {/* users card */}
         <div className='w-full h-[90%] overflow-y-auto flex flex-wrap gap-5 items-start justify-center p-3'>
