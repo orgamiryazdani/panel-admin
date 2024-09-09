@@ -28,7 +28,8 @@ const formSchema = z.object({
     })
     .email({
       message: "فرمت ایمیل وارد شده صحیح نیست",
-    }),
+    })
+    .transform((val) => val.trim().toLowerCase()),
   password: z
     .string()
     .refine((val) => val.length > 0, {
@@ -36,7 +37,8 @@ const formSchema = z.object({
     })
     .refine((val) => val.length >= 4 || val.length === 0, {
       message: "رمز عبور باید حداقل ۴ حرف یا عدد باشد",
-    }),
+    })
+    .transform((val) => val.trim()),
 });
 
 const SignInForm = () => {
