@@ -4,6 +4,7 @@ import { SingleCategorySkeleton } from "../common/Skeleton";
 import { parseImages } from "../../utils/parseImages";
 import { isPersian } from "../../utils/isPersian";
 import { memo } from "react";
+import AvatarComponent from "../common/Avatar";
 
 const CategoryDetail = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -32,10 +33,10 @@ const CategoryDetail = () => {
       ) : (
         <div className='w-full'>
           {/* image */}
-          <img
-            className='h-full w-full object-cover rounded-xl'
+          <AvatarComponent
             src={parseImages(data?.image)}
             alt={data?.name}
+            text='دسته بندی بدون تصویر'
           />
           {/* info */}
           <div className='mt-7'>دسته بندی شماره {data?.id}</div>

@@ -12,6 +12,7 @@ import { isPersian } from "../../utils/isPersian";
 import { SingleProductSkeleton } from "../common/Skeleton";
 import { parseImages } from "../../utils/parseImages";
 import { memo } from "react";
+import AvatarComponent from "../common/Avatar";
 
 const ProductDetails = () => {
   const [searchParams] = useSearchParams();
@@ -37,10 +38,10 @@ const ProductDetails = () => {
                 <CarouselItem key={index}>
                   <Card className='min-h-60 overflow-hidden'>
                     <CardContent className='p-0 h-full w-full'>
-                      <img
-                        className='h-full w-full object-cover'
+                      <AvatarComponent
                         src={image}
                         alt={data?.title}
+                        text="محصول بدون تصویر"
                       />
                     </CardContent>
                   </Card>

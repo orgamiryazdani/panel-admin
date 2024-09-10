@@ -19,6 +19,8 @@ import Loading from "../common/Loading";
 import { parseImages } from "../../utils/parseImages";
 import UpdateProduct from "./UpdateProduct";
 import { memo } from "react";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import noImage from "../../assets/images/no-image.png";
 
 const ProductCard = ({ item }: { item: product }) => {
   const { id, title, description, price, images, category } = item;
@@ -46,13 +48,27 @@ const ProductCard = ({ item }: { item: product }) => {
       <CardHeader
         onClick={activeProductHandler}
         className='md:w-52 w-32 p-0 cursor-pointer'>
-        <img
-          src={imagesParse[0]}
-          alt='Photo by Drew Beamer'
-          className={`object-cover h-full w-full rounded-2xl ${
-            productActive != id && "p-2"
-          }`}
-        />
+        <Avatar className='rounded-none w-full h-full'>
+          <AvatarImage
+            src={imagesParse[0]}
+            alt={title}
+            className={`object-cover h-full w-full rounded-2xl ${
+              productActive != id && "p-2"
+            }`}
+          />
+          <AvatarFallback className='rounded-none bg-transparent relative'>
+            <img
+              src={noImage}
+              alt='no image'
+              className={`object-cover h-full w-full rounded-2xl ${
+                productActive != id && "p-2"
+              }`}
+            />
+            <span className='absolute text-white text-xs bg-accent opacity-50 p-2 rounded-xl'>
+              محصول بدون تصویر
+            </span>
+          </AvatarFallback>
+        </Avatar>
       </CardHeader>
       {/* title and description */}
       <CardContent

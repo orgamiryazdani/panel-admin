@@ -11,6 +11,7 @@ import { Button } from "../ui/button";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { memo, useState } from "react";
 import { queryClient } from "../../providers/AppProviders";
+import AvatarComponent from "../common/Avatar";
 
 const CategoryCard = ({ category }: { category: category }) => {
   const { id, name, image } = category;
@@ -26,13 +27,13 @@ const CategoryCard = ({ category }: { category: category }) => {
   };
 
   const setQueryAndPushUser = () => {
-    searchParams.set("categoryId", String(id))
-    setSearchParams(searchParams)
+    searchParams.set("categoryId", String(id));
+    setSearchParams(searchParams);
     navigate({
-      pathname: '/',
+      pathname: "/",
       search: `?${searchParams.toString()}`, // نگه داشتن کوئری‌ها
     });
-  }
+  };
 
   return (
     <div
@@ -41,7 +42,7 @@ const CategoryCard = ({ category }: { category: category }) => {
       className='w-[48%] md:min-w-56 min-w-80 max-w-96 h-56 relative rounded-lg rounded-t-xl bg-accent overflow-hidden'>
       {/* option btn */}
       <div
-        className={`absolute gap-y-2 w-full h-full bg-slate-700 bg-opacity-80 flex-col items-center justify-center ${
+        className={`absolute z-20 gap-y-2 w-full h-full bg-slate-700 bg-opacity-80 flex-col items-center justify-center ${
           activeCategory == id ? "flex" : "hidden"
         }`}>
         <div
@@ -57,15 +58,15 @@ const CategoryCard = ({ category }: { category: category }) => {
       </div>
       {/* category image */}
       <div className='w-full flex items-center justify-center h-5/6 overflow-hidden rounded-xl'>
-        <img
-          className='bg-cover rounded-xl w-full'
+        <AvatarComponent
           src={parseImages(image)}
           alt={name}
+          text='دسته بندی بدون تصویر'
         />
       </div>
       <div
         dir={isPersian(name) ? "rtl" : "ltr"}
-        className='w-full h-1/6 relative flex items-center justify-between px-3'>
+        className='w-full h-1/6 relative z-30 flex items-center justify-between px-3'>
         {/* category name */}
         <p>{truncateText(name, 14)}</p>
         <div className='flex items-center absolute right-3 [&>*]:w-5 [&>*]:cursor-pointer gap-3'>

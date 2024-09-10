@@ -56,7 +56,7 @@ const Navbar = () => {
                 src={data?.avatar}
                 alt='profile image'
               />
-              <AvatarFallback>PR</AvatarFallback>
+              <AvatarFallback className="text-[8px]">پروفایل</AvatarFallback>
             </Avatar>
           </Link>
         )}

@@ -20,7 +20,7 @@ const UserDetail = () => {
           src={data?.avatar}
           alt='profile image'
         />
-        <AvatarFallback>PR</AvatarFallback>
+        <AvatarFallback>پروفایل</AvatarFallback>
       </Avatar>
       {/* info */}
       <div className='mt-5 flex flex-col items-center w-full space-y-3'>

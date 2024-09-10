@@ -32,7 +32,7 @@ const UserCard = ({ user }: { user: UserType }) => {
           src={avatar}
           alt='profile image'
         />
-        <AvatarFallback>PR</AvatarFallback>
+        <AvatarFallback className="text-xs">پروفایل</AvatarFallback>
       </Avatar>
       {/* email amd name */}
       <div
