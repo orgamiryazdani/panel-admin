@@ -22,13 +22,14 @@ import {
 import { CSS } from "@dnd-kit/utilities";
 import Loading from "./common/Loading";
 import { useToast } from "./ui/use-toast";
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 
 const ImageUploader = ({
   images,
   setImages,
   direction,
   minImage = 1,
-  maxImage = 3
+  maxImage = 3,
 }: {
   images: string[];
   setImages: Dispatch<SetStateAction<string[]>>;
@@ -236,14 +237,18 @@ const ImageSorted = ({
       className='relative pointer-events-auto w-20 h-20 my-2 rounded-md border overflow-hidden'>
       <div
         onPointerUp={() => handleRemoveImage(image)}
-        className='w-5 h-5 bg-accent absolute flex items-center justify-center rounded-full m-1'>
+        className='w-5 h-5 bg-accent absolute flex items-center z-20 justify-center rounded-full m-1'>
         <X className='w-4' />
       </div>
-      <img
-        src={image}
-        className='w-full h-full object-cover'
-        alt={image}
-      />
+      <Avatar className='w-full h-full z-10 rounded-none'>
+        <AvatarImage
+          src={image}
+          alt={image}
+        />
+        <AvatarFallback className='text-sm bg-muted-foreground text-black rounded-none'>
+          بدون تصویر
+        </AvatarFallback>
+      </Avatar>
     </div>
   );
 };
