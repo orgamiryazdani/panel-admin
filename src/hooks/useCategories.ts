@@ -1,6 +1,6 @@
 import { useMutation, UseMutationResult, useQuery, UseQueryResult } from "@tanstack/react-query";
 import { category } from "../types/Category";
-import { deleteCategory, getCategories, getSingleCategory, updateCategory } from "../services/categoryService";
+import { createCategory, deleteCategory, getCategories, getSingleCategory, updateCategory } from "../services/categoryService";
 import { ApiError } from "../types/GlobalTypes";
 import { useToast } from "../components/ui/use-toast";
 import { queryClient } from "../providers/AppProviders";
@@ -63,6 +63,25 @@ export const useUpdateCategory = (): UseMutationResult<void, ApiError, category,
                 title: "تغییرات با موفقیت اعمال شد",
             });
             queryClient.invalidateQueries({ queryKey: ['category'] });
+        },
+        onError: (error) => {
+            toast({
+                variant: "destructive",
+                title: error.response?.data?.message || "خطای ناشناخته‌ای رخ داد",
+            })
+        },
+    });
+};
+
+// create category
+export const useCreateCategory = (): UseMutationResult<void, ApiError, Omit<category, "id">, unknown> => {
+    const { toast } = useToast()
+    return useMutation<void, ApiError, Omit<category, "id">>({
+        mutationFn: createCategory,
+        onSuccess: () => {
+            toast({
+                title: "دسته بندی با موفقیت ایجاد شد",
+            });
         },
         onError: (error) => {
             toast({

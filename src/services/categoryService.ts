@@ -20,3 +20,8 @@ export function deleteCategory(id: number) {
 export function updateCategory({ id, name, image }: category) {
     return http.put(`/categories/${id}`, { name, image }).then(({ data }) => data);
 }
+
+// create category api
+export function createCategory(data: { name: string, image: string }) {
+    return http.post('/categories', data).then(({ data }) => data);
+}
