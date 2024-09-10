@@ -30,12 +30,14 @@ const ImageUploader = ({
   direction,
   minImage = 1,
   maxImage = 3,
+  height,
 }: {
   images: string[];
   setImages: Dispatch<SetStateAction<string[]>>;
   direction: string;
   minImage?: number;
   maxImage?: number;
+  height?: string;
 }) => {
   const { mutateAsync, isPending } = useUploadFile();
   const { toast } = useToast();
@@ -147,7 +149,7 @@ const ImageUploader = ({
               : "flex-row items-start mt-4"
           }`}>
           <div
-            className={`relative flex items-center justify-center border rounded-md overflow-hidden ${
+            className={`relative ${height && `h-${height}`} flex items-center justify-center border rounded-md overflow-hidden ${
               direction === "vertical"
                 ? "w-full h-36 my-3"
                 : images.length > 0

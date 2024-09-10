@@ -66,11 +66,12 @@ const CreateCategoryForm = () => {
           direction='vertical'
           maxImage={1}
           minImage={1}
+          height='96'
         />
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
-            className='space-y-12 md:mt-10 mt-7 w-full'>
+            className='space-y-9 mb-5 md:mb-2 mt-3 md:mt-5 w-full'>
             <FormField
               control={form.control}
               name='name'
