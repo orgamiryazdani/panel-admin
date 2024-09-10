@@ -5,15 +5,15 @@ import { ApiError } from "../types/GlobalTypes";
 import { useToast } from "../components/ui/use-toast";
 import { queryClient } from "../providers/AppProviders";
 
-const useCategory = () => {
+const useCategory = ({ limit }: { limit: number }) => {
     const queryResult: UseQueryResult<category[]> = useQuery({
         queryKey: ["category"],
-        queryFn: getCategories,
+        queryFn: () => getCategories(limit),
     });
 
-    const { data, isLoading } = queryResult;
+    const { data, isLoading, refetch } = queryResult;
 
-    return { data, isLoading };
+    return { data, isLoading, refetch };
 };
 
 export default useCategory;

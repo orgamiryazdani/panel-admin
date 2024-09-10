@@ -50,9 +50,11 @@ const formItems = [
 ];
 
 const CreateProductForm = () => {
+  const plusValueCategoryLimit = 5;
+  const [categoryLimit, setCategoryLimit] = useState(plusValueCategoryLimit);
   const { updateProductDemoField } = useProductDemo();
   const [images, setImages] = useState<string[]>(parseImages([]));
-  const { data, isLoading } = useCategory();
+  const { data, isLoading ,refetch} = useCategory({ limit: categoryLimit });
   const { mutateAsync, isPending } = useCreateProduct();
   const { toast } = useToast();
 
@@ -81,10 +83,17 @@ const CreateProductForm = () => {
     mutateAsync({ images, ...data });
   };
 
+  const getMoreCategory = async () => {
+    await setCategoryLimit(categoryLimit + plusValueCategoryLimit);
+    refetch();
+  };
+
   return (
     <div className='w-full h-full'>
       <div className='w-full flex flex-row justify-between items-center px-4 h-[10%] min-h-12 border-b'>
-        <span className='font-bold text-sm md:text-[9px] lg:text-base'>اطلاعات محصول خود را وارد کنید</span>
+        <span className='font-bold text-sm md:text-[9px] lg:text-base'>
+          اطلاعات محصول خود را وارد کنید
+        </span>
         <div className='bg-muted p-[10px] text-xs rounded-md lg:text-xs md:text-[7px] flex items-center gap-x-2'>
           مشاهده نتیجه بصورت زنده
           <span className=' w-2 h-2 bg-red-500 rounded-full'></span>
@@ -158,6 +167,16 @@ const CreateProductForm = () => {
                                 {category.name}
                               </SelectItem>
                             ))
+                          )}
+                          {data && data?.length > plusValueCategoryLimit - 1 && (
+                            <div
+                            dir="rtl"
+                              onClick={getMoreCategory}
+                              className='w-full text-center pb-2'>
+                              <span className='text-blue-500 border-b border-blue-500 cursor-pointer'>
+                                بیشتر...
+                              </span>
+                            </div>
                           )}
                         </SelectGroup>
                       </SelectContent>

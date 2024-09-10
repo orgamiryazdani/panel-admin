@@ -19,6 +19,8 @@ import { useSearchParams } from "react-router-dom";
 import useProducts from "../../hooks/useProducts";
 
 const FilterProducts = () => {
+  const plusValueCategoryLimit = 5;
+  const [categoryLimit, setCategoryLimit] = useState(plusValueCategoryLimit);
   const [searchParams, setSearchParams] = useSearchParams();
   const priceMin = Number(searchParams.get("price_min") || 1);
   const priceMax = Number(searchParams.get("price_max") || 100);
@@ -26,13 +28,22 @@ const FilterProducts = () => {
   const title = searchParams.get("title") || "";
   const offsetValue = Number(searchParams.get("offset") || 0);
 
-  const { data, isLoading } = useCategory();
+  const {
+    data,
+    isLoading,
+    refetch: categoryRefetch,
+  } = useCategory({ limit: categoryLimit });
   const [priceRange, setPriceRange] = useState([priceMin, priceMax]);
   const [categoryId, setCategoryId] = useState(categoryIdQuery);
   const [filterLoading, setFilterLoading] = useState(false);
 
   const handleValueChange = (value: number[]) => {
     setPriceRange(value);
+  };
+
+  const getMoreCategory = async () => {
+    await setCategoryLimit(categoryLimit + plusValueCategoryLimit);
+    categoryRefetch();
   };
 
   const { refetch } = useProducts({
@@ -113,6 +124,15 @@ const FilterProducts = () => {
                         {category.name}
                       </SelectItem>
                     ))
+                  )}
+                  {data && data?.length > plusValueCategoryLimit - 1 && (
+                    <div
+                      onClick={getMoreCategory}
+                      className='w-full text-center pb-2'>
+                      <span className='text-blue-500 border-b border-blue-500 cursor-pointer'>
+                        بیشتر...
+                      </span>
+                    </div>
                   )}
                 </SelectGroup>
               </SelectContent>
