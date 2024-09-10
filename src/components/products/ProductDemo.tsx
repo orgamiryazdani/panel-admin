@@ -32,11 +32,13 @@ const ProductDemo = () => {
 
   return (
     <div className='space-y-5 w-full'>
+      <div className='w-full border-b pb-1'>دمو کارت محصول</div>
       <ProductCard
         productDemoData={productDemoData}
         category={category || []}
         isLoading={isLoading}
       />
+      <div className='w-full border-b pb-1'>دمو توضیحات محصول</div>
       <ProductDetail
         productDemoData={productDemoData}
         category={category || []}

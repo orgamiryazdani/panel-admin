@@ -1,9 +1,10 @@
 import CreateCategoryForm from "../components/category/CreateCategoryForm";
+import CategoryDemo from "../components/category/CtegoryDemo";
 import AppLayout from "../layouts/AppLayout";
 
 const CreateCategory = () => {
   return (
-    <AppLayout sidebar={<p>live category</p>}>
+    <AppLayout sidebar={<CategoryDemo />}>
       <CreateCategoryForm />
     </AppLayout>
   );
