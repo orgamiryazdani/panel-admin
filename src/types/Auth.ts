@@ -22,7 +22,7 @@ export type UserType = {
     password: string;
     name: string;
     role: string;
-    avatar: string | string[];
+    avatar: string ;
     creationAt?: string;
     updatedAt?: string
 }

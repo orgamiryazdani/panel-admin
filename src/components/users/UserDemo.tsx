@@ -2,7 +2,6 @@ import { Edit, Trash } from "lucide-react";
 import truncateText from "../../utils/truncateText";
 import { isPersian } from "../../utils/isPersian";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
-import { UserType } from "../../types/Auth";
 import imageDefault from "../../assets/images/imageDefault.jpg";
 import { useUserDemo } from "../../context/UserDemoProvider";
 
@@ -22,7 +21,15 @@ const UserDemo = () => {
 
 export default UserDemo;
 
-const UserCard = ({ userDemoData }: { userDemoData: Omit<UserType, "id"> }) => {
+type userDemoType = {
+  password:string;
+  name: string;
+  email: string;
+  avatar: string | string[];
+  role: string;
+}
+
+const UserCard = ({ userDemoData }: { userDemoData: userDemoType}) => {
   return (
     <div className='w-[100%] max-w-80 min-w-80 md:min-w-44 h-auto rounded-sm bg-primary-foreground flex items-center flex-col overflow-hidden'>
       {/* profile user */}
@@ -74,7 +81,7 @@ const UserCard = ({ userDemoData }: { userDemoData: Omit<UserType, "id"> }) => {
 const UserDetail = ({
   userDemoData,
 }: {
-  userDemoData: Omit<UserType, "id">;
+  userDemoData: userDemoType;
 }) => {
   return (
     <div className='w-full h-full flex flex-col items-center'>
