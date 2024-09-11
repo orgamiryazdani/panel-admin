@@ -66,7 +66,7 @@ const CreateCategoryForm = () => {
           direction='vertical'
           maxImage={1}
           minImage={1}
-          height='96'
+          height='h-96'
         />
         <Form {...form}>
           <form

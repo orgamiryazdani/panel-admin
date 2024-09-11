@@ -149,7 +149,7 @@ const ImageUploader = ({
               : "flex-row items-start mt-4"
           }`}>
           <div
-            className={`relative ${height && `h-${height}`} flex items-center justify-center border rounded-md overflow-hidden ${
+            className={`relative ${height && height} flex items-center justify-center border rounded-md overflow-hidden ${
               direction === "vertical"
                 ? "w-full h-36 my-3"
                 : images.length > 0
