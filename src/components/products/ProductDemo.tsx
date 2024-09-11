@@ -1,7 +1,7 @@
 import { Ellipsis } from "lucide-react";
 import { isPersian } from "../../utils/isPersian";
 import truncateText from "../../utils/truncateText";
-import { useProductDemo } from "../../context/ProductDemoContext";
+import { useProductDemo } from "../../context/ProductDemoProvider";
 import { useEffect, useState } from "react";
 import { parseImages } from "../../utils/parseImages";
 import {
@@ -15,6 +15,7 @@ import { Card, CardContent } from "../ui/card";
 import { useSingleCategory } from "../../hooks/useCategories";
 import Loading from "../common/Loading";
 import { createProductType } from "../../types/Product";
+import imageDefault from "../../assets/images/imageDefault.jpg";
 
 const ProductDemo = () => {
   const { productDemoData } = useProductDemo();
@@ -81,10 +82,7 @@ function ProductCard({
       <div className='md:w-52 w-32 p-0 cursor-pointer'>
         <img
           onClick={() => setProductActive(!productActive)}
-          src={
-            parseImages(productDemoData.images)[0] ||
-            "https://hashtagyar.com/adminz-conten/uploads/2023/12/97.jpg"
-          }
+          src={parseImages(productDemoData.images)[0] || imageDefault}
           alt='Photo by Drew Beamer'
           className={`object-cover h-full w-full rounded-2xl ${
             !productActive && "p-2"
@@ -167,7 +165,7 @@ function ProductDetail({
                   <CardContent className='p-0 h-full w-full'>
                     <img
                       className='h-full w-full object-cover'
-                      src='https://hashtagyar.com/adminz-conten/uploads/2023/12/97.jpg'
+                      src={imageDefault}
                       alt={productDemoData?.title}
                     />
                   </CardContent>
@@ -198,9 +196,9 @@ function ProductDetail({
                 className='w-10 h-10 rounded-md'
                 src={
                   isLoading
-                    ? "https://hashtagyar.com/adminz-conten/uploads/2023/12/97.jpg"
+                    ? imageDefault
                     : Array.isArray(category)
-                    ? "https://hashtagyar.com/adminz-conten/uploads/2023/12/97.jpg"
+                    ? imageDefault
                     : category.image
                 }
                 alt={

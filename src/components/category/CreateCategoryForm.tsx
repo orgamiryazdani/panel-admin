@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ImageUploader from "../ImageUploader";
 import {
   Form,
@@ -15,6 +15,7 @@ import { Button } from "../ui/button";
 import { useCreateCategory } from "../../hooks/useCategories";
 import Loading from "../common/Loading";
 import { useToast } from "../ui/use-toast";
+import { categoryDataType, useCategoryDemo } from "../../context/CategoryDemoProvider";
 
 const formSchema = z.object({
   name: z
@@ -35,6 +36,11 @@ const CreateCategoryForm = () => {
   });
   const { toast } = useToast();
   const { mutateAsync, isPending } = useCreateCategory();
+  const { updateCategoryDemoField } = useCategoryDemo();
+
+  useEffect(() => {
+    updateCategoryDemoField("image", image);
+  }, [image]);
 
   const onSubmit = (data: { name: string }) => {
     if (image.length == 0) {
@@ -84,6 +90,13 @@ const CreateCategoryForm = () => {
                         placeholder='عنوان دسته بندی'
                         className='rounded-lg !bg-accent'
                         {...field}
+                        onChange={(e) => {
+                          field.onChange(e);
+                          updateCategoryDemoField(
+                            "name" as keyof categoryDataType,
+                            e.target.value,
+                          );
+                        }}
                       />
                     </FormControl>
                   </div>

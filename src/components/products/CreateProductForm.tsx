@@ -27,7 +27,7 @@ import { Textarea } from "../ui/textarea";
 import { createProductType } from "../../types/Product";
 import { useCreateProduct } from "../../hooks/useProducts";
 import { useToast } from "../ui/use-toast";
-import { useProductDemo } from "../../context/ProductDemoContext"; // Import the context
+import { useProductDemo } from "../../context/ProductDemoProvider"; // Import the context
 
 const formSchema = z.object({
   title: z.string().min(1, {
@@ -54,7 +54,7 @@ const CreateProductForm = () => {
   const [categoryLimit, setCategoryLimit] = useState(plusValueCategoryLimit);
   const { updateProductDemoField } = useProductDemo();
   const [images, setImages] = useState<string[]>(parseImages([]));
-  const { data, isLoading ,refetch} = useCategory({ limit: categoryLimit });
+  const { data, isLoading, refetch } = useCategory({ limit: categoryLimit });
   const { mutateAsync, isPending } = useCreateProduct();
   const { toast } = useToast();
 
@@ -168,16 +168,17 @@ const CreateProductForm = () => {
                               </SelectItem>
                             ))
                           )}
-                          {data && data?.length > plusValueCategoryLimit - 1 && (
-                            <div
-                            dir="rtl"
-                              onClick={getMoreCategory}
-                              className='w-full text-center pb-2'>
-                              <span className='text-blue-500 border-b border-blue-500 cursor-pointer'>
-                                بیشتر...
-                              </span>
-                            </div>
-                          )}
+                          {data &&
+                            data?.length > plusValueCategoryLimit - 1 && (
+                              <div
+                                dir='rtl'
+                                onClick={getMoreCategory}
+                                className='w-full text-center pb-2'>
+                                <span className='text-blue-500 border-b border-blue-500 cursor-pointer'>
+                                  بیشتر...
+                                </span>
+                              </div>
+                            )}
                         </SelectGroup>
                       </SelectContent>
                     </Select>
