@@ -11,7 +11,7 @@ import { Input } from "../ui/input";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useToast } from "../ui/use-toast";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { UserType } from "../../types/Auth";
 import { Button } from "../ui/button";
 import ImageUploader from "../ImageUploader";
@@ -25,6 +25,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
+import { useUserDemo } from "../../context/UserDemoProvider";
 
 const formItems = [
   { id: 1, name: "name", type: "text", placeholder: "نام کاربر" },
@@ -33,8 +34,8 @@ const formItems = [
 ];
 
 const roleUserItem = [
-  { id: 1, role: "admin" ,text:"ادمین"},
-  { id: 2, role: "customer" ,text:"مشتری"},
+  { id: 1, role: "admin", text: "ادمین" },
+  { id: 2, role: "customer", text: "مشتری" },
 ];
 
 const formSchema = z.object({
@@ -68,6 +69,7 @@ const CreateUserForm = () => {
   const { toast } = useToast();
   const [image, setImage] = useState<string[]>([]);
   const { mutateAsync, isPending } = useCreateUser();
+  const { updateUserDemoField } = useUserDemo();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -79,6 +81,10 @@ const CreateUserForm = () => {
     },
   });
 
+  useEffect(() => {
+    updateUserDemoField("avatar", image);
+  }, [image]);
+
   const onSubmit = async (data: Omit<UserType, "id" | "avatar">) => {
     if (image.length === 0) {
       toast({
@@ -89,8 +95,6 @@ const CreateUserForm = () => {
     }
     const profile = image[0];
     mutateAsync({ avatar: profile, ...data });
-    console.log({ avatar: profile, ...data });
-    
   };
 
   return (
@@ -114,7 +118,7 @@ const CreateUserForm = () => {
               <FormField
                 key={item.id}
                 control={form.control}
-                name={item.name as "name" | "email" | "password"}
+                name={item.name as "name" | "email" | "password" | "role"}
                 render={({ field }) => (
                   <FormItem>
                     <FormControl>
@@ -123,13 +127,13 @@ const CreateUserForm = () => {
                         className='rounded-lg'
                         placeholder={item.placeholder}
                         {...field}
-                        //   onChange={(e) => {
-                        //     field.onChange(e);
-                        //     updateProductDemoField(
-                        //       item.name as keyof createProductType,
-                        //       e.target.value,
-                        //     );
-                        // }}
+                        onChange={(e) => {
+                          field.onChange(e);
+                          updateUserDemoField(
+                            item.name as keyof Omit<UserType, "id">,
+                            e.target.value,
+                          );
+                        }}
                       />
                     </FormControl>
                     <FormMessage />
@@ -146,7 +150,7 @@ const CreateUserForm = () => {
                     <Select
                       onValueChange={(value) => {
                         field.onChange(value);
-                        //    updateProductDemoField("categoryId", value);
+                        updateUserDemoField("role", value);
                       }}
                       value={field.value}>
                       <SelectTrigger

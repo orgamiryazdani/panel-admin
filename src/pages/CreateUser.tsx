@@ -1,9 +1,10 @@
 import CreateUserForm from "../components/users/CreateUserForm";
+import UserDemo from "../components/users/UserDemo";
 import AppLayout from "../layouts/AppLayout";
 
 const CreateUser = () => {
   return (
-    <AppLayout sidebar={<p></p>}>
+    <AppLayout sidebar={<UserDemo />}>
       <CreateUserForm />
     </AppLayout>
   );
