@@ -4,7 +4,7 @@ import { getAccessTokenApi, getProfileApi, signInApi, signUpApi } from "../servi
 import { useNavigate } from "react-router-dom";
 import { dataLoginType, dataSignUpType, UserType } from "../types/Auth";
 import { useToast } from "../components/ui/use-toast";
-import { deleteUser, getSingleUser, getUsers, updateUser } from "../services/usersService";
+import { createUser, deleteUser, getSingleUser, getUsers, updateUser } from "../services/usersService";
 import { queryClient } from "../providers/AppProviders";
 
 const useProfile = () => {
@@ -125,4 +125,24 @@ export const useSingleUser = (id: number) => {
     const { data, isLoading, refetch } = queryResult;
 
     return { data, isLoading, refetch };
+};
+
+
+// create user
+export const useCreateUser = (): UseMutationResult<void, ApiError, Omit<UserType, "id">, unknown> => {
+    const { toast } = useToast()
+    return useMutation<void, ApiError, Omit<UserType, "id">>({
+        mutationFn: createUser,
+        onSuccess: () => {
+            toast({
+                title: "کاربر با موفقیت ایجاد شد",
+            });
+        },
+        onError: (error) => {
+            toast({
+                variant: "destructive",
+                title: error.response?.data?.message || "خطای ناشناخته‌ای رخ داد",
+            })
+        },
+    });
 };

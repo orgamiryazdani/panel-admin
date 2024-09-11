@@ -28,6 +28,7 @@ import { createProductType } from "../../types/Product";
 import { useCreateProduct } from "../../hooks/useProducts";
 import { useToast } from "../ui/use-toast";
 import { useProductDemo } from "../../context/ProductDemoProvider"; // Import the context
+import HeaderBuilderPage from "../common/HeaderBuilderPage";
 
 const formSchema = z.object({
   title: z.string().min(1, {
@@ -90,15 +91,7 @@ const CreateProductForm = () => {
 
   return (
     <div className='w-full h-full'>
-      <div className='w-full flex flex-row justify-between items-center px-4 h-[10%] min-h-12 border-b'>
-        <span className='font-bold text-sm md:text-[9px] lg:text-base'>
-          اطلاعات محصول خود را وارد کنید
-        </span>
-        <div className='bg-muted p-[10px] text-xs rounded-md lg:text-xs md:text-[7px] flex items-center gap-x-2'>
-          مشاهده نتیجه بصورت زنده
-          <span className=' w-2 h-2 bg-red-500 rounded-full'></span>
-        </div>
-      </div>
+      <HeaderBuilderPage text='اطلاعات محصول خود را وارد کنید' />
       <div className='w-full h-[90%] px-5 overflow-auto'>
         <ImageUploader
           images={images}

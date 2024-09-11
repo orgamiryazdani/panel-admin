@@ -62,7 +62,7 @@ const CategoryDetailDemo = ({
       <div className='w-full'>
         {/* image */}
         <img
-          className='w-full h-5/6 object-cover rounded-b-2xl'
+          className='w-full h-5/6 object-cover rounded-2xl'
           src={
             typeof categoryDemoData.image === "string"
               ? categoryDemoData.image

@@ -20,3 +20,8 @@ export function updateUser({ id, name, avatar, email, password, role }: UserType
 export function getSingleUser(id: number) {
     return http.get(`/users/${id}`).then(({ data }) => data);
 }
+
+// create user api
+export function createUser(data: Omit<UserType, "id">) {
+    return http.post(`/users`, data).then(({ data }) => data);
+}

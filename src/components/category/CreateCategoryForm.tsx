@@ -15,7 +15,11 @@ import { Button } from "../ui/button";
 import { useCreateCategory } from "../../hooks/useCategories";
 import Loading from "../common/Loading";
 import { useToast } from "../ui/use-toast";
-import { categoryDataType, useCategoryDemo } from "../../context/CategoryDemoProvider";
+import {
+  categoryDataType,
+  useCategoryDemo,
+} from "../../context/CategoryDemoProvider";
+import HeaderBuilderPage from "../common/HeaderBuilderPage";
 
 const formSchema = z.object({
   name: z
@@ -56,15 +60,7 @@ const CreateCategoryForm = () => {
 
   return (
     <div className='w-full h-full'>
-      <div className='w-full flex justify-between items-center px-4 h-[10%] min-h-12 border-b'>
-        <span className='font-bold text-[9px] lg:text-base'>
-          اطلاعات دسته بندی خود را وارد کنید
-        </span>
-        <div className='bg-muted p-[10px] text-xs rounded-md lg:text-xs md:text-[7px] flex items-center gap-x-2'>
-          مشاهده نتیجه بصورت زنده
-          <span className=' w-2 h-2 bg-red-500 rounded-full'></span>
-        </div>
-      </div>
+      <HeaderBuilderPage text='اطلاعات دسته بندی خود را وارد کنید' />
       <div className='w-full h-[90%] overflow-y-auto px-4'>
         <ImageUploader
           images={image}
