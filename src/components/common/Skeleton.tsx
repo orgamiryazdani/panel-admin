@@ -96,11 +96,11 @@ export const SingleCategorySkeleton = () => {
 
 export const UsersSkeleton = () => {
   return (
-    <div
-      className='flex md:flex-wrap flex-col md:flex-row md:justify-center justify-start gap-5 w-full h-full'
-      >
+    <div className='flex md:flex-wrap flex-col md:flex-row md:justify-center justify-start gap-5 w-full h-full'>
       {Array.from({ length: 9 }).map((_, index) => (
-        <div key={index} className="flex flex-col items-center">
+        <div
+          key={index}
+          className='flex flex-col items-center'>
           <Skeleton className='h-36 w-[90%] md:w-44 rounded-sm mb-3' />
           <Skeleton className='h-10 w-[90%] md:w-44 rounded-sm' />
         </div>
@@ -108,7 +108,6 @@ export const UsersSkeleton = () => {
     </div>
   );
 };
-
 
 export const UserDetailSkeleton = () => {
   return (
@@ -119,4 +118,8 @@ export const UserDetailSkeleton = () => {
       <Skeleton className='h-10 max-w-96 w-full rounded-xl' />
     </div>
   );
+};
+
+export const ProfilePageSkeleton = () => {
+  return <Skeleton className='md:w-96 w-80 md:h-5/6 h-4/6 bg-primary-foreground rounded-lg z-10' />;
 };
