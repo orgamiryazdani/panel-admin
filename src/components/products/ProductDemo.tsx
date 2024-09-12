@@ -83,7 +83,7 @@ function ProductCard({
         <img
           onClick={() => setProductActive(!productActive)}
           src={parseImages(productDemoData.images)[0] || imageDefault}
-          alt='Photo by Drew Beamer'
+          alt='عکس محصول'
           className={`object-cover h-full w-full rounded-2xl ${
             !productActive && "p-2"
           }`}
