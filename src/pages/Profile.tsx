@@ -32,11 +32,13 @@ const Profile = () => {
           <div className='w-full p-7 flex flex-col items-center justify-end'>
             <div className='w-full justify-end flex'>
               <span
-                className={
-                  data?.role === "admin"
-                    ? "bg-yellow-500 text-black"
-                    : "bg-blue-500 px-2 py-1 rounded-md text-white"
-                }>
+                className={`px-2 py-1 rounded-md
+                  ${
+                    data?.role === "admin"
+                      ? "bg-yellow-500 text-black"
+                      : "bg-blue-500 text-white"
+                  }
+                `}>
                 {data?.role}
               </span>
             </div>
