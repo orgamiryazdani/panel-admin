@@ -62,7 +62,7 @@ const Profile = () => {
           </div>
           <div className='w-full flex flex-col items-center space-y-5 justify-end px-7 mt-3'>
             <div className='w-full flex justify-end'>
-              <div className='w-10 h-10 bg-opacity-50 flex items-center justify-center bg-purple-500 rounded-full'>
+              <div className='w-10 h-10 bg-opacity-50 flex items-center justify-center bg-purple-500 rounded-full font-bold pt-1 text-lg'>
                 {data?.id}
               </div>
             </div>
