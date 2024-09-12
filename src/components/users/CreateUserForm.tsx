@@ -105,7 +105,6 @@ const CreateUserForm = () => {
         <ImageUploader
           images={image}
           setImages={setImage}
-          direction='vertical'
           maxImage={1}
           minImage={1}
         />

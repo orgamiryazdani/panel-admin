@@ -96,7 +96,6 @@ const CreateProductForm = () => {
         <ImageUploader
           images={images}
           setImages={setImages}
-          direction='vertical'
         />
         <Form {...form}>
           <form

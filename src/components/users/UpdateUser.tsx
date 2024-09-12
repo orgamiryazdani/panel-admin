@@ -102,7 +102,6 @@ const UpdateUser = ({ id, name, avatar, email, role, password }: UserType) => {
             <ImageUploader
               images={images}
               setImages={setImages}
-              direction='vertical'
               minImage={0}
               maxImage={1}
             />

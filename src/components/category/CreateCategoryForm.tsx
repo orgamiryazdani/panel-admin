@@ -65,7 +65,6 @@ const CreateCategoryForm = () => {
         <ImageUploader
           images={image}
           setImages={setImage}
-          direction='vertical'
           maxImage={1}
           minImage={1}
           height='h-96'

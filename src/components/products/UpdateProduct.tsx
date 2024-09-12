@@ -90,7 +90,6 @@ const UpdateProduct = ({
             <ImageUploader
               images={images}
               setImages={setImages}
-              direction="vertical"
               maxImage={6}
             />
           </TabsContent>

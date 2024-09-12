@@ -27,14 +27,12 @@ import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 const ImageUploader = ({
   images,
   setImages,
-  direction,
   minImage = 1,
   maxImage = 3,
   height,
 }: {
   images: string[];
   setImages: Dispatch<SetStateAction<string[]>>;
-  direction: string;
   minImage?: number;
   maxImage?: number;
   height?: string;
@@ -142,20 +140,11 @@ const ImageUploader = ({
       collisionDetection={closestCorners}>
       <div className='flex items-end flex-col'>
         {/* select image ==> input */}
-        <div
-          className={`flex w-full ${
-            direction === "vertical"
-              ? "flex-col items-end"
-              : "flex-row items-start mt-4"
-          }`}>
+        <div className='flex w-full flex-col items-end'>
           <div
-            className={`relative ${height && height} flex items-center justify-center border rounded-md overflow-hidden ${
-              direction === "vertical"
-                ? "w-full h-36 my-3"
-                : images.length > 0
-                ? "w-4/6 h-56"
-                : "w-full h-56"
-            }`}>
+            className={`relative ${
+              height && height
+            } flex items-center justify-center border rounded-md overflow-hidden w-full h-56 my-3`}>
             <input
               type='file'
               id='image'
@@ -179,14 +168,7 @@ const ImageUploader = ({
             ) : null}
           </div>
           {/* image and image selected */}
-          <div
-            className={`flex flex-wrap gap-x-4 pr-4 ${
-              direction === "vertical"
-                ? "w-full justify-start items-center"
-                : images.length > 0
-                ? "w-2/6 h-56 overflow-auto justify-center items-start"
-                : "hidden"
-            }`}>
+          <div className='flex flex-wrap gap-x-4 pr-4 w-full justify-start items-center'>
             <SortableContext
               items={images}
               strategy={horizontalListSortingStrategy}>
@@ -235,7 +217,7 @@ const ImageSorted = ({
       ref={setNodeRef}
       {...listeners}
       {...attributes}
-      style={style}
+      style={{ ...style, touchAction: "none" }} // جلوگیری از تداخل جابجایی
       className='relative pointer-events-auto w-20 h-20 my-2 rounded-md border overflow-hidden'>
       <div
         onPointerUp={() => handleRemoveImage(image)}

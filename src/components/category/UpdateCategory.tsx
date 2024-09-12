@@ -64,7 +64,6 @@ const UpdateCategory = ({ id, name, image }: category) => {
         <ImageUploader
           images={images}
           setImages={setImages}
-          direction='vertical'
           minImage={0}
           maxImage={1}
         />
