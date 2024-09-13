@@ -22,7 +22,7 @@ const AvatarComponent = ({
           alt={alt}
           className='w-full h-full object-cover'
         />
-        <span className='absolute text-white bg-accent opacity-50 p-2 rounded-xl'>
+        <span className='absolute text-accent-foreground bg-accent opacity-50 p-2 rounded-xl'>
           {text}
         </span>
       </AvatarFallback>

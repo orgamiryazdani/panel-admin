@@ -64,7 +64,7 @@ const ProductCard = ({ item }: { item: product }) => {
                 productActive != id && "p-2"
               }`}
             />
-            <span className='absolute text-white text-xs bg-accent opacity-50 p-2 rounded-xl'>
+            <span className='absolute text-accent-foreground text-xs bg-accent opacity-50 p-2 rounded-xl'>
               محصول بدون تصویر
             </span>
           </AvatarFallback>
