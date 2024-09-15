@@ -47,7 +47,7 @@ const Navbar = () => {
                 )}
               </span>
               <span className=' border-white text-sky-400 text-[10px]'>
-                {data?.role.toUpperCase()}
+                {data ? data.role.toUpperCase() : 'CUSTOMER'}
               </span>
             </div>
             {/* profile image */}
