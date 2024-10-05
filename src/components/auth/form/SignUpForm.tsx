@@ -13,7 +13,7 @@ import { Input } from "../../ui/input";
 import { useSignUp } from "../../../hooks/useUsers";
 import { dataSignUpType } from "../../../types/Auth";
 import Loading from "../../common/Loading";
-import { Dispatch, memo, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
 
 const formSchema = z.object({
@@ -150,4 +150,4 @@ const SignUpForm = ({
   );
 };
 
-export default memo(SignUpForm);
+export default SignUpForm;

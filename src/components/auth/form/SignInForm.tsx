@@ -14,7 +14,7 @@ import { useSignIn } from "../../../hooks/useUsers";
 import { dataLoginType } from "../../../types/Auth";
 import Loading from "../../common/Loading";
 import { Eye, EyeOff } from "lucide-react";
-import { memo, useState } from "react";
+import { useState } from "react";
 import { useAccount } from "../../../context/AccountProvider";
 import { useNetworkStatus } from "../../../hooks/useNetworkStatus";
 import { useToast } from "../../ui/use-toast";
@@ -145,4 +145,4 @@ const SignInForm = () => {
   );
 };
 
-export default memo(SignInForm);
+export default SignInForm;
