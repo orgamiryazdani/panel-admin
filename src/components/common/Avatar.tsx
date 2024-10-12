@@ -1,5 +1,5 @@
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
-import noImage from "../../assets/images/no-image.png";
+import noImage from "../../assets/images/no-image.webp";
 
 const AvatarComponent = ({
   src,

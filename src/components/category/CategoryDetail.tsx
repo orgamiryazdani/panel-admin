@@ -3,7 +3,6 @@ import { useSingleCategory } from "../../hooks/useCategories";
 import { SingleCategorySkeleton } from "../common/Skeleton";
 import { parseImages } from "../../utils/parseImages";
 import { isPersian } from "../../utils/isPersian";
-import { memo } from "react";
 import AvatarComponent from "../common/Avatar";
 
 const CategoryDetail = () => {
@@ -56,4 +55,4 @@ const CategoryDetail = () => {
   );
 };
 
-export default memo(CategoryDetail);
+export default CategoryDetail;

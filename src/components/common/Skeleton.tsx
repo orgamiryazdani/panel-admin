@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 import { Skeleton } from "../ui/skeleton";
 
 export const ProfileSkeleton = () => {
@@ -66,7 +66,7 @@ export const CategorySkeleton = () => {
   return (
     <>
       {Array.from({ length: 2 }).map((_, index) => (
-        <React.Fragment key={index}>
+        <Fragment key={index}>
           <div className='w-[45%] md:min-w-56 min-w-80 h-56 my-2'>
             <Skeleton className='h-5/6 w-full min-w-10 rounded-xl mb-3' />
             <Skeleton className='h-1/6 w-full min-w-10 rounded-xl' />
@@ -75,7 +75,7 @@ export const CategorySkeleton = () => {
             <Skeleton className='h-5/6 w-full min-w-10 rounded-xl mb-3' />
             <Skeleton className='h-1/6 w-full min-w-10 rounded-xl' />
           </div>
-        </React.Fragment>
+        </Fragment>
       ))}
     </>
   );
