@@ -18,7 +18,7 @@ export const ProfileSkeleton = () => {
 export const ProductSkeleton = () => {
   return (
     <div
-      className='w-full h-full flex flex-col justify-between min-w-72 space-y-5 mb-12'
+      className='w-full h-full flex flex-col justify-between min-w-72 space-y-5 mb-12 max-h-[440px]'
       dir='ltr'>
       {Array.from({ length: 3 }).map((_, index) => (
         <div
@@ -121,5 +121,16 @@ export const UserDetailSkeleton = () => {
 };
 
 export const ProfilePageSkeleton = () => {
-  return <Skeleton className='md:w-96 w-80 md:h-5/6 h-4/6 bg-primary-foreground rounded-lg z-10' />;
+  return (
+    <Skeleton className='md:w-96 w-80 md:h-5/6 h-4/6 bg-primary-foreground rounded-lg z-10' />
+  );
+};
+
+export const FilterSkeleton = () => {
+  return (
+    <div className='flex w-full md:h-[10%] min-h-12 max-h-16 h-14 items-center justify-between gap-x-10 px-5 border-b'>
+      <Skeleton className='w-4/6 bg-primary-foreground rounded-lg h-10' />
+      <Skeleton className='w-2/6 bg-primary-foreground rounded-lg h-10' />
+    </div>
+  );
 };

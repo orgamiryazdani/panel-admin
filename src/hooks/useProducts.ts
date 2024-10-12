@@ -2,8 +2,8 @@ import { UseMutationResult, UseQueryResult, useMutation, useQuery } from "@tanst
 import { createProduct, deleteProduct, getProducts, getSingleProduct, updateProduct } from "../services/productsService";
 import { createProductType, product, queryStringType, UpdateDataType } from "../types/Product";
 import { ApiError } from "../types/GlobalTypes";
-import { queryClient } from "../providers/AppProviders";
 import { useToast } from "../components/ui/use-toast";
+import { queryClient } from "../lib/react-query";
 
 // get all products
 const useProducts = (qs: queryStringType) => {
@@ -34,9 +34,9 @@ export default useProducts;
 // get single product
 export const useSingleProduct = (productActive: number) => {
     const queryResult: UseQueryResult<product> = useQuery({
-        queryKey: ["singleProduct"],
+        queryKey: ["singleProduct", productActive],
         queryFn: () => getSingleProduct(productActive),
-        retry:false
+        retry: false
     });
 
     const { data, isLoading, refetch } = queryResult;

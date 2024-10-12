@@ -21,14 +21,14 @@ const Profile = () => {
         alt='bg image'
       />
       <div className='w-full h-full flex justify-end p-5 text-white absolute bg-slate-800 bg-opacity-35'>
-        <Link to='/'>
+        <Link to='/' className="h-6">
           <ArrowLeft />
         </Link>
       </div>
       {isLoading ? (
         <ProfilePageSkeleton />
       ) : (
-        <div className='md:w-96 w-80 md:h-5/6 h-4/6 bg-primary-foreground rounded-lg z-10'>
+        <div className='md:w-96 w-80 md:h-5/6 h-4/6 max-h-[515px] bg-primary-foreground rounded-lg z-10'>
           <div className='w-full p-7 flex flex-col items-center justify-end'>
             <div className='w-full justify-end flex'>
               <span

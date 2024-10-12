@@ -3,9 +3,10 @@ import {
   ResizablePanel,
   ResizablePanelGroup,
 } from "../components/ui/resizable";
-import { ReactNode, useEffect, useState } from "react";
+import { lazy, ReactNode, Suspense, useEffect, useState } from "react";
 import Menu, { MenuMobile } from "./Menu";
-import Navbar from "./Navbar";
+import { ProfileSkeleton } from "../components/common/Skeleton";
+const Navbar = lazy(() => import("./Navbar"));
 
 type props = {
   children: ReactNode;
@@ -69,7 +70,9 @@ const AppLayout = ({ sidebar, children }: props) => {
         <MenuMobile />
         {/* account menu */}
         <div className='w-full h-16 border-b md:hidden'>
-          <Navbar />
+          <Suspense fallback={<ProfileSkeleton />}>
+            <Navbar />
+          </Suspense>
         </div>
         {/* content */}
         <ResizablePanel
@@ -83,8 +86,10 @@ const AppLayout = ({ sidebar, children }: props) => {
           defaultSize={60}
           minSize={29}
           className='md:min-w-80'>
-          <div className='w-full h-[10%] min-h-12 border-b hidden md:flex'>
-            <Navbar />
+          <div className='w-full h-[10%] min-h-12 border-b hidden md:flex max-h-16'>
+            <Suspense fallback={<ProfileSkeleton />}>
+              <Navbar />
+            </Suspense>
           </div>
           <div className='flex h-[90%] items-start justify-center p-6 overflow-y-auto overflow-x-hidden'>
             {sidebar}

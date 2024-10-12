@@ -10,8 +10,8 @@ import UpdateCategory from "./UpdateCategory";
 import { Button } from "../ui/button";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { memo, useState } from "react";
-import { queryClient } from "../../providers/AppProviders";
 import AvatarComponent from "../common/Avatar";
+import { queryClient } from "../../lib/react-query";
 
 const CategoryCard = ({ category }: { category: category }) => {
   const { id, name, image } = category;

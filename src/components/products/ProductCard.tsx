@@ -11,7 +11,6 @@ import {
 } from "../ui/card";
 import truncateText from "../../utils/truncateText";
 import { useSearchParams } from "react-router-dom";
-import { queryClient } from "../../providers/AppProviders";
 import DrawerComponent from "../common/Drawer";
 import AlertDialogComponent from "../common/AlertDialog";
 import { useDeleteProduct } from "../../hooks/useProducts";
@@ -21,6 +20,7 @@ import UpdateProduct from "./UpdateProduct";
 import { memo } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import noImage from "../../assets/images/no-image.png";
+import { queryClient } from "../../lib/react-query";
 
 const ProductCard = ({ item }: { item: product }) => {
   const { id, title, description, price, images, category } = item;

@@ -9,6 +9,7 @@ import {
 } from "../ui/dialog";
 import { Button } from "../ui/button";
 import { UiComponentType } from "../../types/GlobalTypes";
+import { isPersian } from "../../utils/isPersian";
 
 const DialogComponent = ({
   title,
@@ -24,7 +25,9 @@ const DialogComponent = ({
       <DialogContent className='sm:max-w-[425px] w-11/12 md:w-full rounded-md'>
         <DialogHeader>
           <DialogTitle>{title}</DialogTitle>
-          <DialogDescription>{description}</DialogDescription>
+          <DialogDescription dir={isPersian(description) ? "rtl" : "ltr"}>
+            {description}
+          </DialogDescription>
         </DialogHeader>
         {children}
         <DialogFooter>

@@ -9,7 +9,7 @@ import Loading from "../common/Loading";
 import UpdateUser from "./UpdateUser";
 import { memo } from "react";
 import { useSearchParams } from "react-router-dom";
-import { queryClient } from "../../providers/AppProviders";
+import { queryClient } from "../../lib/react-query";
 
 const UserCard = ({ user }: { user: UserType }) => {
   const { id, email, name, role, avatar, password } = user;

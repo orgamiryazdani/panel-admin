@@ -118,7 +118,7 @@ const Menu = ({ size }: sizeType) => {
           {/* Multiple Account */}
           <div
             dir='ltr'
-            className='flex items-center justify-center h-[10.7%] min-h-12 border-b'>
+            className='flex items-center justify-center h-[10.7%] max-h-16 min-h-12 border-b'>
             <MultipleAccount size={size} />
           </div>
           {/* menu item */}
