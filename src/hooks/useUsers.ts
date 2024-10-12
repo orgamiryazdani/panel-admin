@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { dataLoginType, dataSignUpType, UserType } from "../types/Auth";
 import { useToast } from "../components/ui/use-toast";
 import { createUser, deleteUser, getSingleUser, getUsers, updateUser } from "../services/usersService";
-import { queryClient } from "../providers/AppProviders";
+import { queryClient } from "../lib/react-query";
 
 const useProfile = () => {
     const queryResult: UseQueryResult<UserType> = useQuery({
@@ -117,7 +117,7 @@ export const useUpdateUser = (): UseMutationResult<void, ApiError, UserType, unk
 // use single user
 export const useSingleUser = (id: number) => {
     const queryResult: UseQueryResult<UserType, number> = useQuery({
-        queryKey: ["single-user"],
+        queryKey: ["single-user", `user-${id}`],
         queryFn: () => getSingleUser(id),
         retry: false
     });

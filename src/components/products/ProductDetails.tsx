@@ -36,7 +36,7 @@ const ProductDetails = () => {
             <CarouselContent>
               {imagesParse.map((image: string, index: number) => (
                 <CarouselItem key={index}>
-                  <Card className='min-h-60 overflow-hidden'>
+                  <Card className='min-h-60 overflow-hidden rounded-xl'>
                     <CardContent className='p-0 h-full w-full'>
                       <AvatarComponent
                         src={image}

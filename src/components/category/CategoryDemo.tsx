@@ -4,7 +4,7 @@ import {
 } from "../../context/CategoryDemoProvider";
 import { isPersian } from "../../utils/isPersian";
 import truncateText from "../../utils/truncateText";
-import imageDefault from "../../assets/images/imageDefault.jpg";
+import imageDefault from "../../../public/images/imageDefault.webp";
 
 const CategoryDemo = () => {
   const { categoryDemoData } = useCategoryDemo();

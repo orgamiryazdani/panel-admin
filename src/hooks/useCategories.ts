@@ -3,7 +3,7 @@ import { category } from "../types/Category";
 import { createCategory, deleteCategory, getCategories, getSingleCategory, updateCategory } from "../services/categoryService";
 import { ApiError } from "../types/GlobalTypes";
 import { useToast } from "../components/ui/use-toast";
-import { queryClient } from "../providers/AppProviders";
+import { queryClient } from "../lib/react-query";
 
 const useCategory = ({ limit }: { limit: number }) => {
     const queryResult: UseQueryResult<category[]> = useQuery({
@@ -20,7 +20,7 @@ export default useCategory;
 
 export const useSingleCategory = ({ id, enabledValue = false }: { id: number; enabledValue?: boolean }) => {
     const queryResult: UseQueryResult<category, number> = useQuery({
-        queryKey: ["single-category"],
+        queryKey: ["single-category", `category-${id}`],
         queryFn: () => getSingleCategory(id),
         enabled: enabledValue,
         retry: false

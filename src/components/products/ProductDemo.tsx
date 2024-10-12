@@ -15,7 +15,7 @@ import { Card, CardContent } from "../ui/card";
 import { useSingleCategory } from "../../hooks/useCategories";
 import Loading from "../common/Loading";
 import { createProductType } from "../../types/Product";
-import imageDefault from "../../assets/images/imageDefault.jpg";
+import imageDefault from "../../../public/images/imageDefault.webp";
 
 const ProductDemo = () => {
   const { productDemoData } = useProductDemo();

@@ -1,5 +1,5 @@
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
-import noImage from "../../assets/images/no-image.png";
+import noImage from "../../../public/images/no-image.webp";
 
 const AvatarComponent = ({
   src,
@@ -15,6 +15,7 @@ const AvatarComponent = ({
       <AvatarImage
         src={src}
         alt={alt}
+        loading="lazy"
       />
       <AvatarFallback className='rounded-none relative'>
         <img

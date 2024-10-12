@@ -1,5 +1,4 @@
 import { useSearchParams } from "react-router-dom";
-import FilterProducts from "../components/products/FilterProducts";
 import ProductCard from "../components/products/ProductCard";
 import {
   Pagination,
@@ -11,9 +10,18 @@ import {
 } from "../components/ui/pagination";
 import useProducts from "../hooks/useProducts";
 import AppLayout from "../layouts/AppLayout";
-import { useEffect, useState } from "react";
-import { ProductSkeleton } from "../components/common/Skeleton";
-import ProductDetails from "../components/products/ProductDetails";
+import { lazy, Suspense, useEffect, useState } from "react";
+import {
+  FilterSkeleton,
+  ProductSkeleton,
+  SingleProductSkeleton,
+} from "../components/common/Skeleton";
+const ProductDetails = lazy(
+  () => import("../components/products/ProductDetails"),
+);
+const FilterProducts = lazy(
+  () => import("../components/products/FilterProducts"),
+);
 
 const Products = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -57,15 +65,22 @@ const Products = () => {
   };
 
   return (
-    <AppLayout sidebar={<ProductDetails />}>
-      <FilterProducts />
+    <AppLayout
+      sidebar={
+        <Suspense fallback={<SingleProductSkeleton />}>
+          <ProductDetails />
+        </Suspense>
+      }>
+      <Suspense fallback={<FilterSkeleton />}>
+        <FilterProducts />
+      </Suspense>
       <div className='w-full h-[78%] pb-16 md:pb-0 overflow-y-scroll md:overflow-y-auto overflow-x-hidden flex flex-col items-center justify-start p-6 gap-y-6'>
         {isLoading ? (
           <ProductSkeleton />
         ) : data && data?.length > 0 ? (
           data.map((item) => (
             <ProductCard
-              key={item.id}
+              key={`product-${item.id}`}
               item={item}
             />
           ))

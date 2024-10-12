@@ -10,7 +10,6 @@ import UpdateCategory from "./UpdateCategory";
 import { Button } from "../ui/button";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { memo, useState } from "react";
-import { queryClient } from "../../providers/AppProviders";
 import AvatarComponent from "../common/Avatar";
 
 const CategoryCard = ({ category }: { category: category }) => {
@@ -23,7 +22,6 @@ const CategoryCard = ({ category }: { category: category }) => {
   const activeCategoryHandler = async () => {
     await searchParams.set("categoryactive", id.toString());
     await setSearchParams(searchParams);
-    queryClient.invalidateQueries({ queryKey: ["single-category"] });
   };
 
   const setQueryAndPushUser = () => {

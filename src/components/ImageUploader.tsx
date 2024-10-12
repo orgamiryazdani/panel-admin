@@ -1,7 +1,7 @@
 import React, { Dispatch, SetStateAction, useState } from "react";
 import { useUploadFile } from "../hooks/useUploadFile";
 import { X } from "lucide-react";
-import defaultImg from "../assets/images/imageUploader.png";
+import defaultImg from "../../public/images/imageUploader.webp";
 import {
   arrayMove,
   horizontalListSortingStrategy,
