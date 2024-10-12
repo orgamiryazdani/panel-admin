@@ -9,7 +9,6 @@ import Loading from "../common/Loading";
 import UpdateUser from "./UpdateUser";
 import { memo } from "react";
 import { useSearchParams } from "react-router-dom";
-import { queryClient } from "../../lib/react-query";
 
 const UserCard = ({ user }: { user: UserType }) => {
   const { id, email, name, role, avatar, password } = user;
@@ -19,7 +18,6 @@ const UserCard = ({ user }: { user: UserType }) => {
   const activeCategoryHandler = async () => {
     await searchParams.set("useractive", id.toString());
     await setSearchParams(searchParams);
-    queryClient.invalidateQueries({ queryKey: ["single-user"] });
   };
 
   return (
@@ -31,6 +29,7 @@ const UserCard = ({ user }: { user: UserType }) => {
         <AvatarImage
           src={avatar}
           alt='profile image'
+          loading="lazy"
         />
         <AvatarFallback className="text-xs">پروفایل</AvatarFallback>
       </Avatar>

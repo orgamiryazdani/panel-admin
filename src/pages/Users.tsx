@@ -2,9 +2,12 @@ import UserCard from "../components/users/UserCard";
 import AppLayout from "../layouts/AppLayout";
 import { useGetUsers } from "../hooks/useUsers";
 import { UserType } from "../types/Auth";
-import { useState } from "react";
-import { UsersSkeleton } from "../components/common/Skeleton";
-import UserDetail from "../components/users/UserDetail";
+import { lazy, Suspense, useState } from "react";
+import {
+  UserDetailSkeleton,
+  UsersSkeleton,
+} from "../components/common/Skeleton";
+const UserDetail = lazy(() => import("../components/users/UserDetail"));
 
 const Users = () => {
   const plusValueUserLimit = 9;
@@ -19,9 +22,14 @@ const Users = () => {
   };
 
   return (
-    <AppLayout sidebar={<UserDetail />}>
+    <AppLayout
+      sidebar={
+        <Suspense fallback={<UserDetailSkeleton />}>
+          <UserDetail />
+        </Suspense>
+      }>
       <div className='w-full h-full'>
-        <div className='w-full h-[10%] min-h-12 border-b flex items-center justify-center px-4'>
+        <div className='w-full h-[10%] min-h-12 max-h-16 border-b flex items-center justify-center px-4'>
           <span className='text-xs lg:text-base'>
             با کلیک روی کاربر میتواند جزئیات مربوط به آن را مشاهده کنید
           </span>

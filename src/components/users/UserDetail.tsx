@@ -19,6 +19,7 @@ const UserDetail = () => {
         <AvatarImage
           src={data?.avatar}
           alt='profile image'
+          loading="lazy"
         />
         <AvatarFallback>پروفایل</AvatarFallback>
       </Avatar>

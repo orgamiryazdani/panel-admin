@@ -117,7 +117,7 @@ export const useUpdateUser = (): UseMutationResult<void, ApiError, UserType, unk
 // use single user
 export const useSingleUser = (id: number) => {
     const queryResult: UseQueryResult<UserType, number> = useQuery({
-        queryKey: ["single-user"],
+        queryKey: ["single-user", `user-${id}`],
         queryFn: () => getSingleUser(id),
         retry: false
     });
