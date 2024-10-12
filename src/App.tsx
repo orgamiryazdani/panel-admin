@@ -1,17 +1,19 @@
-import "./App.css";
+import React, { Suspense, useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
-import Products from "./pages/Products";
-import CreateProduct from "./pages/CreateProduct";
-import Category from "./pages/Category";
-import CreateCategory from "./pages/CreateCategory";
-import Users from "./pages/Users";
-import CreateUser from "./pages/CreateUser";
-import Profile from "./pages/Profile";
-import SignIn from "./pages/SignIn";
 import AuthGuard from "./components/auth/AuthGuard";
 import AppProviders from "./providers/AppProviders";
-import { useEffect } from "react";
 import { cleanupOldAccounts } from "./utils/cleanupOldAccounts";
+import Loading from "./components/common/Loading";
+
+// بارگذاری پویا برای صفحات
+const Products = React.lazy(() => import("./pages/Products"));
+const CreateProduct = React.lazy(() => import("./pages/CreateProduct"));
+const Category = React.lazy(() => import("./pages/Category"));
+const CreateCategory = React.lazy(() => import("./pages/CreateCategory"));
+const Users = React.lazy(() => import("./pages/Users"));
+const CreateUser = React.lazy(() => import("./pages/CreateUser"));
+const Profile = React.lazy(() => import("./pages/Profile"));
+const SignIn = React.lazy(() => import("./pages/SignIn"));
 
 function App() {
   useEffect(() => {
@@ -20,51 +22,58 @@ function App() {
 
   return (
     <AppProviders>
-      <Routes>
-        {/* auth guard */}
-        <Route element={<AuthGuard />}>
-          {/* products page*/}
+      <Suspense
+        fallback={
+          <div className='w-full h-screen z-50 flex items-center justify-center'>
+            <Loading width="115"/>
+          </div>
+        }>
+        <Routes>
+          {/* auth guard */}
+            {/* products page*/}
+          <Route element={<AuthGuard />}>
+            <Route
+              path='/'
+              element={<Products />}
+            />
+            {/* add products page*/}
+            <Route
+              path='/create-product'
+              element={<CreateProduct />}
+            />
+            {/* category page*/}
+            <Route
+              path='/categories'
+              element={<Category />}
+            />
+            {/* add category page*/}
+            <Route
+              path='/create-category'
+              element={<CreateCategory />}
+            />
+            {/* users page*/}
+            <Route
+              path='/users'
+              element={<Users />}
+            />
+            {/* add user page*/}
+            <Route
+              path='/create-user'
+              element={<CreateUser />}
+            />
+            {/* profile page*/}
+            <Route
+              path='/profile'
+              element={<Profile />}
+            />
+          </Route>
+          {/* sign in page*/}
           <Route
-            path='/'
-            element={<Products />}
+            path='/signin'
+            element={<SignIn />}
           />
-          {/* add products page*/}
-          <Route
-            path='/create-product'
-            element={<CreateProduct />}
-          />
-          {/* category page*/}
-          <Route
-            path='/categories'
-            element={<Category />}
-          />
-          {/* add category page*/}
-          <Route
-            path='/create-category'
-            element={<CreateCategory />}
-          />
-          {/* users page*/}
-          <Route
-            path='/users'
-            element={<Users />}
-          />
-          {/* add user page*/}
-          <Route
-            path='/create-user'
-            element={<CreateUser />}
-          />
-          {/* profile page*/}
-          <Route
-            path='/profile'
-            element={<Profile />}
-          />
-        </Route>
-        {/* sign in page*/}
-        <Route
-          path='/signin'
-          element={<SignIn />}
-        />
-      </Routes>
+        </Routes>
+      </Suspense>
     </AppProviders>
   );
 }

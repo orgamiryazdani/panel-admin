@@ -16,11 +16,10 @@ import AlertDialogComponent from "../common/AlertDialog";
 import { useDeleteProduct } from "../../hooks/useProducts";
 import Loading from "../common/Loading";
 import { parseImages } from "../../utils/parseImages";
-import UpdateProduct from "./UpdateProduct";
-import { memo } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import noImage from "../../../public/images/no-image.webp";
-import { queryClient } from "../../lib/react-query";
+import { lazy, Suspense } from "react";
+const UpdateProduct = lazy(() => import("./UpdateProduct"));
 
 const ProductCard = ({ item }: { item: product }) => {
   const { id, title, description, price, images, category } = item;
@@ -35,7 +34,6 @@ const ProductCard = ({ item }: { item: product }) => {
   const activeProductHandler = async () => {
     await searchParams.set("productactive", id.toString());
     await setSearchParams(searchParams);
-    queryClient.invalidateQueries({ queryKey: ["singleProduct"] });
   };
 
   return (
@@ -88,13 +86,15 @@ const ProductCard = ({ item }: { item: product }) => {
           trigger={<Ellipsis className='cursor-pointer' />}
           title={title}>
           {/* edit dialog */}
-          <UpdateProduct
-            id={id}
-            title={title}
-            description={description}
-            price={price}
-            images={images}
-          />
+          <Suspense fallback='loading...'>
+            <UpdateProduct
+              id={id}
+              title={title}
+              description={description}
+              price={price}
+              images={images}
+            />
+          </Suspense>
           {/* delete Dialog */}
           <AlertDialogComponent
             acceptBtn={isPending ? <Loading width='30' /> : "بله"}
@@ -125,4 +125,4 @@ const ProductCard = ({ item }: { item: product }) => {
   );
 };
 
-export default memo(ProductCard);
+export default ProductCard;
