@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import { Fragment } from "react";
 import { Skeleton } from "../ui/skeleton";
 
 export const ProfileSkeleton = () => {
