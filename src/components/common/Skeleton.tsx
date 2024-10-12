@@ -4,7 +4,7 @@ import { Skeleton } from "../ui/skeleton";
 export const ProfileSkeleton = () => {
   return (
     <div
-      className='flex items-center w-auto'
+      className='flex items-center w-auto h-full pl-5'
       dir='ltr'>
       <Skeleton className='h-9 w-9 rounded-full mr-1' />
       <div className='space-y-2'>
