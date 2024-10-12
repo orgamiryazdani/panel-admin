@@ -4,9 +4,9 @@ import AuthGuard from "./components/auth/AuthGuard";
 import AppProviders from "./providers/AppProviders";
 import { cleanupOldAccounts } from "./utils/cleanupOldAccounts";
 import Loading from "./components/common/Loading";
+import Products from "./pages/Products";
 
 // بارگذاری پویا برای صفحات
-const Products = React.lazy(() => import("./pages/Products"));
 const CreateProduct = React.lazy(() => import("./pages/CreateProduct"));
 const Category = React.lazy(() => import("./pages/Category"));
 const CreateCategory = React.lazy(() => import("./pages/CreateCategory"));

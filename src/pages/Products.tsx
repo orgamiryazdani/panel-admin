@@ -10,18 +10,14 @@ import {
 } from "../components/ui/pagination";
 import useProducts from "../hooks/useProducts";
 import AppLayout from "../layouts/AppLayout";
-import { lazy, Suspense, useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import {
   FilterSkeleton,
   ProductSkeleton,
   SingleProductSkeleton,
 } from "../components/common/Skeleton";
-const ProductDetails = lazy(
-  () => import("../components/products/ProductDetails"),
-);
-const FilterProducts = lazy(
-  () => import("../components/products/FilterProducts"),
-);
+import ProductDetails from "../components/products/ProductDetails";
+import FilterProducts from "../components/products/FilterProducts";
 
 const Products = () => {
   const [searchParams, setSearchParams] = useSearchParams();

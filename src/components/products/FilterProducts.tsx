@@ -14,7 +14,7 @@ import {
 import useCategory from "../../hooks/useCategories";
 import Loading from "../common/Loading";
 import { Slider } from "../ui/slider";
-import { memo, useState } from "react";
+import { memo, Suspense, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import useProducts from "../../hooks/useProducts";
 
@@ -33,6 +33,7 @@ const FilterProducts = () => {
     isLoading,
     refetch: categoryRefetch,
   } = useCategory({ limit: categoryLimit });
+
   const [priceRange, setPriceRange] = useState([priceMin, priceMax]);
   const [categoryId, setCategoryId] = useState(categoryIdQuery);
   const [filterLoading, setFilterLoading] = useState(false);
@@ -111,31 +112,33 @@ const FilterProducts = () => {
               <SelectTrigger className='col-span-3'>
                 <SelectValue placeholder='یک دسته بندی انتخاب کنید' />
               </SelectTrigger>
-              <SelectContent>
-                <SelectGroup className='max-h-56 h-auto'>
-                  <SelectItem value='0'>همه محصولات</SelectItem>
-                  {isLoading ? (
-                    <Loading />
-                  ) : (
-                    data?.map((category) => (
-                      <SelectItem
-                        key={category.id}
-                        value={String(category.id)}>
-                        {category.name}
-                      </SelectItem>
-                    ))
-                  )}
-                  {data && data?.length > plusValueCategoryLimit - 1 && (
-                    <div
-                      onClick={getMoreCategory}
-                      className='w-full text-center pb-2'>
-                      <span className='text-blue-500 border-b border-blue-500 cursor-pointer'>
-                        بیشتر...
-                      </span>
-                    </div>
-                  )}
-                </SelectGroup>
-              </SelectContent>
+              <Suspense fallback='loading...'>
+                <SelectContent>
+                  <SelectGroup className='max-h-56 h-auto'>
+                    <SelectItem value='0'>همه محصولات</SelectItem>
+                    {isLoading ? (
+                      <Loading />
+                    ) : (
+                      data?.map((category) => (
+                        <SelectItem
+                          key={category.id}
+                          value={String(category.id)}>
+                          {category.name}
+                        </SelectItem>
+                      ))
+                    )}
+                    {data && data?.length > plusValueCategoryLimit - 1 && (
+                      <div
+                        onClick={getMoreCategory}
+                        className='w-full text-center pb-2'>
+                        <span className='text-blue-500 border-b border-blue-500 cursor-pointer'>
+                          بیشتر...
+                        </span>
+                      </div>
+                    )}
+                  </SelectGroup>
+                </SelectContent>
+              </Suspense>
             </Select>
           </div>
           {/* price */}
