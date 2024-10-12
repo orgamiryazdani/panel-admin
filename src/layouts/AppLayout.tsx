@@ -60,14 +60,14 @@ const AppLayout = ({ sidebar, children }: props) => {
           maxSize={18}
           collapsible
           onResize={(size) => setSize(size)}>
-          <Menu size={size} />
+          {direction === "horizontal" && <Menu size={size} />}
         </ResizablePanel>
         <ResizableHandle
           withHandle
           className='md:flex hidden'
         />
         {/* menu mobile */}
-        <MenuMobile />
+        {direction === "horizontal" && <MenuMobile />}
         {/* account menu */}
         <div className='w-full h-16 border-b md:hidden'>
           <Suspense fallback={<ProfileSkeleton />}>
