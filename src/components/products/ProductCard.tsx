@@ -19,7 +19,7 @@ import { parseImages } from "../../utils/parseImages";
 import UpdateProduct from "./UpdateProduct";
 import { memo } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
-import noImage from "../../assets/images/no-image.webp";
+import noImage from "../../../public/images/no-image.webp";
 import { queryClient } from "../../lib/react-query";
 
 const ProductCard = ({ item }: { item: product }) => {

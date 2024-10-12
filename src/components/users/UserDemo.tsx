@@ -2,7 +2,7 @@ import { Edit, Trash } from "lucide-react";
 import truncateText from "../../utils/truncateText";
 import { isPersian } from "../../utils/isPersian";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
-import imageDefault from "../../assets/images/imageDefault.jpg";
+import imageDefault from "../../../public/images/imageDefault.webp";
 import { useUserDemo } from "../../context/UserDemoProvider";
 
 const UserDemo = () => {

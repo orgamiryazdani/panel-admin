@@ -134,3 +134,13 @@ export const FilterSkeleton = () => {
     </div>
   );
 };
+
+
+export const DemoProductSkeleton = () => {
+  return (
+    <div className='flex flex-col w-full h-full gap-y-10'>
+      <Skeleton className='w-full bg-primary-foreground rounded-lg h-32' />
+      <Skeleton className='w-full bg-primary-foreground rounded-lg h-96' />
+    </div>
+  );
+};

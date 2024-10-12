@@ -1,7 +1,7 @@
 import { Avatar, AvatarFallback, AvatarImage } from "../components/ui/avatar";
 import useProfile from "../hooks/useUsers";
 import truncateText from "../utils/truncateText";
-import bgImage from "../assets/images/loginInage.jpg";
+import bgImage from "../../public/images/loginImage.webp";
 import { Button } from "../components/ui/button";
 import { toLocalDateString } from "../utils/toLocalDate";
 import { useState } from "react";
