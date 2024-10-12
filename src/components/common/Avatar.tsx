@@ -15,7 +15,6 @@ const AvatarComponent = ({
       <AvatarImage
         src={src}
         alt={alt}
-        loading="lazy"
       />
       <AvatarFallback className='rounded-none relative'>
         <img

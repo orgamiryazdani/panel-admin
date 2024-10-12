@@ -3,10 +3,10 @@ import {
   ResizablePanel,
   ResizablePanelGroup,
 } from "../components/ui/resizable";
-import { lazy, ReactNode, Suspense, useEffect, useState } from "react";
+import { ReactNode, Suspense, useEffect, useState } from "react";
 import Menu, { MenuMobile } from "./Menu";
 import { ProfileSkeleton } from "../components/common/Skeleton";
-const Navbar = lazy(() => import("./Navbar"));
+import Navbar from "./Navbar";
 
 type props = {
   children: ReactNode;
