@@ -107,22 +107,3 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background: #696969;
 }
-
-.my-custom-bullet {
-  width: 40px;
-  height: 5px;
-  background-color: white;
-  opacity: 50%;
-  border-radius: 300px;
-  transition: background-color 0.3s;
-  -webkit-border-radius: 300px;
-  -moz-border-radius: 300px;
-  -ms-border-radius: 300px;
-  -o-border-radius: 300px;
-}
-
-/* تغییر استایل دات فعال */
-.my-custom-bullet-active {
-  background-color: #fff;
-  opacity: 100%;
-}
