@@ -9,13 +9,14 @@ import {
 import SignUpForm from "../components/auth/form/SignUpForm";
 import { Link } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
-import { Swiper, SwiperSlide } from "swiper/react";
-import "swiper/css";
-import "swiper/css/pagination";
-import "swiper/css/navigation";
-import { Autoplay, Pagination, Navigation } from "swiper/modules";
-import { useState } from "react";
+import Autoplay from "embla-carousel-autoplay";
+import { useRef, useState } from "react";
 import { useAccount } from "../context/AccountProvider";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+} from "../components/ui/carousel";
 
 const textItems = [
   "امکان ورود با چند حساب",
@@ -26,11 +27,14 @@ const textItems = [
 const SignIn = () => {
   const [tabValue, setTabValue] = useState("signin");
   const { allUserAccount } = useAccount();
+
+  const plugin = useRef(Autoplay({ delay: 2000, stopOnInteraction: true }));
+
   return (
     <div className='w-svw h-svh flex md:flex-row flex-col items-center'>
       <div className='w-full h-20 bg-background top-0 sm:hidden'></div>
       {/* login */}
-      <div className='md:w-1/2 w-full  max-h-[700px] h-[62%] overflow-auto lg:overflow-hidden md:h-full flex items-start justify-center xl:pt-[88px] pt-5 md:pt-12 lg:pt-10'>
+      <div className='md:w-1/2 w-full max-h-[700px] h-[62%] overflow-auto lg:overflow-hidden md:h-full flex items-start justify-center xl:pt-[88px] pt-5 md:pt-12 lg:pt-10'>
         <Tabs
           value={tabValue}
           className='md:w-3/4 w-full px-6 md:px-0'>
@@ -91,35 +95,29 @@ const SignIn = () => {
         </Link>
         {/* slider text */}
         <div className='absolute bottom-10 right-[25%] w-1/2 h-20 flex items-center'>
-          <Swiper
-            spaceBetween={30}
-            centeredSlides={true}
-            autoplay={{
-              delay: 1500,
-              disableOnInteraction: false,
-            }}
-            pagination={{
-              clickable: true,
-              bulletClass: "swiper-pagination-bullet my-custom-bullet",
-              bulletActiveClass: "my-custom-bullet-active",
-            }}
-            navigation={false}
-            modules={[Autoplay, Pagination, Navigation]}
-            className='mySwiper'>
-            {textItems.map((text) => (
-              <SwiperSlide
-                key={text}
-                className='w-full flex items-start justify-center h-20 md:text-[21px] text-white'>
-                {text}
-              </SwiperSlide>
-            ))}
-          </Swiper>
+          <Carousel
+            dir='ltr'
+            plugins={[plugin.current]}
+            className='w-full max-w-xs'
+            onMouseEnter={plugin.current.stop}
+            onMouseLeave={plugin.current.reset}>
+            <CarouselContent>
+              {textItems.map((text) => (
+                <CarouselItem key={text}>
+                  <div className='p-1 flex items-center justify-center'>
+                    <span className='text-xl font-semibold select-none'>
+                      {text}
+                    </span>
+                  </div>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+          </Carousel>
         </div>
         {/* image bg */}
         <img
           className='w-full h-full object-cover rounded-lg'
           src={img}
-          loading="lazy"
           alt='image'
         />
       </div>
